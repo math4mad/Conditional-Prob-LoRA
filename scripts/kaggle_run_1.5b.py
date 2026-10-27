@@ -2,8 +2,22 @@
 """
 Qwen2.5-Math-1.5B-Instruct LoRA 训练 + 评估 (Kaggle)
 """
-import os, sys, json, re, inspect
+import os, sys, json, re, inspect, subprocess
 from pathlib import Path
+
+# --- 安装依赖（Kaggle script 模式不会自动跑 pip）---
+def ensure_deps():
+    deps = ["transformers>=4.44", "peft>=0.12", "trl>=0.11", "accelerate>=0.26", "datasets>=2.16"]
+    missing = []
+    try:
+        import transformers, peft, trl, accelerate, datasets
+    except ImportError:
+        missing = deps
+    if missing:
+        print(f"安装依赖: {missing}")
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "-q"] + missing)
+
+ensure_deps()
 
 import torch
 from datasets import Dataset

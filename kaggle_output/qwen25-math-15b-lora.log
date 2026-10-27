@@ -1,0 +1,11 @@
+[{"stream_name":"stderr","time":68.463067055,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":68.463334046,"data":"  File \"/kaggle/src/script.py\", line 12, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":68.463343742,"data":"    from trl import SFTTrainer, SFTConfig\n"}
+,{"stream_name":"stderr","time":68.463347702,"data":"ModuleNotFoundError: No module named 'trl'\n"}
+,{"stream_name":"stderr","time":77.79482448,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":77.794854995,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":78.17083594,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":78.170863411,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":79.021789016,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":80.486066461,"data":"[NbConvertApp] Writing 314798 bytes to __results__.html\n"}
+]

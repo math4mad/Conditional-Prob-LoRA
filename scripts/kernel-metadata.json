@@ -1,0 +1,13 @@
+{
+  "id": "math4amd/qwen25-math-15b-lora",
+  "title": "qwen25-math-15b-lora",
+  "code_file": "kaggle_run_1.5b.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "competition_sources": []
+}
