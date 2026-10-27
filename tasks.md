@@ -85,6 +85,7 @@
     - 0.5B 冒烟评估: 四步法20% / Mermaid80% / LaTeX60% / 数值0%
     - 7B QLoRA 3epoch: 四步法0% / Mermaid40% / LaTeX60% / 数值提取20% / 数值正确0%
     - 7B QLoRA 10epoch: 四步法30% / Mermaid60% / LaTeX30% / 数值提取50% / 数值正确0%
+    - 1.5B FP16 10epoch (Kaggle T4): 四步法0% / Mermaid70% / LaTeX30% / 数值提取40% / 数值正确0%
     - 结论: 130条数据+3epoch不足，需扩充数据量和epoch
   - 工具: `scripts/train_lora.py` / `scripts/evaluate_lora.py`
   - 部署: `autodl_setup.sh` / `.autoDL-SSH` (本地凭据)

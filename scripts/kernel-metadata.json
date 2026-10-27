@@ -10,5 +10,5 @@
   "dataset_sources": ["math4amd/conditional-prob-sft-data"],
   "kernel_sources": [],
   "competition_sources": [],
-  "model_sources": ["qwen-lm/qwen2.5-math/transformers/1.5B-instruct"]
+  "model_sources": []
 }

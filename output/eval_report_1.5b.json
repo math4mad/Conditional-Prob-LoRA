@@ -1,0 +1,134 @@
+{
+  "model": "Qwen/Qwen2.5-Math-1.5B-Instruct",
+  "adapter": "output_1.5b",
+  "num_samples": 10,
+  "four_step_rate": 0.0,
+  "avg_structure": 0.6,
+  "mermaid_rate": 0.7,
+  "latex_rate": 0.3,
+  "num_extract_rate": 0.4,
+  "details": [
+    {
+      "idx": 1,
+      "structure": 1,
+      "structure_pass": false,
+      "mermaid": 1,
+      "latex": 1,
+      "gen_nums": [
+        "B|A"
+      ],
+      "ref_nums": [],
+      "generated": "## 1. 构建总概率空间\n掷两枚骰子，样本空间 $\\Omega = \\{1,2,3,4,5,6\\}^{2}$，共 $|\\Omega| = 36$ 种组合\n```mermaid\nflowchart LR\n    Omega[\"Ω: 36种<br/>(掷两枚骰子)\"] -->|\"两枚骰子点数不同\"| A[\"A: 30种\"]\n    A -->|\"至少有一枚点数为6\"| B[\"B: 15种\"]\n    style B fill:#d4edda,stroke:#28a745\n```\n\n## 2. 筛选子空间\n筛选点数不同的组合，子空间 $A$， $|A| = 30$\n```mermaid\nA -->|\"至少有一枚点数为6\"| B[\"B: 15种\"]\n```\n\n## 3. 在子空间下筛选\n筛选子空间 $A$ 下至少有一枚骰子为6 的组合，筛选后组合数 $|B| = 15$\n```mermaid\nB -->|\"满足条件\"| C[\"C: 5种\"]\n```\n\n## 4. 条件概率计算\n条件概率 $P(B|A) = \\frac{|C|}{|A|} = \\frac{5}{30} = \\frac{1}{6"
+    },
+    {
+      "idx": 2,
+      "structure": 1,
+      "structure_pass": false,
+      "mermaid": 1,
+      "latex": 0,
+      "gen_nums": [],
+      "ref_nums": [],
+      "generated": "### 2. 概率路径图\n```mermaid\nflowchart LR\n    A[\"A: 1张牌: 1张黑桃\"] -->|\"条件: 2张牌是黑桃\"| B[\"B: 2张牌: 2张黑桃\"]\n    B -->|\"目标事件: 1张牌: 1张黑桃\"| C[\"C: 1张牌: 1张黑桃\"]\n    B -->|\"不满足\"| D[\"D: 不满足\"]\n    style C fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 3. 条件概率表 (给定B)\n| 事件 | 概率 |\n| :--- | :---: |\n| 第一张是黑桃 (C) | 1 |\n| 第二张是黑桃 (D) | 1 |\n| **总计** | **1** |\n\n### 4. 全概率计算\n```{julia}\n# 根据路径图和条件概率表计算条件概率\nP_C = 1\nP_D = 1\nP_C_and_D = 1\nP_C_given_D = P_C_and_D / P_D\n```\n\n### 5. 根据条件概率表计算条件概率\n```{juli"
+    },
+    {
+      "idx": 3,
+      "structure": 0,
+      "structure_pass": false,
+      "mermaid": 1,
+      "latex": 0,
+      "gen_nums": [],
+      "ref_nums": [],
+      "generated": "## 2. 2张牌中至少有一张是A的概率\n```{julia}\n# 2张牌中至少有一张是A的概率\npA = 1 - (48//52)*(47//51)\npA\n```\n```output\n0.07692307692307691\n```\n### 概率路径图\n```mermaid\nflowchart LR\n    A(poker) -->|s1:4/52| B(\"A\")\n    A(poker) -->|f1:48/52| C(\"NotA\")\n    B(\"A\") -->|s2:3/51| D(\"A\")\n    B(\"A\") -->|f2:48/51| E(\"NotA\")\n    C(\"NotA\") -->|s3:4/51| F(\"A\")\n    C(\"NotA\") -->|f3:47/51| G(\"NotA\")\n    style B  fill: #9c0312, stroke: #333, stroke-width: 2px;\n    style D  fill: #9c0312, stroke: #333, stroke-width: 2px;\n    style F  fill: "
+    },
+    {
+      "idx": 4,
+      "structure": 1,
+      "structure_pass": false,
+      "mermaid": 1,
+      "latex": 1,
+      "gen_nums": [
+        "A",
+        "B|A",
+        "C|B",
+        "C",
+        "C|B",
+        "B",
+        "C|B"
+      ],
+      "ref_nums": [],
+      "generated": "### 2.1.1. 第一次考试\n- **样本空间**：共有5名学生，因此 $n=5$。\n- **条件**：必须通过第一次考试，因此 $|A|=4$。\n- **概率计算**：$P(A) = \\frac{|A|}{n} = \\frac{4}{5}$。\n- **可视化**：[图1](# image1)\n\n### 2.1.2. 第二次考试\n- **条件**：必须通过第二次考试，因此 $|B| = 4$。\n- **概率计算**：$P(B|A) = \\frac{|B|}{n} = \\frac{4}{5}$。\n- **可视化**：[图2](# image2)\n\n### 2.1.3. 第三次考试\n- **条件**：必须通过第三次考试，因此 $|C| = 4$。\n- **概率计算**：$P(C|B) = \\frac{|C|}{n} = \\frac{4}{5}$。\n- **可视化**：[图3](# image3)\n\n### 2.2.1. 全概率计算\n- **目标事件**：获得精算师证书，即 $C$。\n- **全概率计算**：$P(C) = P(C|B)P(B) = \\frac{4}{5} \\times "
+    },
+    {
+      "idx": 5,
+      "structure": 0,
+      "structure_pass": false,
+      "mermaid": 1,
+      "latex": 0,
+      "gen_nums": [],
+      "ref_nums": [],
+      "generated": "## 2. 概率路径图\n```mermaid\nflowchart LR\n    A[\"坛子: 5白7黑\"] -->|\"取黑\"| B[\"坛子: 5白9黑\"]\n    B -->|\"取黑\"| C[\"坛子: 5白11黑\"]\n    B -->|\"取白\"| D[\"坛子: 7白7黑\"]\n    C -->|\"取黑\"| E[\"坛子: 7白9黑\"]\n    C -->|\"取白\"| F[\"坛子: 9白7黑\"]\n    D -->|\"取黑\"| G[\"坛子: 7白11黑\"]\n    D -->|\"取白\"| H[\"坛子: 9白7黑\"]\n    E -->|\"取黑\"| I[\"坛子: 9白9黑\"]\n    E -->|\"取白\"| J[\"坛子: 11白9黑\"]\n    F -->|\"取黑\"| K[\"坛子: 9白11黑\"]\n    F -->|\"取白\"| L[\"坛子: 11白9黑\"]\n    G -->|\"取黑\"| M[\"坛子: 9白11黑\"]\n    G -->|\"取白\"| N[\"坛子: 11白9黑\"]\n    H -->|\"取黑\"| O[\"坛子: 9白11黑\"]\n    H -->|\"取白\"| P[\"坛子: 1"
+    },
+    {
+      "idx": 6,
+      "structure": 1,
+      "structure_pass": false,
+      "mermaid": 0,
+      "latex": 0,
+      "gen_nums": [
+        "\\text{安全的} | \\text{使用 breakdown birth}"
+      ],
+      "ref_nums": [],
+      "generated": "## 2. 构建总概率空间\n所有婴儿的总概率为1.\n\\[ \\text{所有婴儿} = 1 \\]\n\n## 3. 筛选条件子空间\n在所有婴儿中筛选出使用 breakdown产的婴儿.\n\\[ \\text{使用 breakdown birth} = 0.15 \\times \\text{所有婴儿} \\]\n\\[ \\text{使用 breakdown birth} = 0.15 \\]\n在筛选出的子空间中,计算安全的婴儿数量.\n\\[ \\text{安全的} = 0.98 \\times \\text{所有婴儿} \\]\n\\[ \\text{安全的} = 0.98 \\]\n计算在筛选出的子空间中,安全的婴儿数量.\n\\[ \\text{安全的 in sub space} = \\frac{\\text{安全的}}{\\text{使用 breakdown birth}} \\]\n\\[ \\text{安全的 in sub space} = \\frac{0.98}{0.15} \\]\n安全的婴儿在筛选出的子空间中的概率为:\n\\[ P(\\text{安全的} | \\text{使用 breakdown birth}) = 0.96 \\]\n计算"
+    },
+    {
+      "idx": 7,
+      "structure": 1,
+      "structure_pass": false,
+      "mermaid": 1,
+      "latex": 0,
+      "gen_nums": [],
+      "ref_nums": [
+        "hasdog,hascat",
+        "hascat,hasdog"
+      ],
+      "generated": "## 2. 概率路径图\n```mermaid\nflowchart LR\n    A[\"家庭有狗\"] -->|\"既有一条狗,又有一只猫\"| B[\"家庭有狗和猫\"]\n    A[\"家庭有狗\"] -->|\"没有狗\"| C[\"家庭没有狗\"]\n    B[\"家庭有狗和猫\"] -->|\"有猫\"| D[\"有猫和狗\"]\n    B[\"家庭有狗和猫\"] -->|\"没有猫\"| E[\"没有猫\"]\n    style D fill:#d4edda,stroke:#28a745\n    style E fill:#fff3cd,stroke:#ffc107\n```\n\n## 3. 条件概率计算与可视化\n### (a) 随机 选择 一 个 家庭 ， 为 既 有 猫 又 有 狗 的 概 率 是 多 少\n```{julia}\n# 概率路径图\nA = 36/100\nB = 22/100\nC = 30/100\n\n# 有狗和猫的概率\nP_dog_and_cat = B\n\n# 条件概率\nP_cat|dog = P_dog_and_cat / A\nP_cat|dog = 22/36 = 11/18\n```\n### (b) 随机 "
+    },
+    {
+      "idx": 8,
+      "structure": 0,
+      "structure_pass": false,
+      "mermaid": 0,
+      "latex": 0,
+      "gen_nums": [],
+      "ref_nums": [],
+      "generated": ""
+    },
+    {
+      "idx": 9,
+      "structure": 0,
+      "structure_pass": false,
+      "mermaid": 0,
+      "latex": 0,
+      "gen_nums": [],
+      "ref_nums": [],
+      "generated": "## 2. 概 环 x 2\n```{julia}\n# 2. 概 环 x 2\n# 2.1. 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民 人 司 机 人 民 人 司 机\n# 人 民"
+    },
+    {
+      "idx": 10,
+      "structure": 1,
+      "structure_pass": false,
+      "mermaid": 1,
+      "latex": 1,
+      "gen_nums": [
+        "\\text{女生}|\\text{计算机科学}",
+        "\\text{计算机科学女生}",
+        "\\text{计算机科学}",
+        "\\text{计算机科学}|\\text{女生}",
+        "\\text{计算机科学女生}",
+        "\\text{女生}"
+      ],
+      "ref_nums": [],
+      "generated": "## 2. 概率路径图\n```mermaid\nflowchart LR\n    A[\"总学生: 100%\"] -->|\"条件B\"| B[\"条件学生: 95%\"]\n    B -->|\"A: 52%女生\"| C[\"女生: 52%\"]\n    B -->|\"非A: 48%女生\"| D[\"非女生: 48%\"]\n    B -->|\"条件C: 2%计算机科学女生\"| E[\"计算机科学女生: 2%\"] -->|\"B: 52%女生\"| F[\"B: 52%女生\"]\n    B -->|\"非C: 5%计算机科学女生\"| G[\"计算机科学女生: 5%\"] -->|\"D: 48%女生\"| H[\"D: 48%女生\"]\n    style F fill:#d4edda,stroke:#28a745\n    style G fill:#fff3cd,stroke:#ffc107\n```\n\n## 3. 条件概率计算\n### (a) 在已知该生主修计算机科学的条件下，该生为女生的条件概率\n$$P(\\text{女生}|\\text{计算机科学}) = \\frac{P(\\text{计算机科学女生})}{P(\\text{计"
+    }
+  ]
+}
