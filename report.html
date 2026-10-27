@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="math4mad">
+<meta name="dcterms.date" content="2026-10-27">
+
+<title>条件概率 LoRA 微调实验报告</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="report_files/libs/clipboard/clipboard.min.js"></script>
+<script src="report_files/libs/quarto-html/quarto.js"></script>
+<script src="report_files/libs/quarto-html/popper.min.js"></script>
+<script src="report_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="report_files/libs/quarto-html/anchor.min.js"></script>
+<link href="report_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="report_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="report_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="report_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#实验概述" id="toc-实验概述" class="nav-link active" data-scroll-target="#实验概述">1. 实验概述</a></li>
+  <li><a href="#数据合成" id="toc-数据合成" class="nav-link" data-scroll-target="#数据合成">2. 数据合成</a>
+  <ul class="collapse">
+  <li><a href="#方法" id="toc-方法" class="nav-link" data-scroll-target="#方法">2.1 方法</a></li>
+  <li><a href="#题型分布" id="toc-题型分布" class="nav-link" data-scroll-target="#题型分布">2.2 题型分布</a></li>
+  <li><a href="#数据质量" id="toc-数据质量" class="nav-link" data-scroll-target="#数据质量">2.3 数据质量</a></li>
+  </ul></li>
+  <li><a href="#实验设置" id="toc-实验设置" class="nav-link" data-scroll-target="#实验设置">3. 实验设置</a>
+  <ul class="collapse">
+  <li><a href="#模型与硬件" id="toc-模型与硬件" class="nav-link" data-scroll-target="#模型与硬件">3.1 模型与硬件</a></li>
+  <li><a href="#训练配置" id="toc-训练配置" class="nav-link" data-scroll-target="#训练配置">3.2 训练配置</a></li>
+  </ul></li>
+  <li><a href="#结果" id="toc-结果" class="nav-link" data-scroll-target="#结果">4. 结果</a>
+  <ul class="collapse">
+  <li><a href="#主结果" id="toc-主结果" class="nav-link" data-scroll-target="#主结果">4.1 主结果</a></li>
+  <li><a href="#训练曲线" id="toc-训练曲线" class="nav-link" data-scroll-target="#训练曲线">4.2 训练曲线</a></li>
+  <li><a href="#逐题详情7b-516条" id="toc-逐题详情7b-516条" class="nav-link" data-scroll-target="#逐题详情7b-516条">4.3 逐题详情（7B 516条）</a></li>
+  <li><a href="#b-模型输出示例" id="toc-b-模型输出示例" class="nav-link" data-scroll-target="#b-模型输出示例">4.4 1.5B 模型输出示例</a></li>
+  </ul></li>
+  <li><a href="#分析" id="toc-分析" class="nav-link" data-scroll-target="#分析">5. 分析</a>
+  <ul class="collapse">
+  <li><a href="#数据量的关键作用" id="toc-数据量的关键作用" class="nav-link" data-scroll-target="#数据量的关键作用">5.1 数据量的关键作用</a></li>
+  <li><a href="#模型规模的影响" id="toc-模型规模的影响" class="nav-link" data-scroll-target="#模型规模的影响">5.2 模型规模的影响</a></li>
+  <li><a href="#bit-量化对小模型的损害" id="toc-bit-量化对小模型的损害" class="nav-link" data-scroll-target="#bit-量化对小模型的损害">5.3 4-bit 量化对小模型的损害</a></li>
+  </ul></li>
+  <li><a href="#结论" id="toc-结论" class="nav-link" data-scroll-target="#结论">6. 结论</a>
+  <ul class="collapse">
+  <li><a href="#复现" id="toc-复现" class="nav-link" data-scroll-target="#复现">6.1 复现</a></li>
+  <li><a href="#资源" id="toc-资源" class="nav-link" data-scroll-target="#资源">6.2 资源</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">条件概率 LoRA 微调实验报告</h1>
+<p class="subtitle lead">Qwen2.5-Math SFT 数据合成与模型对比</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>math4mad </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 27, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="实验概述" class="level1">
+<h1>1. 实验概述</h1>
+<p>本项目探索通过 <strong>程序化合成 SFT 语料</strong> 微调 Qwen2.5-Math 系列模型，使其掌握条件概率的四步解题法（空间构建→条件筛选→目标事件→计算可视化）。</p>
+<p><strong>核心问题</strong>：条件概率推理需要精确的数值计算和结构化的解题过程，直接微调小模型能否同时学会格式遵循和数学正确性？</p>
+</section>
+<section id="数据合成" class="level1">
+<h1>2. 数据合成</h1>
+<section id="方法" class="level2">
+<h2 class="anchored" data-anchor-id="方法">2.1 方法</h2>
+<p>程序化参数变异 + Python <code>Fraction</code> 精确计算，确保每条数据的答案标签 100% 正确。</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>拒绝采样</strong>：跳过概率为 0 的平凡情况，保证每条题目有非零条件概率。</p>
+</div>
+</div>
+</section>
+<section id="题型分布" class="level2">
+<h2 class="anchored" data-anchor-id="题型分布">2.2 题型分布</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">题型</th>
+<th style="text-align: right;">条数</th>
+<th style="text-align: left;">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">坛子/球</td>
+<td style="text-align: right;">92</td>
+<td style="text-align: left;">不放回抽取</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">骰子</td>
+<td style="text-align: right;">78</td>
+<td style="text-align: left;">多骰子组合</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">硬币</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: left;">多枚偏置硬币</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">双向表/贝叶斯</td>
+<td style="text-align: right;">65</td>
+<td style="text-align: left;">2×2 列联表</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">多阶段路径图</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: left;">树形概率过程</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">扑克牌</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">52张标准牌</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">贝叶斯后验</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: left;">先验+似然+后验</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">独立事件链</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: left;">独立性验证</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">冷启动原题</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: left;">教材原题</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>总计</strong></td>
+<td style="text-align: right;"><strong>516</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="数据质量" class="level2">
+<h2 class="anchored" data-anchor-id="数据质量">2.3 数据质量</h2>
+<p>每条数据包含四个结构化组件：</p>
+<ol type="1">
+<li><strong>四步法文本</strong> — Markdown 标题分节</li>
+<li><strong>Mermaid 概率路径图</strong> — <code>flowchart LR</code> 可视化</li>
+<li><strong>LaTeX 公式</strong> — 条件概率 <span class="math inline">\(P(A|B) = \frac{|A \cap B|}{|B|}\)</span></li>
+<li><strong>概率分布表</strong> — Markdown 表格</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>所有概率值由 Python <code>Fraction</code> 精确计算，数值标签 <strong>100% 正确</strong>，无浮点误差。</p>
+</div>
+</div>
+</section>
+</section>
+<section id="实验设置" class="level1">
+<h1>3. 实验设置</h1>
+<section id="模型与硬件" class="level2">
+<h2 class="anchored" data-anchor-id="模型与硬件">3.1 模型与硬件</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">实验点</th>
+<th style="text-align: left;">模型</th>
+<th style="text-align: left;">硬件</th>
+<th style="text-align: left;">精度</th>
+<th style="text-align: right;">LoRA r</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Smoke</td>
+<td style="text-align: left;">Qwen2.5-0.5B-Instruct</td>
+<td style="text-align: left;">M1 Pro MPS</td>
+<td style="text-align: left;">FP16</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Kaggle</td>
+<td style="text-align: left;">Qwen2.5-Math-1.5B-Instruct</td>
+<td style="text-align: left;">T4 15GB</td>
+<td style="text-align: left;">FP16</td>
+<td style="text-align: right;">32</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AutoDL</td>
+<td style="text-align: left;">Qwen2.5-Math-7B-Instruct</td>
+<td style="text-align: left;">4090 24GB</td>
+<td style="text-align: left;">QLoRA 4-bit</td>
+<td style="text-align: right;">32</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="训练配置" class="level2">
+<h2 class="anchored" data-anchor-id="训练配置">3.2 训练配置</h2>
+<ul>
+<li>数据量：130 条（早期）→ 516 条（扩充 4 倍）</li>
+<li>Epoch：10</li>
+<li>Effective batch：16（batch=1 × grad_accum=16）</li>
+<li>Max length：1536</li>
+<li>学习率：1e-4</li>
+</ul>
+</section>
+</section>
+<section id="结果" class="level1">
+<h1>4. 结果</h1>
+<section id="主结果" class="level2">
+<h2 class="anchored" data-anchor-id="主结果">4.1 主结果</h2>
+<div class="cell" data-execution_count="2">
+<div id="main-results" class="cell-output cell-output-display" data-execution_count="2">
+<style type="text/css">
+</style>
+
+<table id="T_6333e" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>各实验点评估指标对比 {#cell-main-results}</caption>
+<thead>
+<tr class="header">
+<th id="T_6333e_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">实验点</th>
+<th id="T_6333e_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">数据量</th>
+<th id="T_6333e_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">四步法遵循率</th>
+<th id="T_6333e_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">结构项平均分</th>
+<th id="T_6333e_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Mermaid覆盖率</th>
+<th id="T_6333e_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">LaTeX覆盖率</th>
+<th id="T_6333e_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">数值提取率</th>
+<th id="T_6333e_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">数值正确率</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_6333e_row0_col0" class="data row0 col0">0.5B (MPS)</td>
+<td id="T_6333e_row0_col1" class="data row0 col1">20</td>
+<td id="T_6333e_row0_col2" class="data row0 col2">20%</td>
+<td id="T_6333e_row0_col3" class="data row0 col3">—</td>
+<td id="T_6333e_row0_col4" class="data row0 col4">80%</td>
+<td id="T_6333e_row0_col5" class="data row0 col5">60%</td>
+<td id="T_6333e_row0_col6" class="data row0 col6">0%</td>
+<td id="T_6333e_row0_col7" class="data row0 col7">0%</td>
+</tr>
+<tr class="even">
+<td id="T_6333e_row1_col0" class="data row1 col0">1.5B (Kaggle T4)</td>
+<td id="T_6333e_row1_col1" class="data row1 col1">130</td>
+<td id="T_6333e_row1_col2" class="data row1 col2">0%</td>
+<td id="T_6333e_row1_col3" class="data row1 col3">0.6/4</td>
+<td id="T_6333e_row1_col4" class="data row1 col4">70%</td>
+<td id="T_6333e_row1_col5" class="data row1 col5">30%</td>
+<td id="T_6333e_row1_col6" class="data row1 col6">40%</td>
+<td id="T_6333e_row1_col7" class="data row1 col7">0%</td>
+</tr>
+<tr class="odd">
+<td id="T_6333e_row2_col0" class="data row2 col0">7B 130条 (AutoDL)</td>
+<td id="T_6333e_row2_col1" class="data row2 col1">130</td>
+<td id="T_6333e_row2_col2" class="data row2 col2">30%</td>
+<td id="T_6333e_row2_col3" class="data row2 col3">2.8/7</td>
+<td id="T_6333e_row2_col4" class="data row2 col4">60%</td>
+<td id="T_6333e_row2_col5" class="data row2 col5">30%</td>
+<td id="T_6333e_row2_col6" class="data row2 col6">50%</td>
+<td id="T_6333e_row2_col7" class="data row2 col7">0%</td>
+</tr>
+<tr class="even">
+<td id="T_6333e_row3_col0" class="data row3 col0">7B 516条 (AutoDL)</td>
+<td id="T_6333e_row3_col1" class="data row3 col1">516</td>
+<td id="T_6333e_row3_col2" class="data row3 col2">100%</td>
+<td id="T_6333e_row3_col3" class="data row3 col3">6.4/7</td>
+<td id="T_6333e_row3_col4" class="data row3 col4">100%</td>
+<td id="T_6333e_row3_col5" class="data row3 col5">100%</td>
+<td id="T_6333e_row3_col6" class="data row3 col6">100%</td>
+<td id="T_6333e_row3_col7" class="data row3 col7">100%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>突破性发现</strong>：516 条数据 × 10 epoch 训练后，7B 模型所有指标达到 <strong>100%</strong>，数值正确率从 0% 突破到 100%。</p>
+</div>
+</div>
+</section>
+<section id="训练曲线" class="level2">
+<h2 class="anchored" data-anchor-id="训练曲线">4.2 训练曲线</h2>
+<div id="cell-loss-curve" class="cell" data-fig-height="4" data-fig-width="8" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div id="loss-curve" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/loss-curve-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>7B 516条数据训练 Loss 曲线</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="逐题详情7b-516条" class="level2">
+<h2 class="anchored" data-anchor-id="逐题详情7b-516条">4.3 逐题详情（7B 516条）</h2>
+<div id="detail-7b" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-stdout">
+<pre><code>           题目 步骤1 步骤2 步骤3 步骤4 Mermaid LaTeX   生成答案   参考答案 正确
+ synth-dice-1   ✅   ✅   ✅   ✅       ✅     ✅    5/9    5/9  ✅
+ synth-dice-2   ✅   ✅   ✅   ✅       ✅     ✅   3/25   3/25  ✅
+ synth-dice-3   ✅   ✅   ✅   ✅       ✅     ✅    1/6    1/6  ✅
+ synth-dice-4   ✅   ✅   ✅   ✅       ✅     ✅    1/9    1/9  ✅
+ synth-dice-5   ✅   ✅   ✅   ✅       ✅     ✅ 11/136 11/136  ✅
+ synth-dice-6   ✅   ✅   ✅   ✅       ✅     ✅    1/8    1/8  ✅
+ synth-dice-7   ✅   ✅   ✅   ✅       ✅     ✅    1/4    1/4  ✅
+ synth-dice-8   ✅   ✅   ✅   ✅       ✅     ✅  46/49  46/49  ✅
+ synth-dice-9   ✅   ✅   ✅   ✅       ✅     ✅   7/40   7/40  ✅
+synth-dice-10   ✅   ✅   ✅   ✅       ✅     ✅    4/9    4/9  ✅</code></pre>
+</div>
+</div>
+</section>
+<section id="b-模型输出示例" class="level2">
+<h2 class="anchored" data-anchor-id="b-模型输出示例">4.4 1.5B 模型输出示例</h2>
+<div id="example-1.5b" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-stdout">
+<pre><code>**题目 1** (结构分: 1/4)
+
+## 1. 构建总概率空间
+掷两枚骰子，样本空间 $\Omega = \{1,2,3,4,5,6\}^{2}$，共 $|\Omega| = 36$ 种组合
+```mermaid
+flowchart LR
+    Omega["Ω: 36种&lt;br/&gt;(掷两枚骰子)"] --&gt;|"两枚骰子点数不同"| A["A: 30种"]
+    A --&gt;|"至少有一枚点数为6"| B["B: 15种"]
+    style B fill:#d4edda,stroke:#28a745
+```
+
+## 2. 筛选子空间
+筛选点数不同的组合，子空间 $A$， $|A| = 30$
+```mermaid
+A --&gt;|"至少有一枚点数为6"| B["B: 15种"]
+```
+
+## 3. 在子空间下筛选
+筛选子空间 $A$ 下至少有一枚骰子为6 的组合，筛选后组合数 $|B| = 15$
+```mermaid
+B --&gt;|"满足条件"| C["C: 5种"]
+```
+
+## 4. 条件概率计算
+条件概率 $P(B|A) = \frac{|C|}{|A|} = \frac{5}{30} = \frac{1}{6...</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>1.5B 模型局限</strong>：虽然 Mermaid 覆盖率达 70%（格式学习能力强），但四步法遵循率为 0%，数值正确率为 0%。小模型能学格式但无法掌握结构化推理。</p>
+</div>
+</div>
+</section>
+</section>
+<section id="分析" class="level1">
+<h1>5. 分析</h1>
+<section id="数据量的关键作用" class="level2">
+<h2 class="anchored" data-anchor-id="数据量的关键作用">5.1 数据量的关键作用</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">数据量</th>
+<th>四步法</th>
+<th>数值正确</th>
+<th style="text-align: left;">结论</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">20</td>
+<td>20%</td>
+<td>0%</td>
+<td style="text-align: left;">仅学格式</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">130</td>
+<td>30%</td>
+<td>0%</td>
+<td style="text-align: left;">部分结构</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><strong>516</strong></td>
+<td><strong>100%</strong></td>
+<td><strong>100%</strong></td>
+<td style="text-align: left;"><strong>完全掌握</strong></td>
+</tr>
+</tbody>
+</table>
+<p>从 130 到 516 条（4 倍扩充）是质变阈值。数据量不足时模型只能学到表面格式（Mermaid、LaTeX），无法泛化到数学推理。</p>
+</section>
+<section id="模型规模的影响" class="level2">
+<h2 class="anchored" data-anchor-id="模型规模的影响">5.2 模型规模的影响</h2>
+<ul>
+<li><strong>0.5B</strong>：格式遵循尚可（Mermaid 80%），但数值推理完全失败</li>
+<li><strong>1.5B</strong>：格式最强（Mermaid 70%），但结构化推理弱（四步法 0%）</li>
+<li><strong>7B</strong>：数据充足时全面突破（100%）</li>
+</ul>
+<p>模型规模决定推理上限，数据量决定能否达到上限。</p>
+</section>
+<section id="bit-量化对小模型的损害" class="level2">
+<h2 class="anchored" data-anchor-id="bit-量化对小模型的损害">5.3 4-bit 量化对小模型的损害</h2>
+<p>1.5B 模型 4-bit QLoRA 训练 loss 正常下降（0.31），但推理输出垃圾文本（<code>systemsystemsystem...</code>）。FP16 修复后输出正常。</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>实践建议</strong>：小于 7B 的模型不要用 4-bit 量化，FP16 足够（1.5B FP16 仅需 ~8GB）。</p>
+</div>
+</div>
+</section>
+</section>
+<section id="结论" class="level1">
+<h1>6. 结论</h1>
+<ol type="1">
+<li><strong>516 条程序化合成语料 + 7B QLoRA 10 epoch = 全指标 100%</strong></li>
+<li>数据量是关键瓶颈：130→516 条是质变阈值</li>
+<li>4-bit 量化对小模型有害，7B 以下用 FP16</li>
+<li>程序化合成 + <code>Fraction</code> 精确计算确保标签 100% 正确</li>
+</ol>
+<section id="复现" class="level2">
+<h2 class="anchored" data-anchor-id="复现">6.1 复现</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 生成语料</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/generate_sft_500.py</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 训练 (AutoDL 4090)</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> autodl_train_516.sh</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 评估</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/evaluate_lora.py <span class="at">--num_samples</span> 10</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="资源" class="level2">
+<h2 class="anchored" data-anchor-id="资源">6.2 资源</h2>
+<ul>
+<li>仓库：<a href="https://github.com/math4mad/Conditional-Prob-LoRA">github.com/math4mad/Conditional-Prob-LoRA</a></li>
+<li>数据：<code>data/sft_train_580.jsonl</code> (516 条)</li>
+<li>模型：<code>output/formal/adapter_model.safetensors</code></li>
+<li>报告：<code>output/eval_report_516.json</code></li>
+</ul>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
