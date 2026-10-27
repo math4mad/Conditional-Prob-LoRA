@@ -1,0 +1,60 @@
+【System Prompt】
+你是一个概率论可视化专家。你的任务是：根据给定的概率问题解答文本，生成一个标准的 Mermaid flowchart 概率路径图。
+要求：
+1. 必须使用 ```mermaid 代码块包裹
+2. 节点标签包含中文描述和关键数值（如 "B: 30种(点数不同)"）
+3. 边标签标注转移概率或筛选条件
+4. 目标事件节点用 style 高亮 (fill:#d4edda,stroke:#28a745)
+5. 仅输出 mermaid 代码块，不要任何额外解释
+
+【Few-shot Example】
+来源: afcp-ex3.40 (Polya Urn 模型)
+输入解答摘要：
+"坛子里有5个白球和7个红球，每次取出一个放回并加一个同色球。路径：Vase->w1(5/12)->ww2(6/13)->www3(7/14)。三个全白概率=5/12*6/13*7/14。"
+
+输出：
+```mermaid
+flowchart LR
+    A[("⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴")]==w1:5/12==>B[("⚪️⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴")]
+    A[("⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴")]==r1:7/12==>C[("⚪️⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴🔴")]
+    B==ww2:6/13==>D[("⚪️⚪️⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴")]
+    B==wr2:7/13==>F[("⚪️⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴🔴")]
+    style B fill:#d4edda,stroke:#28a745
+    style D fill:#d4edda,stroke:#28a745
+```
+
+【当前任务】
+来源: afcp-ex3.19.qmd
+题干：
+::: {.callout-note   title="Question"}
+  参加过某个“ 戒烟班”的人，有48 %的女性和37%的男性在结束后一年内坚持没有吸烟，这些人参 加了年末的庆功会.如果 一开始，班里有62%的男性，问:
+ 
+ - (a)参加庆功会的 女性所占百分比是名少 ?
+ - (b)参加庆功会的人数占全班的百分比是多少
+:::
+
+解答摘要：
+### 2. 构建双向表
+![](./images/ex3.19-Smoking%20%20Cessation.jpeg){width=500}
+
+
+$$p(woman)=1-p(man)=1-0.62=0.38$$
+
+$$p(not again|woman)=0.48$$
+
+$$p(not again, woman)=p(not again|woman)*p(woman)\approx 0.18$$
+
+同理得:  $$p(not again, man)=0.23$$
+
+
+$$p(notagain)=p(not again, man)+p(not again, woman)=0.23+0.18=0.41$$
+
+这就是(b) 的答案:0.41,假设参加戒烟训练班的有 100人, 41 人没有再碰过烟
+
+(a) 的答案:
+
+$$p(woman|not again)=\frac{p(not again, woman)}{p(not again)}=\frac{0.18}{0.41}\approx 0.439$$
+
+注:在不同样本空间下的比例不要直接放在一起比较, 如果需要比较,需要标准化, 
+
+请为上面的概率问题生成 Mermaid 概率路径图。只输出 ```mermaid 代码块。

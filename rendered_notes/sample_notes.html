@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>条件概率笔记抽样渲染</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({ startOnLoad: true, theme: "default", securityLevel: "loose" });
+  });
+</script>
+<style>
+  body { font-family: -apple-system, "Noto Sans SC", "PingFang SC", sans-serif;
+          max-width: 900px; margin: 40px auto; padding: 0 20px;
+          background: #fafafa; color: #333; line-height: 1.8; }
+  .note-card { background: #fff; border-radius: 12px; padding: 30px;
+               box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 30px; }
+  .source-tag { display: inline-block; background: #e3f2fd; color: #1565c0;
+                 padding: 4px 12px; border-radius: 6px; font-size: 0.85em;
+                 font-family: monospace; margin-bottom: 16px; }
+  .section-label { font-weight: 700; color: #1565c0; font-size: 0.9em;
+                    text-transform: uppercase; letter-spacing: 1px; margin-top: 24px; }
+  .instruction-box { background: #f5f5f5; border-left: 4px solid #1565c0;
+                      padding: 12px 16px; border-radius: 4px; font-size: 0.9em; color: #555; }
+  .input-box { background: #fff8e1; border-left: 4px solid #ff8f00;
+                padding: 16px; border-radius: 4px; margin: 12px 0; }
+  .output-content h3, .output-content h4 { color: #283593; margin-top: 24px; }
+  .code-block { background: #263238; color: #eceff1; padding: 16px;
+                 border-radius: 8px; overflow-x: auto; font-family: "JetBrains Mono", monospace;
+                 font-size: 0.85em; }
+  .code-block code { background: none; color: inherit; }
+  .mermaid { text-align: center; margin: 20px 0; }
+  .prob-table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+  .prob-table th, .prob-table td { border: 1px solid #ddd; padding: 10px 14px; text-align: center; }
+  .prob-table th { background: #e3f2fd; font-weight: 600; }
+  .prob-table tr:nth-child(even) { background: #f9f9f9; }
+  .index-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 30px; }
+  .index-bar a { padding: 6px 14px; background: #fff; border: 1px solid #ddd;
+                 border-radius: 6px; text-decoration: none; color: #1565c0; font-size: 0.85em; }
+  .index-bar a:hover { background: #e3f2fd; }
+  h1 { color: #1a237e; }
+</style>
+</head>
+<body>
+<h1>条件概率练习笔记 — 抽样渲染 (10题)</h1>
+<p style="color:#666">基于 cold_start_sft.jsonl 冷启动语料，渲染 Mermaid 路径图 + LaTeX 公式 + Julia 代码。</p>
+<div class="index-bar">
+<a href="#ex3.1">练习 ex3.1</a>
+<a href="#ex3.2">练习 ex3.2</a>
+<a href="#ex3.10">练习 ex3.10</a>
+<a href="#ex3.12">练习 ex3.12</a>
+<a href="#ex3.16">练习 ex3.16</a>
+<a href="#ex3.21">练习 ex3.21</a>
+<a href="#ex3.22">练习 ex3.22</a>
+<a href="#ex3.37">练习 ex3.37</a>
+<a href="#ex3.40">练习 ex3.40</a>
+<a href="#ex3.50">练习 ex3.50</a>
+</div>
+
+<div class="note-card" id="ex3.1">
+  <span class="source-tag">afcp-ex3.1.qmd</span>
+  <h2>练习 ex3.1</h2>
+  <div class="section-label">Instruction</div>
+  <div class="instruction-box">你是一个概率论教学专家。请严格按照【空间构建-&gt;条件筛选-&gt;目标事件-&gt;计算与可视化】四步法解决概率问题。所有概率计算必须使用分数形式，避免小数近似。回答中必须包含Mermaid路径图和LaTeX条件概率表。</div>
+  <div class="section-label">题目 (Input)</div>
+  <div class="input-box">ex3.1 掷两枚均匀的骰子，求已知两枚骰子点数不同的条件下，至少有一枚点数为6 的条件概率。<br/>    <br/>    -  1. 首先构建出总的概率空间: 扔两枚骰子的组合<br/>    -  2. 筛选出点数不同的组合作为子空间<br/>    -  3. 在2子空间下筛选出至少有一个骰子为6 的组合<br/>    -  4. 根据 2,3 计算条件概率</div>
+  <div class="section-label">解答 (Output)</div>
+  <div class="output-content">
+<h4>2. total probablity  space</h4>
+<pre class="code-block"><code class="language-julia">  ma=[[x,y] for x in 1:6, y in 1:6]|&gt;d-&gt;reshape(d,(1,36))
+  
+</code></pre>
+<h4>3. according to condition to get sub  probability  space</h4>
+<pre class="code-block"><code class="language-julia">#数组两个数不同
+condition(x::Array)=x[1] !=x[2] 
+</code></pre>
+<pre class="code-block"><code class="language-julia">      condition(x::Array)=x[1] !=x[2]
+      pA=filter(x-&gt;condition(x),vec(ma))
+      show(pA)
+</code></pre>
+<pre class="code-block"><code class="language-julia">   #数组中两个数有至少有一个等于 6
+   x-&gt;x[1]==6||x[2]==6
+</code></pre>
+<h4>4.  conditional probablity</h4>
+<pre class="code-block"><code class="language-julia">    pB=filter(x-&gt;x[1]==6||x[2]==6,pA)
+    &quot;两枚骰子点数不同的条件下，至少有一枚点数为6 的条件概率&quot;=&gt;length(pB)//length(pA)      #1//3
+</code></pre>
+<h4>概率路径图</h4>
+<div class="mermaid">flowchart LR
+    Omega[&quot;Ω: 36种&lt;br/&gt;(两枚骰子全组合)&quot;] --&gt;|&quot;排除6种相同点数&quot;| B[&quot;B: 30种&lt;br/&gt;(点数不同)&quot;]
+    B --&gt;|&quot;含6的组合: 10种&quot;| AB[&quot;A∩B: 10种&lt;br/&gt;(至少一个6)&quot;]
+    B --&gt;|&quot;不含6: 20种&quot;| NotA[&quot;B-A: 20种&quot;]
+    style AB fill:#d4edda,stroke:#28a745
+    style B fill:#fff3cd,stroke:#ffc107
+</div>
+  </div>
+</div>
+
+
+<div class="note-card" id="ex3.2">
+  <span class="source-tag">afcp-ex3.2.qmd</span>
+  <h2>练习 ex3.2</h2>
+  <div class="section-label">Instruction</div>
+  <div class="instruction-box">你是一个概率论教学专家。请严格按照【空间构建-&gt;条件筛选-&gt;目标事件-&gt;计算与可视化】四步法解决概率问题。所有概率计算必须使用分数形式，避免小数近似。回答中必须包含Mermaid路径图和LaTeX条件概率表。</div>
+  <div class="section-label">题目 (Input)</div>
+  <div class="input-box">ex3.2 掷 两 枚 均 匀 骰 子 ， 求 给 定 两 枚 骰 子 点 数 之 和 为i 的 条 件 下 ， <br/>第 一 枚 点 数 为 6 的 条 件 概 率。 计 算 i 取 值 从 2 到 1 2 的 所 有 情 况</div>
+  <div class="section-label">解答 (Output)</div>
+  <div class="output-content">
+<h3>2. workflow</h3>
+- 1. 构建全概率空间
+ - 2. 根据限制条件筛选出子空间
+ - 3. 计算条件概率
+<h4>2.1 构建全概率空间</h4>
+<pre class="code-block"><code class="language-julia">ma=[[x,y] for x in 1:6, y in 1:6]|&gt;d-&gt;reshape(d,(1,36))|&gt;vec
+span=2:12
+</code></pre>
+<h4>2.2 筛选子空间</h4>
+<pre class="code-block"><code class="language-julia">pA=[filter(x-&gt;sum(x)==i,ma) for i in span]
+</code></pre>
+<h4>2.3 计算条件概率</h4>
+筛选的条件表达式为
+<pre class="code-block"><code class="language-julia">  # 第一枚骰子点数为 6
+  condition(x::Array)::Bool=x[1]==6
+</code></pre>
+<pre class="code-block"><code class="language-julia">    condition(x::Array)::Bool=x[1]==6
+    for (idx,arr) in zip(span,pA)
+        local pB=filter(x-&gt;condition(x),arr)
+        @info &quot;i=$(idx)&quot;=&gt;length(pB)//length(arr)
+<p>end<br/></code></pre></p>
+<h4>概率路径图</h4>
+<div class="mermaid">flowchart LR
+    Omega[&quot;Ω: 36种&quot;] --&gt;|&quot;sum=i的子空间&quot;| Sub[&quot;B_i: 不同sum值&lt;br/&gt;子空间大小不同&quot;]
+    Sub --&gt;|&quot;第一枚为6&quot;| A[&quot;A∩B_i&lt;br/&gt;(第一枚=6)&quot;]
+    Sub --&gt;|&quot;第一枚≠6&quot;| NotA[&quot;B_i - A&quot;]
+    style A fill:#d4edda,stroke:#28a745
+    style Sub fill:#fff3cd,stroke:#ffc107
+</div>
+  </div>
+</div>
+
+
+<div class="note-card" id="ex3.10">
+  <span class="source-tag">afcp-ex3.10.qmd</span>
+  <h2>练习 ex3.10</h2>
+  <div class="section-label">Instruction</div>
+  <div class="instruction-box">你是一个概率论教学专家。请严格按照【空间构建-&gt;条件筛选-&gt;目标事件-&gt;计算与可视化】四步法解决概率问题。所有概率计算必须使用分数形式，避免小数近似。回答中必须包含Mermaid路径图和LaTeX条件概率表。</div>
+  <div class="section-label">题目 (Input)</div>
+  <div class="input-box">从一副牌中抽出三张牌 已知条件是第二张和第三张都是黑桃,<br/>      求第一张是黑桃的概率<br/>      在实际打牌中, 三张牌可能属于不同的人,那么可以根第二个人和第三个人的牌来推算第一根得到某张牌的概率<br/>      因而第二张和第三张为黑桃,<br/>      所以第一张为黑桃的可能性是 11, 总的样本空间为 50<br/><br/>      在条件下,第一张牌是黑桃的概率从 0.25降为 0.22</div>
+  <div class="section-label">解答 (Output)</div>
+  <div class="output-content">
+<pre class="code-block"><code class="language-julia">#= 
+      从一副牌中抽出三张牌 已知条件是第二张和第三张都是黑桃,
+      求第一张是黑桃的概率
+      在实际打牌中, 三张牌可能属于不同的人,那么可以根第二个人和第三个人的牌来推算第一根得到某张牌的概率
+      因而第二张和第三张为黑桃,
+      所以第一张为黑桃的可能性是 11, 总的样本空间为 50
+<p>在条件下,第一张牌是黑桃的概率从 0.25降为 0.22</p>
+<p>=#<br/></code></pre></p>
+<h3>2. probability modify</h3>
+<pre class="code-block"><code class="language-julia">   (&quot;unconditional&quot;=&gt;13/52,&quot; conditional&quot;=&gt;11/50)
+</code></pre>
+<h4>概率路径图</h4>
+<div class="mermaid">flowchart LR
+    Deck[&quot;牌堆: 52张&lt;br/&gt;(13黑桃)&quot;] --&gt;|&quot;抽三张&quot;| Draw[&quot;三张牌&quot;]
+    Draw --&gt;|&quot;第二、三张为黑桃&quot;| B[&quot;B: 第二三张=黑桃&lt;br/&gt;|B|=50&quot;]
+    B --&gt;|&quot;第一张为黑桃&quot;| A[&quot;A∩B: 第一张=黑桃&lt;br/&gt;11种&quot;]
+    B --&gt;|&quot;第一张非黑桃&quot;| NotA[&quot;B-A: 39种&quot;]
+    style A fill:#d4edda,stroke:#28a745
+    style B fill:#fff3cd,stroke:#ffc107
+</div>
+  </div>
+</div>
+
+
+<div class="note-card" id="ex3.12">
+  <span class="source-tag">afcp-ex3.12.qmd</span>
+  <h2>练习 ex3.12</h2>
+  <div class="section-label">Instruction</div>
+  <div class="instruction-box">你是一个概率论教学专家。请严格按照【空间构建-&gt;条件筛选-&gt;目标事件-&gt;计算与可视化】四步法解决概率问题。所有概率计算必须使用分数形式，避免小数近似。回答中必须包含Mermaid路径图和LaTeX条件概率表。</div>
+  <div class="section-label">题目 (Input)</div>
+  <div class="input-box">获得精算师证书,需要连续通过三次考试</div>
+  <div class="section-label">解答 (Output)</div>
+  <div class="output-content">
+<h4>考试的分层概率图</h4>
+根据描述, 绘出三次考试的分层概率图 @fig-1
+<div class="mermaid">flowchart LR
+      A(exame)  --&gt;|s1:0.9|  B(success)
+      A(exame)  --&gt;|f1:0.1| C(failure)
+      
+      B(success)  --&gt;|s2:0.8|  D(success)
+      B(success)  --&gt;|f2:0.2|  E(failure)
+      
+      D(success)  --&gt;|s3:0.7|  F(success)
+      D(success)  --&gt;|f3:0.3|  G(failure)
+      
+    style B  fill: #00FF00, stroke: #333, stroke-width: 4px;
+    style D  fill: #00FF00, stroke: #333, stroke-width: 4px;
+    style F  fill: #00FF00, stroke: #333, stroke-width: 4px;
+</div>
+<h4>通过三次考试,获得精算师证书的概率</h4>
+在 @fig-1 中,沿着绿色的路径就是三次考试成功的路径, 成功获得证书就是三次成功概率的乘积
+\($p_{succsss}=s1*s2*s3  \tag{1.1}\)$
+<pre class="code-block"><code class="language-julia">   s1=0.9;s2=0.8;s3=0.7
+   &quot;p_success&quot;=&gt;s1*s2*s3
+</code></pre>
+<h4>在第二次考试中失败的概率</h4>
+如果没有通过考试, 那么在三次开始中都有可能失败,所以失败的条件下,需要重新计算总概率空间
+<p>失败的全概率为:<br/>\($total=(f1+s1*f2+s1*s2*f3) \tag{1.2}\)$</p>
+\(f1\) 可以写为:
+\($f1=1-s1 \tag{1.3}\)$
+其他项以此类推,失败全概率为:
+<pre class="code-block"><code class="language-julia">total=(1-s1)+(s1*(1-s2))+(s1*s2*(1-s3))
+<p>&quot;total_failure&quot;=&gt;total<br/></code></pre><br/>所以在第二次考试中失败的概率为:</p>
+\($\frac{(s1*f2)}{total} \tag{1.4}\)$
+<pre class="code-block"><code class="language-julia">&quot;failure_at_second&quot;=&gt;(s1*(1-s2))/total
+</code></pre>
+  </div>
+</div>
+
+
+<div class="note-card" id="ex3.16">
+  <span class="source-tag">afcp-ex3.16.qmd</span>
+  <h2>练习 ex3.16</h2>
+  <div class="section-label">Instruction</div>
+  <div class="instruction-box">你是一个概率论教学专家。请严格按照【空间构建-&gt;条件筛选-&gt;目标事件-&gt;计算与可视化】四步法解决概率问题。所有概率计算必须使用分数形式，避免小数近似。回答中必须包含Mermaid路径图和LaTeX条件概率表。</div>
+  <div class="section-label">题目 (Input)</div>
+  <div class="input-box">98%的婴儿分娩是安全的.然而有15% 的分娩是剖腹产. 当采用剖腹产时，婴儿的生存概率为 9 6 %. 如 果 随 机 选 择 一 个 采 用 非 剖 腹 产 的 孕妇  ， 那 么 其 婴 儿 的 生 存 概 率 是 多 少?</div>
+  <div class="section-label">解答 (Output)</div>
+  <div class="output-content">
+<h4>2. 全概率图为  @fig-1</h4>
+<div class="mermaid">    flowchart LR
+    A(P) --&gt;|自然分娩| B(85%)
+    A(P) --&gt;|剖腹产| C(15%)
+<p>B(85%) --&gt;|生存| D(PA)<br/>    B(85%) --&gt;|夭折| E(1-PA)</p>
+<p>C(15%) --&gt;|生存| F(96%)<br/>    C(15%) --&gt;|夭折| G(4%)<br/></div></p>
+<h4>3. 分娩成功全概率表示为:</h4>
+\($(0.85*PA)+(0.15*0.96)=0.98 \tag{1.1}\)$
+<p>可以变换为:</p>
+\($PA=\frac{0.98-(0.15*0.96)}{0.85} \tag{1.2}\)$
+<h4>4. 计算</h4>
+<pre class="code-block"><code class="language-julia">PA=(0.98-(0.15*0.96))/0.85
+</code></pre>
+  </div>
+</div>
+
+
+<div class="note-card" id="ex3.21">
+  <span class="source-tag">afcp-ex3.21.qmd</span>
+  <h2>练习 ex3.21</h2>
+  <div class="section-label">Instruction</div>
+  <div class="instruction-box">你是一个概率论教学专家。请严格按照【空间构建-&gt;条件筛选-&gt;目标事件-&gt;计算与可视化】四步法解决概率问题。所有概率计算必须使用分数形式，避免小数近似。回答中必须包含Mermaid路径图和LaTeX条件概率表。</div>
+  <div class="section-label">题目 (Input)</div>
+  <div class="input-box">500对夫妇参加收入调查, 双向表如下</div>
+  <div class="section-label">解答 (Output)</div>
+  <div class="output-content">
+<h3>2. 调查表格</h3>
+<p>**[提示] build two-way table in this page **</p>
+<p>[`RapidTable`](https://www.rapidtables.com/tools/table-chart.html#)</p>
+<p>![](./images/ex3.21.jpg){width=400}</p>
+<p>1. `total` 所在的列和行是边缘分布(margin distributions)<br/> 2.  图例:第二行,第二列:**36**,代表在 **500对夫妇中有36** 对夫妇妻子收入超过 **25,000**美元,同时丈夫收入低于**25,000**美元,这是联合分布<br/> 3.  联合分布的统计量不会改变, 但是在不同的条件下出现在行或者列中,比例可能会不同</p>
+<h3>3. question</h3>
+根据调查表格回答一下问题:
+ - (a) 丈夫收入低于 25,000美元的概率
+ - (b) 丈夫收入高于 25,000条件下,妻子收入高于 25,000美元
+ - (c) 丈夫收入低于 25,000条件下,妻子收入高于 25,000美元
+<h3>4. 解答</h3>
+<pre class="code-block"><code class="language-julia">     using PrettyTables
+     matrix=[212 198;36 54]
+     pretty_table(matrix;tf=tf_matrix,show_header = false)
+</code></pre>
+<h4>4.1 (a)</h4>
+   第一列边缘分布就是丈夫收入低于25,000 的总数
+<pre class="code-block"><code class="language-julia">   total=sum(matrix)
+   husband_less25000=sum(matrix[:,1])
+   husband_less25000//total
+</code></pre>
+<h4>4.2 (b)</h4>
+   第二列边缘分布就是丈夫收入高于25,000 的总数
+<p>丈夫收入高于 25,000条件下,妻子收入高于 25,000美元的联合分布为第二行<br/>   第二列<br/><pre class="code-block"><code class="language-julia">  husband_morethan25000=sum(matrix[:,2])<br/>  husband_morethan25000_wife_morethan25000=matrix[2,2]<br/>  husband_morethan25000_wife_morethan25000//husband_morethan25000<br/></code></pre><br/><h4>4.3 (c)</h4><br/>   丈夫收入低于 25,000条件 在 4.1 计算</p>
+<p>丈夫收入低于 25,000条件下,妻子收入高于 25,000美元的边缘分布为第二行<br/>   第一列</p>
+<pre class="code-block"><code class="language-julia">   husband_less25000_wife_morethan25000=matrix[2,1]
+   husband_less25000_wife_morethan25000//husband_less25000
+</code></pre>
+<h4>概率路径图</h4>
+<div class="mermaid">flowchart LR
+    Couples[&quot;500对夫妇&quot;] --&gt;|&quot;丈夫&lt;25k&quot;| HLess[&quot;丈夫&lt;25k&lt;br/&gt;边缘分布&quot;]
+    Couples --&gt;|&quot;丈夫&gt;25k&quot;| HMore[&quot;丈夫&gt;25k&lt;br/&gt;边缘分布&quot;]
+    HLess --&gt;|&quot;妻子&gt;25k&quot;| A[&quot;联合: 36对&quot;]
+    HLess --&gt;|&quot;妻子&lt;25k&quot;| B[&quot;联合: 212对&quot;]
+    HMore --&gt;|&quot;妻子&gt;25k&quot;| C[&quot;联合: 54对&quot;]
+    HMore --&gt;|&quot;妻子&lt;25k&quot;| D[&quot;联合: 198对&quot;]
+    style A fill:#d4edda,stroke:#28a745
+    style HLess fill:#fff3cd,stroke:#ffc107
+</div>
+  </div>
+</div>
+
+
+<div class="note-card" id="ex3.22">
+  <span class="source-tag">afcp-ex3.22.qmd</span>
+  <h2>练习 ex3.22</h2>
+  <div class="section-label">Instruction</div>
+  <div class="instruction-box">你是一个概率论教学专家。请严格按照【空间构建-&gt;条件筛选-&gt;目标事件-&gt;计算与可视化】四步法解决概率问题。所有概率计算必须使用分数形式，避免小数近似。回答中必须包含Mermaid路径图和LaTeX条件概率表。</div>
+  <div class="section-label">题目 (Input)</div>
+  <div class="input-box">有三个骰子,红,黄,蓝(R,Y,B)</div>
+  <div class="section-label">解答 (Output)</div>
+  <div class="output-content">
+<h3>2. workflow</h3>
+<p>构建全概率空间,然后根据条件筛选(过滤)出符合条件的项,概率就是容量的比值,计算式中分母表示<br/>条件的概率空间,分子表示在条件概率空间下筛选出的更小的概率空间. 不失一般性, 全概率空间也可以<br/>出现在分母中</p>
+<h4>2.1  构建全概率空间,并计算 `size`</h4>
+<pre class="code-block"><code class="language-julia">total_space=[[blue,yellow,red] for blue in 1:6, yellow in 1:6,red in 1:6]
+total_size=length(total_space)
+&quot;全样本容量&quot;=&gt;total_size
+</code></pre>
+<h4>2.2 计算三枚骰子点数都不同的概率</h4>
+<pre class="code-block"><code class="language-julia">  cond(arr::Array)::Bool=(arr[1]!=arr[2])&amp;&amp;(arr[1]!=arr[3])&amp;&amp;(arr[2]!=arr[3])
+  diff=filter(cond,vec(total_space))
+  
+  &quot;三枚骰子点数都不同的概率&quot;=&gt;length(diff)//total_size
+</code></pre>
+<h4>2.3 在 2.2条件下计算`B&lt;Y&lt;R` 的 概率</h4>
+<pre class="code-block"><code class="language-julia">cond2(arr::Array)::Bool=arr[1]&lt;arr[2]&lt;arr[3]
+diff2=filter(cond2,diff)
+&quot;三枚骰子点数都不同的条件下,点数Y&lt;B&lt;R的概率&quot;=&gt;length(diff2)//length(diff)
+</code></pre>
+<h4>2.4  在全概率空间下计算`B&lt;Y&lt;R` 的 概率</h4>
+筛选条件不变,但空间是全概率空间
+<pre class="code-block"><code class="language-julia">diff3=filter(cond2,vec(total_space))
+&quot;点数Y&lt;B&lt;R的概率&quot;=&gt;length(diff3)//total_size
+</code></pre>
+<h4>total space</h4>
+<pre class="code-block"><code class="language-julia">display(total_space)
+</code></pre>
+<h4>概率路径图</h4>
+<div class="mermaid">flowchart LR
+    Omega[&quot;Ω: 三骰子全组合&lt;br/&gt;6×6×6=216&quot;] --&gt;|&quot;条件B&quot;| B[&quot;条件子空间 B&quot;]
+    B --&gt;|&quot;事件A&quot;| AB[&quot;A∩B&quot;]
+    B --&gt;|&quot;非A&quot;| NotA[&quot;B-A&quot;]
+    style AB fill:#d4edda,stroke:#28a745
+    style B fill:#fff3cd,stroke:#ffc107
+</div>
+  </div>
+</div>
+
+
+<div class="note-card" id="ex3.37">
+  <span class="source-tag">afcp-ex3.37.qmd</span>
+  <h2>练习 ex3.37</h2>
+  <div class="section-label">Instruction</div>
+  <div class="instruction-box">你是一个概率论教学专家。请严格按照【空间构建-&gt;条件筛选-&gt;目标事件-&gt;计算与可视化】四步法解决概率问题。所有概率计算必须使用分数形式，避免小数近似。回答中必须包含Mermaid路径图和LaTeX条件概率表。</div>
+  <div class="section-label">题目 (Input)</div>
+  <div class="input-box">赌徒口袋中有一枚均匀的硬币, 还有一枚两面都是正面的硬币,他随机拿出一枚硬币<br/><br/>- (a) 抛出来是正面, 是均匀硬币的概率<br/>- (b) 再抛一次,仍是正面, 是均匀硬币的概率<br/>- (c) 第三次抛,发现是反面,是均匀硬币的概率</div>
+  <div class="section-label">解答 (Output)</div>
+  <div class="output-content">
+<h3>2. (a) 的概率路径图</h3>
+<div class="mermaid">flowchart LR
+    A(Coin) --&gt;|fc:1/2| B(faircoin)
+    A(Coin) --&gt;|nfc:1/2| C(notfaircoin)
+    B(faircoin) --&gt;|fc1h:1/2| D(head)
+    B(faircoin)-.fc1t:1/2.-&gt;E(tail)
+    C(notfaircoin) --&gt;|nfc1h:1| F(head)
+    style D  fill: #FF0000, stroke: #333, stroke-width: 2px;
+    style F  fill: #FF0000, stroke: #333, stroke-width: 2px;
+    
+</div>
+第一次抛出正面的概率有两个路径,均匀硬币是第一条路径
+<pre class="code-block"><code class="language-julia">fc=nfc=1//2
+fc1h=fc1t=1//2
+nfc1h=1;nfc1t=0
+path1=fc*fc1h
+path2=nfc*nfc1h
+p1head=path1+path2
+<p>&quot;第一次抛出正面条件下,为均匀硬币的概率&quot;=&gt;path1//p1head<br/></code></pre></p>
+<h3>3. (b) 的概率路径图</h3>
+<div class="mermaid">flowchart LR
+    A(Coin) --&gt;|fc:1/2| B(faircoin)
+    A(Coin) --&gt;|nfc:1/2| C(notfaircoin)
+    B(faircoin) --&gt;|fc1h:1/2| D(head)
+    B(faircoin) --&gt;|fc1t:1/2| E(tail)
+    C(notfaircoin) --&gt;|nfc1h:1| F(head)
+    
+    D(head) --&gt;|fc2h:1/2| I(head)
+    D(head) --&gt;|fc2t:1/2| J(tail)
+    E(tail) --&gt;|fc2h:1/2| K(head)
+    E(tail) --&gt;|fc2t:1/2| L(tail)
+    F(head) --&gt;|nfc2h:1| M(head)
+<p>style D  fill: #FF0000, stroke: #333, stroke-width: 2px;<br/>    style F  fill: #FF0000, stroke: #333, stroke-width: 2px;<br/>    style I  fill: #FF0000, stroke: #333, stroke-width: 2px;<br/>    style M  fill: #FF0000, stroke: #333, stroke-width: 2px;<br/>    <br/></div><br/>第一次抛是正面, 第二次仍是正面仍是两条路径,但是概率发生变化</p>
+<pre class="code-block"><code class="language-julia">    fc2h=fc2t=1//2
+    nfc2h=1
+    path3=fc*fc1h*fc2h
+    path4=nfc*nfc1h*nfc2h
+    p2head=path3+path4
+    &quot;第一次抛是正面, 第二次仍是正面的硬币是均匀硬币的概率&quot;=&gt;path3//p2head
+</code></pre>
+<h3>4. (c) 的概率路径图</h3>
+实际因为两面都是人头的硬币不可能出现反面, 一旦出现反面, 整个路径就不存在. 
+这就是著名的黑天鹅理论. 对于硬币试验, 如果从开始连续抛硬币都是正面,不能因为没有观察
+到反面的现象,就匆忙下结论:硬币两面都是正面, 这个结论是经不起试验验证的.
+<p>因为即使观察到连续100次正面,一旦观察到一次反面,整个对模型的结论就完全失去作用了.</p>
+<p>我们看到 100 次白天鹅,不能下结论:所有天鹅都是白色的, 因为只要观察到一只黑天鹅, 这个结论<br/>就是错误的.</p>
+<div class="mermaid">flowchart LR
+    A(Coin) --&gt;|fc:1/2| B(faircoin)
+    A(Coin) --&gt;|nfc:1/2| C(notfaircoin)
+    B(faircoin) --&gt;|fc1h:1/2| D(head)
+    B(faircoin) --&gt;|fc1t:1/2| E(tail)
+    C(notfaircoin) --&gt;|nfc1h:1| F(head)
+    
+    D(head) --&gt;|fc2h:1/2| I(head)
+    D(head) --&gt;|fc2t:1/2| J(tail)
+    E(tail) --&gt;|fc2h:1/2| K(head)
+    E(tail) --&gt;|fc2t:1/2| L(tail)
+    F(head) --&gt;|nfc2h:1| M(head)
+    I(head) --&gt;|fc3h:1/2| N(head)
+    I(head) --&gt;|fc3t:1/2| O(tail)
+<p>style D  fill: #FF0000, stroke: #333, stroke-width: 2px;<br/>    style I  fill: #FF0000, stroke: #333, stroke-width: 2px;<br/>    style O  fill: #FF0000, stroke: #333, stroke-width: 2px;<br/></div><br/>`head-&gt;head-&gt;tail` 的路径只有一条,所以如果第三次抛出反面,肯定这枚硬币是均匀的硬币</p>
+  </div>
+</div>
+
+
+<div class="note-card" id="ex3.40">
+  <span class="source-tag">afcp-ex3.40.qmd</span>
+  <h2>练习 ex3.40</h2>
+  <div class="section-label">Instruction</div>
+  <div class="instruction-box">你是一个概率论教学专家。请严格按照【空间构建-&gt;条件筛选-&gt;目标事件-&gt;计算与可视化】四步法解决概率问题。所有概率计算必须使用分数形式，避免小数近似。回答中必须包含Mermaid路径图和LaTeX条件概率表。</div>
+  <div class="section-label">题目 (Input)</div>
+  <div class="input-box">坛子里有5 个白球和7 个红球.考應按如下方式取出3 个球:每一次取出一个，并记下其颜色，然<br/>后把它放回坛子，同时再放进 一个相同颜色的球。求取出的3 个球满足下列条件的概率: <br/><br/>- (a)没有白球;<br/>- (b)只有1 个白球;<br/>- (c)全部是白球; <br/>- (d)刚好有2 个白球。</div>
+  <div class="section-label">解答 (Output)</div>
+  <div class="output-content">
+<h3>2. 概率路径图</h3>
+根据描述绘出概率路径图
+<div class="mermaid">flowchart LR
+    A[(&quot;⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴&quot;)] --&gt;|w1:5/12| B[(&quot;⚪️⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴&quot;)]
+    A[(&quot;⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴&quot;)] --&gt;|r1:7/12| C[(&quot;⚪️⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴🔴&quot;)]
+    
+    B --&gt;|ww2:6/13| D[(&quot;⚪️⚪️⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴&quot;)]
+    B --&gt;|wr2:7/13| F[(&quot;⚪️⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴🔴&quot;)]
+    C --&gt;|rw2:5/13| G[(&quot;⚪️⚪️⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴🔴&quot;)]
+    C --&gt;|rr2:8/13| H[(&quot;⚪️⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴🔴🔴&quot;)]
+    
+    D --&gt;|www3:7/14| I(&quot;⚪️&quot;)
+    D --&gt;|wwr3:7/14| J(&quot;🔴&quot;)
+    F --&gt;|wrw3:6/14| L(&quot;⚪️&quot;)
+    F --&gt;|wrr3:8/14| M(&quot;🔴&quot;)
+    
+    G --&gt;|rww3:6/14| N(&quot;⚪️&quot;)
+    G --&gt;|rwr3:8/14| O(&quot;🔴&quot;)
+<p>H --&gt;|rrw3:5/14| P(&quot;⚪️&quot;)<br/>    H --&gt;|rrr3:9/14| Q(&quot;🔴&quot;)<br/></div></p>
+<p>我们沿着`Vase-&gt;w1-&gt;⚪️-&gt;ww2-&gt;⚪️-&gt;www3-&gt;⚪️` 的路径(最上面一条路径),解释一下如何标注概率值</p>
+<p>1. step1 罐子中有 \(5\) 个白球,\(7\) 个红球,合计 \(12\) 个球, 从中取出白球的概率为\(w_1=\frac{5}{12}\),<br/>从中取出红球的概率为\(r_1=\frac{7}{12}\)<br/>2. step2 根据介绍, 以\(w_1\)的概率取出白球后, 需要放回去, 并且再多放一个白球, 因此总数变为\(13\),白球为\(6\),<br/>   红球数不变,仍为\(7\), 因此沿着 `Vase-&gt;w1`, 在第二步取出白球概率\(ww_2=\frac{6}{13}\),取出红球概率为:<br/>   \(wb_2=\frac{7}{13}\)<br/>3. step3   由于第二步取出的是白球,所以要再放入一个白球,合计\(14\), 白球为\(7\),红球为\(7\),<br/>   \(www_3=\frac{7}{14}\),\(wwr_3=\frac{7}{14}\)</p>
+<h3>3. solution</h3>
+<h4>3.1 取出的全部是红色球</h4>
+最下面的一条概率路径`r1-&gt;🔴-&gt;rr2-&gt;🔴-&gt;rrr3-&gt;🔴`,概率乘积就是全部红色球的概率
+<pre class="code-block"><code class="language-julia">r1=7//12;rr2=8//13;rrr3=9//14
+all_3_red=r1*rr2*rrr3
+&quot;取出三个都是红球的概率&quot;=&gt;all_3_red
+</code></pre>
+<h4>3.2 只有一个白球</h4>
+ 只有一个白球有三条路径:
+<p>1.  `w1-&gt;⚪️-&gt;wr2-&gt;🔴-&gt;wrr3-&gt;🔴`<br/> 2.  `r1-&gt;🔴-&gt;rw2-&gt;⚪️-&gt;rwr3-&gt;🔴`<br/> 3.  `r1-&gt;🔴-&gt;rr2-&gt;🔴-&gt;rrw3-&gt;⚪️`</p>
+<pre class="code-block"><code class="language-julia">w1=5//12;wr2=7//13;wrr3=8//14
+r1=7//12;rw2=5//13;rwr3=8//14
+r1=7//12;rr2=8//13;rrw3=5//14
+p1=w1*wr2*wrr3
+p2=r1*rw2*rwr3
+p3=r1*rr2*rrw3
+only_1_white=p1+p2+p3
+&quot;只取出一个白球的概率&quot;=&gt;only_1_white
+</code></pre>
+<h4>3.3 三个全部是白球</h4>
+`Vase-&gt;w1-&gt;⚪️-&gt;ww2-&gt;⚪️-&gt;www3-&gt;⚪️`
+<pre class="code-block"><code class="language-julia">w1=5//12;ww2=6//13;www3=7//14
+all_3_white=w1*ww2*www3
+&quot;三个全部是白球概率&quot;=&gt;all_3_white
+</code></pre>
+<h4>3.4 刚好有两个白球</h4>
+有三条路径
+<p>1. `w1-&gt;ww2-&gt;wwr3`<br/>2. `w1-&gt;wr2-&gt;wrw3`<br/>3. `r1-&gt;rw2-&gt;rww3`</p>
+<pre class="code-block"><code class="language-julia">w1=5//12;ww2=6//13;wwr3=7//14
+w1=5//12;wr2=7//13;wrw3=6//14
+r1=7//12;rw2=5//13;rww3=6//14
+p1=w1*ww2*wwr3
+p2=w1*wr2*wrw3
+p3=r1*rw2*rww3
+<p>either_2_white=p1+p2+p3<br/>&quot;取出三个球有两个是白色的概率&quot;=&gt;either_2_white<br/></code></pre></p>
+  </div>
+</div>
+
+
+<div class="note-card" id="ex3.50">
+  <span class="source-tag">afcp-ex3.50.qmd</span>
+  <h2>练习 ex3.50</h2>
+  <div class="section-label">Instruction</div>
+  <div class="instruction-box">你是一个概率论教学专家。请严格按照【空间构建-&gt;条件筛选-&gt;目标事件-&gt;计算与可视化】四步法解决概率问题。所有概率计算必须使用分数形式，避免小数近似。回答中必须包含Mermaid路径图和LaTeX条件概率表。</div>
+  <div class="section-label">题目 (Input)</div>
+  <div class="input-box">假设某保险公司把被保險人分成如下三类:“ 低风險的”、“ 一般的”、“ 高风险的”.该保險 公司的 资料表明，<br/>对于上述三种人而言，在一年期内卷人一次事放的概率依次为0.05，0.15 和0.30. <br/>如果“低风险的“被保险人占人又的 20%，“一般的”占50%，“高风险的”占 30%.<br/><br/>1. 在固定的一年中出事故的人口占多大比例<br/>2. 如果保险人在2012年没出事故，他是“低风險的”概率是多大?<br/>3. 是“一般的“ 概率是多大?</div>
+  <div class="section-label">解答 (Output)</div>
+  <div class="output-content">
+<h3>2. two-way table</h3>
+根据描述列出双向表
+<p>**[提示] build two-way table in this page **</p>
+<p>[`RapidTable`](https://www.rapidtables.com/tools/table-chart.html#)</p>
+<p>![](./images/ex3.50.jpg){width=600}</p>
+<h3>3. solution</h3>
+<h4>3.1 一年内出事故的概率</h4>
+就是第一行的边缘概率即 \(0.175\)
+<h4>3.2 没有出事故,属于&quot;低风险&quot;的概率</h4>
+没有出事故的边缘概率为 \(0.825\) ,没有出事故的低风险人数为第二行,第一列的联合分布:\(0.19\)
+所以条件概率为 \(\frac{0.19}{0.825}=0.23\)
+<h4>3.3 没有出事故,属于&quot;中等风险&quot;的概率</h4>
+没有出事故的边缘概率为 \(0.825\) ,没有出事故的中风险人数为第二行,第二列的联合分布:\(0.425\)
+所以条件概率为 \(\frac{0.425}{0.825}=0.515\)
+<h4>概率路径图</h4>
+<div class="mermaid">flowchart LR
+    Pop[&quot;总体&quot;] --&gt;|&quot;条件B&quot;| B[&quot;条件子空间&quot;]
+    B --&gt;|&quot;事件A&quot;| AB[&quot;A∩B&quot;]
+    B --&gt;|&quot;非A&quot;| NotA[&quot;B-A&quot;]
+    style AB fill:#d4edda,stroke:#28a745
+    style B fill:#fff3cd,stroke:#ffc107
+</div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+# External dependencies (cloned repos, chat exports)
+external/
+
+# LightRAG working data (regenerable)
+lightrag_data/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp

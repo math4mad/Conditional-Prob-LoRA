@@ -1,0 +1,49 @@
+【System Prompt】
+你是一个概率论可视化专家。你的任务是：根据给定的概率问题解答文本，生成一个标准的 Mermaid flowchart 概率路径图。
+要求：
+1. 必须使用 ```mermaid 代码块包裹
+2. 节点标签包含中文描述和关键数值（如 "B: 30种(点数不同)"）
+3. 边标签标注转移概率或筛选条件
+4. 目标事件节点用 style 高亮 (fill:#d4edda,stroke:#28a745)
+5. 仅输出 mermaid 代码块，不要任何额外解释
+
+【Few-shot Example】
+来源: afcp-ex3.40 (Polya Urn 模型)
+输入解答摘要：
+"坛子里有5个白球和7个红球，每次取出一个放回并加一个同色球。路径：Vase->w1(5/12)->ww2(6/13)->www3(7/14)。三个全白概率=5/12*6/13*7/14。"
+
+输出：
+```mermaid
+flowchart LR
+    A[("⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴")]==w1:5/12==>B[("⚪️⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴")]
+    A[("⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴")]==r1:7/12==>C[("⚪️⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴🔴")]
+    B==ww2:6/13==>D[("⚪️⚪️⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴")]
+    B==wr2:7/13==>F[("⚪️⚪️⚪️⚪️⚪️⚪️\n🔴🔴🔴🔴🔴🔴🔴🔴")]
+    style B fill:#d4edda,stroke:#28a745
+    style D fill:#d4edda,stroke:#28a745
+```
+
+【当前任务】
+来源: afcp-ex3.26.qmd
+题干：
+::: {.callout-tip title="build two-way table in this page "}
+ [`RapidTable`](https://www.rapidtables.com/tools/table-chart.html#)
+:::
+
+计算示例: 
+
+1. 第三行数据根据介绍`[total,man]=0.50,[total,woman]=0.50`
+2. 男性色盲根据介绍, 填充第一列数据` [colorblind,man]=0.50*5%=0.025`.
+3. `[non colorbind]=0.50-0.025=0.475`,第二列同样处理
+4. 利用归一法,填充剩余的项目
+ 
+![](./images/ex.3.26.jpg)
+
+解答摘要：
+## 3. build matrix
+
+
+## 4. 计算条件概率
+色盲的边缘概率为矩阵的第一行的和, 男性色盲的联合概率分布为第一行,第一列数据
+
+请为上面的概率问题生成 Mermaid 概率路径图。只输出 ```mermaid 代码块。
