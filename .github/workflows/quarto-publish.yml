@@ -35,7 +35,7 @@ jobs:
 
       - name: Render Quarto
         run: |
-          quarto render report.qmd --to html --output-dir _site
+          quarto render report.qmd --to html --output-dir _site --output index.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
