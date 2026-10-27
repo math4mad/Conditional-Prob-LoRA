@@ -22,6 +22,30 @@ echo "============================================================"
 echo "  Conditional-Prob-LoRA AutoDL 部署"
 echo "============================================================"
 
+# --- 配置国内 pip 镜像（阿里云）---
+echo ""
+echo "配置 pip 国内镜像（阿里云）..."
+mkdir -p ~/.pip
+cat > ~/.pip/pip.conf << 'EOF'
+[global]
+index-url = https://mirrors.aliyun.com/pypi/simple/
+trusted-host = mirrors.aliyun.com
+EOF
+# 同时配置 conda 镜像（清华）
+cat > ~/.condarc << 'EOF'
+channels:
+  - defaults
+show_channel_urls: true
+default_channels:
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
+custom_channels:
+  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+EOF
+echo "✅ pip 镜像: https://mirrors.aliyun.com/pypi/simple/"
+echo "✅ conda 镜像: https://mirrors.tuna.tsinghua.edu.cn/anaconda"
+
 # --- 0. 环境检查 ---
 echo ""
 echo "[0/4] 环境检查..."
@@ -45,8 +69,17 @@ fi
 # --- 1. 安装依赖 ---
 echo ""
 echo "[1/4] 安装 Python 依赖..."
-pip install -q transformers peft trl accelerate datasets bitsandbytes 2>&1 | tail -5
-echo "✅ 依赖安装完成"
+# 使用阿里云镜像加速（AutoDL 国内环境）
+# 固定兼容版本：transformers 4.49 + trl 0.14 + peft 0.14 兼容 PyTorch 2.5
+pip install -q \
+  "transformers==4.49.0" \
+  "trl==0.14.0" \
+  "peft==0.14.0" \
+  "accelerate>=0.26" \
+  "datasets>=2.16" \
+  "bitsandbytes>=0.43" \
+  $PIP_MIRROR 2>&1 | tail -5
+echo "✅ 依赖安装完成（transformers 4.49 / trl 0.14 / peft 0.14）"
 
 # --- 2. 克隆代码仓库 ---
 echo ""
@@ -76,7 +109,7 @@ if [ -d "$MODEL_DIR" ] && [ -f "$MODEL_DIR/model.safetensors" ]; then
     echo "模型已存在: $MODEL_DIR"
 else
     echo "使用 modelscope 下载（国内更快）..."
-    pip install -q modelscope
+    pip install -q modelscope $PIP_MIRROR
     python3 -c "
 from modelscope import snapshot_download
 model_dir = snapshot_download('Qwen/Qwen2.5-Math-7B-Instruct', cache_dir='$HOME/models')
