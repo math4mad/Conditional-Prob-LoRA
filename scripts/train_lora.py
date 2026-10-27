@@ -250,7 +250,7 @@ def train_formal(model_path: str = None, lora_r: int = 32):
     _seq_key2 = "max_seq_length" if "max_seq_length" in _sft_params2 else "max_length"
     training_args = SFTConfig(
         output_dir=str(BASE_DIR / "output" / "formal"),
-        num_train_epochs=3,
+        num_train_epochs=10,  # 增加 epoch 弥补小数据集
         per_device_train_batch_size=1,  # QLoRA 减小 batch
         gradient_accumulation_steps=16,  # 补偿 batch=1
         learning_rate=1e-4,

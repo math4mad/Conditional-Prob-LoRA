@@ -74,16 +74,17 @@
     - 环境: PyTorch 2.5.1+cu124 / transformers 4.49 / trl 0.14 / peft 0.14
     - QLoRA 4-bit nf4 (FP16 24GB OOM，4-bit 约 5GB 模型)
     - LoRA r=32, target=all-linear, 可训练参数 80.7M (1.06%)
-    - 训练: 130样本 × 3 epoch × batch=1 × grad_accum=16 × max_length=1536
-    - 训练时间: 100秒 (24 steps)
-    - Loss: 2.43 → 1.60 → 1.14 → 0.89 (持续下降)
+    - 训练: 130样本 × 10 epoch × batch=1 × grad_accum=16 × max_length=1536
+    - 训练时间: 312秒 (80 steps)
+    - Loss: 2.50→1.72→1.14→0.76→0.60→0.45→0.41→0.43→0.53→0.38→0.15→0.26→0.34→0.23→0.24→0.25
     - 输出: `output/formal/adapter_model.safetensors` (320MB)
-    - 日志: `output/train.log`
+    - 日志: `output/train10.log`
   - 评估: 结构化解析器 ✅
     - 工具: `scripts/evaluate_lora.py`
     - 指标: 四步法遵循率 + 数值准确率 + Mermaid覆盖率 + LaTeX覆盖率
     - 0.5B 冒烟评估: 四步法20% / Mermaid80% / LaTeX60% / 数值0%
-    - 7B QLoRA评估: 四步法0% / Mermaid40% / LaTeX60% / 数值0%
+    - 7B QLoRA 3epoch: 四步法0% / Mermaid40% / LaTeX60% / 数值提取20% / 数值正确0%
+    - 7B QLoRA 10epoch: 四步法30% / Mermaid60% / LaTeX30% / 数值提取50% / 数值正确0%
     - 结论: 130条数据+3epoch不足，需扩充数据量和epoch
   - 工具: `scripts/train_lora.py` / `scripts/evaluate_lora.py`
   - 部署: `autodl_setup.sh` / `.autoDL-SSH` (本地凭据)
