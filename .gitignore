@@ -4,6 +4,12 @@ external/
 # LightRAG working data (regenerable)
 lightrag_data/
 
+# Training outputs (checkpoints, large files)
+output/
+
+# AutoDL credentials template (fill locally, don't commit)
+.autoDL-SSH
+
 # Python
 __pycache__/
 *.pyc

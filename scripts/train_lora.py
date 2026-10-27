@@ -159,7 +159,7 @@ def train_smoke():
     return model, tokenizer
 
 
-def train_formal(model_path: str = None):
+def train_formal(model_path: str = None, lora_r: int = 32):
     """正式训练：7B CUDA GPU。"""
     print("=" * 60)
     print("正式训练模式: Qwen2.5-Math-7B (CUDA)")
@@ -195,7 +195,7 @@ def train_formal(model_path: str = None):
     print("加载模型...")
     from transformers import BitsAndBytesConfig
     load_kwargs = {
-        "torch_dtype": torch.bfloat16,
+        "dtype": torch.bfloat16,
         "device_map": "auto",
         "trust_remote_code": True,
     }
@@ -213,7 +213,7 @@ def train_formal(model_path: str = None):
     print(f"模型参数: {total_params / 1e9:.2f}B")
 
     # LoRA 配置
-    lora_config = build_lora_config(r=32)
+    lora_config = build_lora_config(r=lora_r)
     model = get_peft_model(model, lora_config)
 
     trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
@@ -234,7 +234,7 @@ def train_formal(model_path: str = None):
         lr_scheduler_type="cosine",
         logging_steps=5,
         save_strategy="epoch",
-        max_seq_length=2048,
+        max_length=2048,
         dataset_text_field=None,
         packing=True,
         bf16=True,
@@ -315,9 +315,11 @@ def main():
     args = parser.parse_args()
 
     if args.mode == "smoke":
+        if args.lora_r is not None:
+            print(f"注意：冒烟模式固定 r=8，忽略 --lora_r={args.lora_r}")
         train_smoke()
     else:
-        train_formal(args.model_path)
+        train_formal(args.model_path, lora_r=args.lora_r)
 
 
 if __name__ == "__main__":
