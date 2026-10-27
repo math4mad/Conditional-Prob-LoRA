@@ -1,0 +1,103 @@
+{
+  "summary": {
+    "samples": 5,
+    "structure_avg": 1.4,
+    "structure_pass_rate": 0.0,
+    "accuracy_extracted": 1,
+    "accuracy_correct": 0,
+    "mermaid_coverage": 2,
+    "latex_coverage": 3
+  },
+  "details": [
+    {
+      "source": "afcp-ex3.1.qmd",
+      "struct": {
+        "step1": false,
+        "step2": false,
+        "step3": false,
+        "step4": false,
+        "mermaid": false,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": null,
+        "reference_prob": null,
+        "correct": false,
+        "extracted": false
+      }
+    },
+    {
+      "source": "afcp-ex3.10.qmd",
+      "struct": {
+        "step1": false,
+        "step2": false,
+        "step3": false,
+        "step4": false,
+        "mermaid": false,
+        "latex": false,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": null,
+        "reference_prob": null,
+        "correct": false,
+        "extracted": false
+      }
+    },
+    {
+      "source": "afcp-ex3.11.qmd",
+      "struct": {
+        "step1": false,
+        "step2": false,
+        "step3": false,
+        "step4": false,
+        "mermaid": true,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": "1/12",
+        "reference_prob": "1/17",
+        "correct": false,
+        "extracted": true
+      }
+    },
+    {
+      "source": "afcp-ex3.12.qmd",
+      "struct": {
+        "step1": false,
+        "step2": false,
+        "step3": false,
+        "step4": false,
+        "mermaid": true,
+        "latex": false,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": null,
+        "reference_prob": null,
+        "correct": false,
+        "extracted": false
+      }
+    },
+    {
+      "source": "afcp-ex3.14.qmd",
+      "struct": {
+        "step1": false,
+        "step2": false,
+        "step3": false,
+        "step4": false,
+        "mermaid": false,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": null,
+        "reference_prob": null,
+        "correct": false,
+        "extracted": false
+      }
+    }
+  ]
+}

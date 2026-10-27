@@ -35,8 +35,8 @@ LOCAL_05B = "/Users/mac/Programming/code-2026/GrandFather/models/models/Qwen--Qw
 QWEN_MATH_7B = "Qwen/Qwen2.5-Math-7B-Instruct"  # HuggingFace ID，正式训练时下载
 
 
-def load_sft_data(file_path: str, limit: int = None) -> Dataset:
-    """加载 SFT JSONL 数据，转为 Qwen chat 格式。"""
+def load_sft_data(file_path: str, limit: int = None, tokenizer=None) -> Dataset:
+    """加载 SFT JSONL 数据，转为文本格式（用 chat template 格式化）。"""
     records = []
     with open(file_path, encoding="utf-8") as f:
         for line in f:
@@ -45,16 +45,29 @@ def load_sft_data(file_path: str, limit: int = None) -> Dataset:
     if limit:
         records = records[:limit]
 
-    # 转为对话格式
-    formatted = []
-    for r in records:
-        # Qwen2.5-Instruct chat template
-        messages = [
-            {"role": "system", "content": r["instruction"]},
-            {"role": "user", "content": r["input"]},
-            {"role": "assistant", "content": r["output"]},
+    # 如果有 tokenizer，用 chat template 格式化为文本；否则用 messages 格式
+    if tokenizer is not None:
+        formatted = []
+        for r in records:
+            messages = [
+                {"role": "system", "content": r["instruction"]},
+                {"role": "user", "content": r["input"]},
+                {"role": "assistant", "content": r["output"]},
+            ]
+            text = tokenizer.apply_chat_template(
+                messages, tokenize=False, add_generation_prompt=False
+            )
+            formatted.append({"text": text})
+    else:
+        # messages 格式（TRL >= 0.15 支持）
+        formatted = [
+            {"messages": [
+                {"role": "system", "content": r["instruction"]},
+                {"role": "user", "content": r["input"]},
+                {"role": "assistant", "content": r["output"]},
+            ]}
+            for r in records
         ]
-        formatted.append({"messages": messages})
 
     return Dataset.from_list(formatted)
 
@@ -115,10 +128,16 @@ def train_smoke():
 
     # 加载数据（冒烟只用20条）
     print("加载数据...")
-    dataset = load_sft_data(str(SFT_FILE), limit=20)
+    dataset = load_sft_data(str(SFT_FILE), limit=20, tokenizer=tokenizer)
     print(f"训练样本: {len(dataset)}")
 
     # 训练参数（冒烟：少 epoch，小 batch）
+    # 注意：SFTConfig 的序列长度参数名随 TRL 版本变化
+    #   TRL>=0.15: max_length
+    #   TRL<0.15:  max_seq_length
+    import inspect as _inspect
+    _sft_params = list(_inspect.signature(SFTConfig.__init__).parameters.keys())
+    _seq_key = "max_seq_length" if "max_seq_length" in _sft_params else "max_length"
     training_args = SFTConfig(
         output_dir=str(BASE_DIR / "output" / "smoke"),
         num_train_epochs=2,
@@ -127,8 +146,8 @@ def train_smoke():
         learning_rate=2e-4,
         logging_steps=2,
         save_strategy="epoch",
-        max_length=1024,  # 0.5B 冒烟用短序列
-        dataset_text_field=None,  # 使用 messages 格式
+        **{_seq_key: 1024},  # 0.5B 冒烟用短序列
+        dataset_text_field="text",  # 预格式化文本字段
         packing=False,
         report_to="none",
     )
@@ -178,13 +197,10 @@ def train_formal(model_path: str = None, lora_r: int = 32):
     model_path = model_path or QWEN_MATH_7B
 
     # 评估内存需求
-    # 7B 模型 FP16 ≈ 14GB, LoRA 训练额外需 ~4-6GB, 总计 ~18-20GB
-    if gpu_mem < 20:
-        print(f"⚠️ GPU 显存 {gpu_mem:.1f}GB 可能不足。7B LoRA 训练建议 ≥20GB。")
-        print("   建议：使用 4-bit 量化 (QLoRA) 或更大显存 GPU。")
-        use_4bit = True
-    else:
-        use_4bit = False
+    # 7B 模型 FP16 ≈ 14GB, LoRA 训练 forward+backward+optimizer 需 ~10GB
+    # 4090 24GB 用 FP16 会 OOM，必须用 4-bit QLoRA (~5GB 模型 + ~10GB 训练 = ~15GB)
+    use_4bit = True
+    print("使用 4-bit QLoRA 量化（4090 24GB 必需）")
 
     # 加载 tokenizer
     tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
@@ -194,8 +210,12 @@ def train_formal(model_path: str = None, lora_r: int = 32):
     # 加载模型
     print("加载模型...")
     from transformers import BitsAndBytesConfig
+    # transformers 版本兼容: 4.49 用 torch_dtype, 5.x 用 dtype
+    import transformers as _tf
+    _tf_ver = tuple(int(x) for x in _tf.__version__.split(".")[:2])
+    _dtype_key = "dtype" if _tf_ver >= (5, 0) else "torch_dtype"
     load_kwargs = {
-        "dtype": torch.bfloat16,
+        _dtype_key: torch.bfloat16,
         "device_map": "auto",
         "trust_remote_code": True,
     }
@@ -220,26 +240,30 @@ def train_formal(model_path: str = None, lora_r: int = 32):
     print(f"可训练参数: {trainable / 1e6:.1f}M ({trainable / total_params * 100:.2f}%)")
 
     # 加载全部数据
-    dataset = load_sft_data(str(SFT_FILE))
+    dataset = load_sft_data(str(SFT_FILE), tokenizer=tokenizer)
     print(f"训练样本: {len(dataset)}")
 
     # 训练参数
+    # TRL 版本兼容: <0.15 用 max_seq_length, >=0.15 用 max_length
+    import inspect as _inspect2
+    _sft_params2 = list(_inspect2.signature(SFTConfig.__init__).parameters.keys())
+    _seq_key2 = "max_seq_length" if "max_seq_length" in _sft_params2 else "max_length"
     training_args = SFTConfig(
         output_dir=str(BASE_DIR / "output" / "formal"),
         num_train_epochs=3,
-        per_device_train_batch_size=2,
-        gradient_accumulation_steps=8,
+        per_device_train_batch_size=1,  # QLoRA 减小 batch
+        gradient_accumulation_steps=16,  # 补偿 batch=1
         learning_rate=1e-4,
         warmup_ratio=0.05,
         lr_scheduler_type="cosine",
         logging_steps=5,
         save_strategy="epoch",
-        max_length=2048,
-        dataset_text_field=None,
-        packing=True,
+        **{_seq_key2: 1536},  # QLoRA 用较短序列节省显存
+        dataset_text_field="text",
+        packing=False,  # TRL 0.14 packing 不支持 messages 格式
         bf16=True,
         report_to="none",
-        gradient_checkpointing=True,
+        gradient_checkpointing=False,  # 与 LoRA 兼容性更好
     )
 
     trainer = SFTTrainer(

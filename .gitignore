@@ -5,7 +5,11 @@ external/
 lightrag_data/
 
 # Training outputs (checkpoints, large files)
-output/
+output/smoke/
+output/formal/checkpoint-*/
+output/formal/*.safetensors
+output/formal/*.bin
+output/formal/tokenizer.json
 
 # AutoDL credentials template (fill locally, don't commit)
 .autoDL-SSH

@@ -69,18 +69,21 @@
     - 训练: 20样本 × 2 epoch × max_length=1024, MPS 完成
     - 输出: `output/smoke/adapter_model.safetensors` (17MB)
     - MPS 训练可用但有 GPU Hang 警告，推理移至 CPU
-  - 7B 正式训练: 需 AutoDL 4090
-    - Base Model: Qwen2.5-Math-7B-Instruct
-    - 本地 M1 Pro 32GB 无 CUDA，7B LoRA 需 ~20GB VRAM → 不可行
-    - AutoDL 4090 (24GB) 可直接训练，或 QLoRA 4-bit (~8GB)
-    - LoRA r=32, target=all-linear, loss masking on output only
-    - 训练参数: 3 epoch, batch=2, grad_accum=8, lr=1e-4, cosine, max_length=2048
+  - 7B 正式训练 ✅: AutoDL 4090 (24GB) QLoRA
+    - Base Model: Qwen2.5-Math-7B-Instruct (modelscope 下载)
+    - 环境: PyTorch 2.5.1+cu124 / transformers 4.49 / trl 0.14 / peft 0.14
+    - QLoRA 4-bit nf4 (FP16 24GB OOM，4-bit 约 5GB 模型)
+    - LoRA r=32, target=all-linear, 可训练参数 80.7M (1.06%)
+    - 训练: 130样本 × 3 epoch × batch=1 × grad_accum=16 × max_length=1536
+    - 训练时间: 100秒 (24 steps)
+    - Loss: 2.43 → 1.60 → 1.14 → 0.89 (持续下降)
+    - 输出: `output/formal/adapter_model.safetensors` (320MB)
+    - 日志: `output/train.log`
   - 评估: 结构化解析器 ✅
     - 工具: `scripts/evaluate_lora.py`
     - 指标: 四步法遵循率 + 数值准确率 + Mermaid覆盖率 + LaTeX覆盖率
-    - 0.5B 冒烟评估结果:
-      - 四步法遵循率: 20% (0.5B+2epoch 预期偏低)
-      - Mermaid 覆盖率: 80% ✅ (格式学习成功)
-      - LaTeX 覆盖率: 60% ✅
-      - 数值准确率: 0% (0.5B 模型无数学推理能力)
+    - 0.5B 冒烟评估: 四步法20% / Mermaid80% / LaTeX60% / 数值0%
+    - 7B QLoRA评估: 四步法0% / Mermaid40% / LaTeX60% / 数值0%
+    - 结论: 130条数据+3epoch不足，需扩充数据量和epoch
   - 工具: `scripts/train_lora.py` / `scripts/evaluate_lora.py`
+  - 部署: `autodl_setup.sh` / `.autoDL-SSH` (本地凭据)

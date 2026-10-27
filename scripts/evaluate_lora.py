@@ -108,18 +108,40 @@ def evaluate(model_path: str, adapter_path: str = None, num_samples: int = 20):
     print("=" * 60)
 
     # 加载模型
-    device = "cpu"  # 评估用 CPU 避免 MPS 问题
-    print(f"\n加载模型: {model_path}")
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    print(f"\n加载模型: {model_path} (device={device})")
     tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    model = AutoModelForCausalLM.from_pretrained(
-        model_path,
-        dtype=torch.float32,
-        trust_remote_code=True,
-    )
-    model = model.to(device)
+    # transformers 版本兼容: 4.49 用 torch_dtype, 5.x 用 dtype
+    import transformers as _tf
+    from transformers import BitsAndBytesConfig
+    _tf_ver = tuple(int(x) for x in _tf.__version__.split(".")[:2])
+    _dtype_key = "dtype" if _tf_ver >= (5, 0) else "torch_dtype"
+
+    if torch.cuda.is_available():
+        # GPU: 用 4-bit 量化加载（与训练一致，避免 LoRA adapter 不匹配）
+        bnb_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.float16,
+            bnb_4bit_use_double_quant=True,
+        )
+        model = AutoModelForCausalLM.from_pretrained(
+            model_path,
+            **{_dtype_key: torch.float16},
+            quantization_config=bnb_config,
+            trust_remote_code=True,
+            device_map="auto",
+        )
+    else:
+        model = AutoModelForCausalLM.from_pretrained(
+            model_path,
+            **{_dtype_key: torch.float32},
+            trust_remote_code=True,
+        )
+        model = model.to(device)
 
     if adapter_path:
         print(f"加载 LoRA adapter: {adapter_path}")
