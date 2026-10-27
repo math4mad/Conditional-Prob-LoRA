@@ -7,13 +7,14 @@ from pathlib import Path
 
 # --- 安装依赖（Kaggle script 模式不会自动跑 pip）---
 def ensure_deps():
+    # Kaggle 预装 torchao 0.10 与新版 peft 冲突，先卸载
+    subprocess.check_call([sys.executable, "-m", "pip", "uninstall", "-y", "torchao", "-q"])
     deps = [
         "transformers>=4.44,<5.0",
         "peft==0.14.0",
         "trl==0.14.0",
         "accelerate>=0.26",
         "datasets>=2.16",
-        "torchao>=0.16.0",  # 修复 peft torchao 兼容性
     ]
     print(f"安装依赖: {deps}")
     subprocess.check_call([sys.executable, "-m", "pip", "install", "-q"] + deps)
