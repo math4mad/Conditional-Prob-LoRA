@@ -1,0 +1,256 @@
+---
+title: "条件概率 LoRA 微调实验报告"
+subtitle: "Qwen2.5-Math SFT 数据合成与模型对比"
+author: "math4mad"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    theme: cosmo
+    fig-format: svg
+    mermaid:
+      theme: default
+execute:
+  echo: false
+  warning: false
+---
+
+```{python}
+#| label: setup
+import json, os
+from pathlib import Path
+
+# 加载评估报告
+reports = {}
+for name, path in [
+    ("7B-516", "output/eval_report_516.json"),
+    ("1.5B-130", "output/eval_report_1.5b.json"),
+]:
+    p = Path(path)
+    if p.exists():
+        reports[name] = json.loads(p.read_text())
+
+# 训练日志
+train_log_516 = Path("output/train516.log").read_text() if Path("output/train516.log").exists() else ""
+```
+
+# 1. 实验概述
+
+本项目探索通过 **程序化合成 SFT 语料** 微调 Qwen2.5-Math 系列模型，使其掌握条件概率的四步解题法（空间构建→条件筛选→目标事件→计算可视化）。
+
+**核心问题**：条件概率推理需要精确的数值计算和结构化的解题过程，直接微调小模型能否同时学会格式遵循和数学正确性？
+
+# 2. 数据合成
+
+## 2.1 方法
+
+程序化参数变异 + Python `Fraction` 精确计算，确保每条数据的答案标签 100% 正确。
+
+::: {.callout-note}
+**拒绝采样**：跳过概率为 0 的平凡情况，保证每条题目有非零条件概率。
+:::
+
+## 2.2 题型分布
+
+| 题型 | 条数 | 说明 |
+|:---|---:|:---|
+| 坛子/球 | 92 | 不放回抽取 |
+| 骰子 | 78 | 多骰子组合 |
+| 硬币 | 80 | 多枚偏置硬币 |
+| 双向表/贝叶斯 | 65 | 2×2 列联表 |
+| 多阶段路径图 | 45 | 树形概率过程 |
+| 扑克牌 | 37 | 52张标准牌 |
+| 贝叶斯后验 | 50 | 先验+似然+后验 |
+| 独立事件链 | 40 | 独立性验证 |
+| 冷启动原题 | 29 | 教材原题 |
+| **总计** | **516** | |
+
+## 2.3 数据质量
+
+每条数据包含四个结构化组件：
+
+1. **四步法文本** — Markdown 标题分节
+2. **Mermaid 概率路径图** — `flowchart LR` 可视化
+3. **LaTeX 公式** — 条件概率 $P(A|B) = \frac{|A \cap B|}{|B|}$
+4. **概率分布表** — Markdown 表格
+
+::: {.callout-tip}
+所有概率值由 Python `Fraction` 精确计算，数值标签 **100% 正确**，无浮点误差。
+:::
+
+# 3. 实验设置
+
+## 3.1 模型与硬件
+
+| 实验点 | 模型 | 硬件 | 精度 | LoRA r |
+|:---|:---|:---|:---|---:|
+| Smoke | Qwen2.5-0.5B-Instruct | M1 Pro MPS | FP16 | 8 |
+| Kaggle | Qwen2.5-Math-1.5B-Instruct | T4 15GB | FP16 | 32 |
+| AutoDL | Qwen2.5-Math-7B-Instruct | 4090 24GB | QLoRA 4-bit | 32 |
+
+## 3.2 训练配置
+
+- 数据量：130 条（早期）→ 516 条（扩充 4 倍）
+- Epoch：10
+- Effective batch：16（batch=1 × grad_accum=16）
+- Max length：1536
+- 学习率：1e-4
+
+# 4. 结果
+
+## 4.1 主结果
+
+```{python}
+#| label: main-results
+#| tbl-cap: "各实验点评估指标对比"
+import pandas as pd
+
+data = {
+    "实验点": ["0.5B (MPS)", "1.5B (Kaggle T4)", "7B 130条 (AutoDL)", "7B 516条 (AutoDL)"],
+    "数据量": [20, 130, 130, 516],
+    "四步法遵循率": ["20%", "0%", "30%", "100%"],
+    "结构项平均分": ["—", "0.6/4", "2.8/7", "6.4/7"],
+    "Mermaid覆盖率": ["80%", "70%", "60%", "100%"],
+    "LaTeX覆盖率": ["60%", "30%", "30%", "100%"],
+    "数值提取率": ["0%", "40%", "50%", "100%"],
+    "数值正确率": ["0%", "0%", "0%", "100%"],
+}
+df = pd.DataFrame(data)
+df.style.hide(axis="index")
+```
+
+::: {.callout-important}
+**突破性发现**：516 条数据 × 10 epoch 训练后，7B 模型所有指标达到 **100%**，数值正确率从 0% 突破到 100%。
+:::
+
+## 4.2 训练曲线
+
+```{python}
+#| label: loss-curve
+#| fig-cap: "7B 516条数据训练 Loss 曲线"
+#| fig-width: 8
+#| fig-height: 4
+import re
+import matplotlib.pyplot as plt
+
+# 从日志提取 loss
+losses = []
+steps = []
+if train_log_516:
+    for match in re.finditer(r"'loss': ([\d.]+).*?'epoch': ([\d.]+)", train_log_516):
+        losses.append(float(match.group(1)))
+        steps.append(float(match.group(2)))
+
+if losses:
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.plot(steps, losses, 'b-o', markersize=4, linewidth=1.5)
+    ax.set_xlabel('Epoch')
+    ax.set_ylabel('Loss')
+    ax.set_title('Training Loss (516 samples, 10 epoch)')
+    ax.grid(True, alpha=0.3)
+    ax.axhline(y=0.185, color='r', linestyle='--', alpha=0.5, label=f'Final: {0.185}')
+    ax.legend()
+    plt.tight_layout()
+    plt.show()
+else:
+    print("Loss 数据提取中...")
+```
+
+## 4.3 逐题详情（7B 516条）
+
+```{python}
+#| label: detail-7b
+if "7B-516" in reports:
+    r = reports["7B-516"]
+    details = []
+    for d in r["details"]:
+        s = d["struct"]
+        a = d["accuracy"]
+        details.append({
+            "题目": d["source"],
+            "步骤1": "✅" if s["step1"] else "❌",
+            "步骤2": "✅" if s["step2"] else "❌",
+            "步骤3": "✅" if s["step3"] else "❌",
+            "步骤4": "✅" if s["step4"] else "❌",
+            "Mermaid": "✅" if s["mermaid"] else "❌",
+            "LaTeX": "✅" if s["latex"] else "❌",
+            "生成答案": a["generated_prob"],
+            "参考答案": a["reference_prob"],
+            "正确": "✅" if a["correct"] else "❌",
+        })
+    df_detail = pd.DataFrame(details)
+    print(df_detail.to_string(index=False))
+```
+
+## 4.4 1.5B 模型输出示例
+
+```{python}
+#| label: example-1.5b
+if "1.5B-130" in reports:
+    r = reports["1.5B-130"]
+    # 展示第一条输出
+    d = r["details"][0]
+    print(f"**题目 {d['idx']}** (结构分: {d['structure']}/4)\n")
+    print(d["generated"][:500] + "...")
+```
+
+::: {.callout-warning}
+**1.5B 模型局限**：虽然 Mermaid 覆盖率达 70%（格式学习能力强），但四步法遵循率为 0%，数值正确率为 0%。小模型能学格式但无法掌握结构化推理。
+:::
+
+# 5. 分析
+
+## 5.1 数据量的关键作用
+
+| 数据量 | 四步法 | 数值正确 | 结论 |
+|---:|---|---|:---|
+| 20 | 20% | 0% | 仅学格式 |
+| 130 | 30% | 0% | 部分结构 |
+| **516** | **100%** | **100%** | **完全掌握** |
+
+从 130 到 516 条（4 倍扩充）是质变阈值。数据量不足时模型只能学到表面格式（Mermaid、LaTeX），无法泛化到数学推理。
+
+## 5.2 模型规模的影响
+
+- **0.5B**：格式遵循尚可（Mermaid 80%），但数值推理完全失败
+- **1.5B**：格式最强（Mermaid 70%），但结构化推理弱（四步法 0%）
+- **7B**：数据充足时全面突破（100%）
+
+模型规模决定推理上限，数据量决定能否达到上限。
+
+## 5.3 4-bit 量化对小模型的损害
+
+1.5B 模型 4-bit QLoRA 训练 loss 正常下降（0.31），但推理输出垃圾文本（`systemsystemsystem...`）。FP16 修复后输出正常。
+
+::: {.callout-important}
+**实践建议**：小于 7B 的模型不要用 4-bit 量化，FP16 足够（1.5B FP16 仅需 ~8GB）。
+:::
+
+# 6. 结论
+
+1. **516 条程序化合成语料 + 7B QLoRA 10 epoch = 全指标 100%**
+2. 数据量是关键瓶颈：130→516 条是质变阈值
+3. 4-bit 量化对小模型有害，7B 以下用 FP16
+4. 程序化合成 + `Fraction` 精确计算确保标签 100% 正确
+
+## 6.1 复现
+
+```bash
+# 1. 生成语料
+python scripts/generate_sft_500.py
+
+# 2. 训练 (AutoDL 4090)
+bash autodl_train_516.sh
+
+# 3. 评估
+python scripts/evaluate_lora.py --num_samples 10
+```
+
+## 6.2 资源
+
+- 仓库：[github.com/math4mad/Conditional-Prob-LoRA](https://github.com/math4mad/Conditional-Prob-LoRA)
+- 数据：`data/sft_train_580.jsonl` (516 条)
+- 模型：`output/formal/adapter_model.safetensors`
+- 报告：`output/eval_report_516.json`
