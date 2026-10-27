@@ -15,6 +15,7 @@ def ensure_deps():
         "trl==0.14.0",
         "accelerate>=0.26",
         "datasets>=2.16",
+        "bitsandbytes>=0.43",
     ]
     print(f"安装依赖: {deps}")
     subprocess.check_call([sys.executable, "-m", "pip", "install", "-q"] + deps)
@@ -33,9 +34,10 @@ OUTPUT_DIR = "output_1.5b"
 LORA_R = 32
 NUM_EPOCHS = 10
 MAX_LENGTH = 1536
-BATCH_SIZE = 2
-GRAD_ACCUM = 8
+BATCH_SIZE = 1       # T4 15GB, 1.5B FP16 OOM → 用 4-bit
+GRAD_ACCUM = 16      # effective batch = 16
 LR = 1e-4
+USE_4BIT = True      # QLoRA 4-bit 适配 T4 15GB
 
 def download_data():
     """查找 SFT 数据文件：Kaggle input 或 GitHub 下载"""
@@ -72,21 +74,51 @@ def load_sft_data(file_path, tokenizer, limit=None):
         formatted.append({"text": text})
     return Dataset.from_list(formatted)
 
+def find_model_path():
+    """优先从 Kaggle input 查找模型，回退到 HuggingFace ID"""
+    kaggle_input = "/kaggle/input"
+    if os.path.exists(kaggle_input):
+        for d in os.listdir(kaggle_input):
+            # 常见挂载名: qwen2.5-math, qwen25-math-1.5b 等
+            if "qwen" in d.lower() and "math" in d.lower():
+                path = os.path.join(kaggle_input, d)
+                # 检查是否有 config.json
+                for root, dirs, files in os.walk(path):
+                    if "config.json" in files:
+                        print(f"找到模型: {root}")
+                        return root
+    print(f"未找到本地模型，使用 HuggingFace: {MODEL_ID}")
+    return MODEL_ID
+
 def train():
     print("=" * 60)
     print(f"Qwen2.5-Math-1.5B-Instruct LoRA 训练")
     print(f"GPU: {torch.cuda.get_device_name(0)} ({torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB)")
     print(f"LoRA r={LORA_R}, epochs={NUM_EPOCHS}, batch={BATCH_SIZE}, grad_accum={GRAD_ACCUM}")
+    print(f"4-bit QLoRA: {USE_4BIT}")
     print("=" * 60)
 
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, trust_remote_code=True)
+    model_path = find_model_path()
+    tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    print("\n加载模型...")
-    model = AutoModelForCausalLM.from_pretrained(
-        MODEL_ID, torch_dtype=torch.float16, device_map="auto", trust_remote_code=True,
-    )
+    print(f"\n加载模型: {model_path}")
+    if USE_4BIT:
+        bnb_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.float16,
+            bnb_4bit_use_double_quant=True,
+        )
+        model = AutoModelForCausalLM.from_pretrained(
+            model_path, quantization_config=bnb_config,
+            device_map="auto", trust_remote_code=True,
+        )
+    else:
+        model = AutoModelForCausalLM.from_pretrained(
+            model_path, torch_dtype=torch.float16, device_map="auto", trust_remote_code=True,
+        )
     model.config.use_cache = False
     print(f"模型参数: {sum(p.numel() for p in model.parameters()) / 1e9:.2f}B")
 
@@ -123,7 +155,8 @@ def train():
         bf16=torch.cuda.is_bf16_supported(),
         fp16=not torch.cuda.is_bf16_supported(),
         report_to="none",
-        gradient_checkpointing=False,
+        gradient_checkpointing=USE_4BIT,  # 4-bit 需要节省显存
+        gradient_checkpointing_kwargs={"use_reentrant": False} if USE_4BIT else None,
     )
 
     trainer = SFTTrainer(model=model, args=training_args, train_dataset=dataset, processing_class=tokenizer)
