@@ -7,15 +7,16 @@ from pathlib import Path
 
 # --- 安装依赖（Kaggle script 模式不会自动跑 pip）---
 def ensure_deps():
-    deps = ["transformers>=4.44", "peft>=0.12", "trl>=0.11", "accelerate>=0.26", "datasets>=2.16"]
-    missing = []
-    try:
-        import transformers, peft, trl, accelerate, datasets
-    except ImportError:
-        missing = deps
-    if missing:
-        print(f"安装依赖: {missing}")
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "-q"] + missing)
+    deps = [
+        "transformers>=4.44,<5.0",
+        "peft==0.14.0",
+        "trl==0.14.0",
+        "accelerate>=0.26",
+        "datasets>=2.16",
+        "torchao>=0.16.0",  # 修复 peft torchao 兼容性
+    ]
+    print(f"安装依赖: {deps}")
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-q"] + deps)
 
 ensure_deps()
 
