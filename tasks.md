@@ -86,6 +86,7 @@
     - 7B QLoRA 3epoch: 四步法0% / Mermaid40% / LaTeX60% / 数值提取20% / 数值正确0%
     - 7B QLoRA 10epoch: 四步法30% / Mermaid60% / LaTeX30% / 数值提取50% / 数值正确0%
     - 1.5B FP16 10epoch (Kaggle T4): 四步法0% / Mermaid70% / LaTeX30% / 数值提取40% / 数值正确0%
-    - 结论: 130条数据+3epoch不足，需扩充数据量和epoch
+    - 7B QLoRA 516条×10epoch (AutoDL 4090): **四步法100% / Mermaid100% / LaTeX100% / 数值提取100% / 数值正确100%** ✅
+    - 结论: 516条数据(4倍扩充) + 10epoch → 全指标 100%，数值正确率从 0% 突破到 100%
   - 工具: `scripts/train_lora.py` / `scripts/evaluate_lora.py`
   - 部署: `autodl_setup.sh` / `.autoDL-SSH` (本地凭据)

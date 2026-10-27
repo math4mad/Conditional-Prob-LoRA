@@ -1,0 +1,193 @@
+{
+  "summary": {
+    "samples": 10,
+    "structure_avg": 6.4,
+    "structure_pass_rate": 1.0,
+    "accuracy_extracted": 10,
+    "accuracy_correct": 10,
+    "mermaid_coverage": 10,
+    "latex_coverage": 10
+  },
+  "details": [
+    {
+      "source": "synth-dice-1",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": "5/9",
+        "reference_prob": "5/9",
+        "correct": true,
+        "extracted": true
+      }
+    },
+    {
+      "source": "synth-dice-2",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "3/25",
+        "reference_prob": "3/25",
+        "correct": true,
+        "extracted": true
+      }
+    },
+    {
+      "source": "synth-dice-3",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": "1/6",
+        "reference_prob": "1/6",
+        "correct": true,
+        "extracted": true
+      }
+    },
+    {
+      "source": "synth-dice-4",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "1/9",
+        "reference_prob": "1/9",
+        "correct": true,
+        "extracted": true
+      }
+    },
+    {
+      "source": "synth-dice-5",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": "11/136",
+        "reference_prob": "11/136",
+        "correct": true,
+        "extracted": true
+      }
+    },
+    {
+      "source": "synth-dice-6",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": "1/8",
+        "reference_prob": "1/8",
+        "correct": true,
+        "extracted": true
+      }
+    },
+    {
+      "source": "synth-dice-7",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "1/4",
+        "reference_prob": "1/4",
+        "correct": true,
+        "extracted": true
+      }
+    },
+    {
+      "source": "synth-dice-8",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": "46/49",
+        "reference_prob": "46/49",
+        "correct": true,
+        "extracted": true
+      }
+    },
+    {
+      "source": "synth-dice-9",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": "7/40",
+        "reference_prob": "7/40",
+        "correct": true,
+        "extracted": true
+      }
+    },
+    {
+      "source": "synth-dice-10",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "4/9",
+        "reference_prob": "4/9",
+        "correct": true,
+        "extracted": true
+      }
+    }
+  ]
+}
