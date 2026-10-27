@@ -36,8 +36,19 @@ GRAD_ACCUM = 8
 LR = 1e-4
 
 def download_data():
-    """从 GitHub 下载数据"""
+    """查找 SFT 数据文件：Kaggle input 或 GitHub 下载"""
+    kaggle_input = "/kaggle/input"
+    if os.path.exists(kaggle_input):
+        # Kaggle 环境：从挂载的 dataset 中找
+        for d in os.listdir(kaggle_input):
+            candidate = os.path.join(kaggle_input, d, "sft_train_130.jsonl")
+            if os.path.exists(candidate):
+                global SFT_FILE
+                SFT_FILE = candidate
+                print(f"Kaggle dataset: {SFT_FILE}")
+                break
     if not os.path.exists(SFT_FILE):
+        # 本地/GitHub 下载
         os.system(f"wget -q https://raw.githubusercontent.com/math4mad/Conditional-Prob-LoRA/main/data/sft_train_130.jsonl -O {SFT_FILE}")
     print(f"数据: {SFT_FILE} ({sum(1 for _ in open(SFT_FILE))} lines)")
 

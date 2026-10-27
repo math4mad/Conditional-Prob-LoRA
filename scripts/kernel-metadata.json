@@ -7,7 +7,7 @@
   "is_private": true,
   "enable_gpu": true,
   "enable_internet": true,
-  "dataset_sources": [],
+  "dataset_sources": ["math4amd/conditional-prob-sft-data"],
   "kernel_sources": [],
   "competition_sources": []
 }
