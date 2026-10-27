@@ -33,7 +33,7 @@ jobs:
 
       - name: Install Python deps
         run: |
-          pip install -q pandas matplotlib tabulate
+          pip install -q pandas matplotlib tabulate jupyter pyyaml
 
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
