@@ -34,10 +34,10 @@ OUTPUT_DIR = "output_1.5b"
 LORA_R = 32
 NUM_EPOCHS = 10
 MAX_LENGTH = 1536
-BATCH_SIZE = 1       # T4 15GB, 1.5B FP16 OOM → 用 4-bit
+BATCH_SIZE = 1       # T4 15GB, 1.5B FP16 batch=1 约 8GB
 GRAD_ACCUM = 16      # effective batch = 16
 LR = 1e-4
-USE_4BIT = True      # QLoRA 4-bit 适配 T4 15GB
+USE_4BIT = False     # 1.5B 不需要 4-bit，FP16 足够（4-bit 会破坏小模型推理）
 
 def download_data():
     """查找 SFT 数据文件：Kaggle input 或 GitHub 下载"""
@@ -155,8 +155,7 @@ def train():
         bf16=torch.cuda.is_bf16_supported(),
         fp16=not torch.cuda.is_bf16_supported(),
         report_to="none",
-        gradient_checkpointing=USE_4BIT,  # 4-bit 需要节省显存
-        gradient_checkpointing_kwargs={"use_reentrant": False} if USE_4BIT else None,
+        gradient_checkpointing=False,  # 1.5B FP16 batch=1 无需节省显存
     )
 
     trainer = SFTTrainer(model=model, args=training_args, train_dataset=dataset, processing_class=tokenizer)
