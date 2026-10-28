@@ -1,0 +1,53 @@
+{
+  "layers": {
+    "oodparam": {
+      "n": 12,
+      "fs": 12,
+      "num": 0,
+      "align": 3,
+      "mermaid": 12,
+      "latex": 12
+    },
+    "oodnew": {
+      "n": 38,
+      "fs": 29,
+      "num": 1,
+      "align": 21,
+      "mermaid": 30,
+      "latex": 36
+    },
+    "oodhard": {
+      "n": 8,
+      "fs": 7,
+      "num": 0,
+      "align": 2,
+      "mermaid": 8,
+      "latex": 8
+    }
+  },
+  "complexity": {
+    "训练集答案": [
+      39.113680154142585,
+      20,
+      5000
+    ],
+    "OOD 真值": [
+      27.586206896551722,
+      125,
+      152587890625
+    ],
+    "OOD 模型生成": [
+      51.02040816326531,
+      11,
+      2813
+    ]
+  },
+  "align_failures": {
+    "c5_ratio": 24,
+    "c1_syntax": 11,
+    "c6_steps": 10,
+    "c2_node_consistency": 10,
+    "c3_prob_labels": 9,
+    "c4_names": 12
+  }
+}
