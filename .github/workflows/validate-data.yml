@@ -1,0 +1,80 @@
+name: Validate Data & Checks
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/generate_sft_500.py'
+      - 'scripts/generate_ood_test.py'
+      - 'scripts/check_mermaid_alignment.py'
+      - 'scripts/eval_kg_quality.py'
+      - 'data/sft_train_580.jsonl'
+      - 'data/test_ood.jsonl'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: P1 self-validation (reference outputs must fully align)
+        run: |
+          python scripts/check_mermaid_alignment.py \
+            --mode reference --file data/sft_train_580.jsonl \
+            --output output/alignment_reference.json \
+            | tee /tmp/p1.txt
+          # C1/C3/C4 必须 100%；C5 至少 95%；C6 容许教材原题风格差异
+          python - <<'PY'
+          import json, sys
+          r = json.load(open("output/alignment_reference.json"))["per_check"]
+          hard = ["c1_syntax", "c3_prob_labels", "c4_names"]
+          fail = []
+          for k in hard:
+              p, n = r[k]["pass"], r[k]["n"]
+              if n and p / n < 1.0:
+                  fail.append(f"{k}: {p}/{n}")
+          for k, thr in (("c5_ratio", 0.95), ("c2_node_consistency", 0.98)):
+              p, n = r[k]["pass"], r[k]["n"]
+              if n and p / n < thr:
+                  fail.append(f"{k}: {p}/{n} < {thr}")
+          if fail:
+              print("P1 自验证失败:", "; ".join(fail)); sys.exit(1)
+          print("P1 自验证通过 ✓")
+          PY
+
+      - name: OOD isolation check (must not overlap training set)
+        run: |
+          python - <<'PY'
+          import json, re, sys
+          def load(p):
+              return [json.loads(l) for l in open(p, encoding="utf-8") if l.strip()]
+          tr, ood = load("data/sft_train_580.jsonl"), load("data/test_ood.jsonl")
+          ti = set(r["input"] for r in tr)
+          nums = lambda t: tuple(sorted(re.findall(r"\d+", t)))
+          tn = set(nums(r["input"]) for r in tr)
+          oi = sum(1 for r in ood if r["input"] in ti)
+          on = sum(1 for r in ood if nums(r["input"]) in tn)
+          print(f"OOD 样本 {len(ood)}; 输入文本重叠 {oi}; 数字组合重叠 {on}")
+          if oi or on:
+              print("OOD 隔离性失败：测试集与训练集存在重叠"); sys.exit(1)
+          print("OOD 隔离性通过 ✓")
+          PY
+
+      - name: KG quality metrics (must not regress)
+        run: |
+          python scripts/eval_kg_quality.py --output output/kg_quality.json | tail -12
+          python - <<'PY'
+          import json, sys
+          r = json.load(open("output/kg_quality.json"))
+          b = r["p2b_emoji_numeric"]["overall_rate"]
+          c = r["p2c_same_source_clustering"]["c1_purity"]
+          print(f"P2-b 查询准确率 {b:.1%}, P2-c 纯度 {c:.1%}")
+          if b < 0.85 or c < 0.90:
+              print("KG 指标回退"); sys.exit(1)
+          print("KG 指标通过 ✓")
+          PY

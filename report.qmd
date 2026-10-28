@@ -406,3 +406,85 @@ if ref_path.exists() and gen_path.exists():
 else:
     print("等待对齐检查结果文件…")
 ```
+
+## 7.7 OOD 泛化结果（分层）
+
+```{python}
+#| label: ood-layers
+#| fig-cap: "OOD 测试集分层表现：结构遵循率 / 数值正确率 / Mermaid 对齐率"
+#| fig-width: 9
+#| fig-height: 4
+import json
+from pathlib import Path
+from collections import defaultdict
+
+ood_rep = Path("output/eval_ood.json")
+if ood_rep.exists():
+    rep = json.loads(ood_rep.read_text(encoding="utf-8"))
+    det = rep["details"]
+    layers = {"oodparam": "OOD-Param\n参数外推", "oodnew": "OOD-New\n新题型",
+              "oodhard": "OOD-Hard\n极限"}
+    agg = defaultdict(lambda: {"n": 0, "fs": 0, "num": 0, "align": 0})
+    for d in det:
+        lay = d["source"].split("-")[0]
+        a = agg[lay]
+        a["n"] += 1
+        a["fs"] += all(d["struct"][f"step{i}"] for i in range(1, 5))
+        a["num"] += d["accuracy"]["correct"]
+        al = d.get("alignment")
+        a["align"] += bool(al) and all(v is not False for v in al["checks"].values())
+    keys = [k for k in layers if k in agg]
+    if keys:
+        fig, axes = plt.subplots(1, 3, figsize=(9, 3.2), sharey=True)
+        metrics = [("四步法完整率", "fs", "#0d6efd"),
+                   ("数值正确率", "num", "#dc3545"),
+                   ("Mermaid 对齐通过率", "align", "#28a745")]
+        for ax, (title, key, color) in zip(axes, metrics):
+            vals = [agg[k][key] / agg[k]["n"] for k in keys]
+            bars = ax.bar([layers[k] for k in keys], vals, color=color, alpha=0.85, width=0.55)
+            ax.set_ylim(0, 1.08); ax.set_title(title, fontsize=11)
+            ax.tick_params(axis="x", labelsize=8)
+            for b, v, k in zip(bars, vals, keys):
+                ax.text(b.get_x() + b.get_width()/2, v + 0.02,
+                        f"{v*100:.0f}%\n(n={agg[k]['n']})", ha="center", fontsize=9)
+        axes[0].set_ylabel("通过率")
+        plt.tight_layout(); plt.show()
+        print("\nOOD 汇总:", json.dumps(rep.get("summary", {}), ensure_ascii=False))
+    else:
+        print("等待 OOD 评估结果…")
+else:
+    print("等待 OOD 评估结果（需 AutoDL GPU 运行）…")
+```
+
+## 7.8 GraphRAG 增强效果对比
+
+```{python}
+#| label: graphrag-compare
+#| fig-cap: "无 GraphRAG vs 有 GraphRAG（7B LoRA，58 条 OOD 测试集）"
+#| fig-width: 8
+#| fig-height: 3.8
+gr_path = Path("output/eval_graphrag_ood.json")
+if gr_path.exists():
+    gr = json.loads(gr_path.read_text(encoding="utf-8"))["results"]
+    if "baseline" in gr and "graphrag" in gr:
+        b, g = gr["baseline"]["summary"], gr["graphrag"]["summary"]
+        metrics = [("four_step_rate", "四步法完整率"), ("num_correct_rate", "数值正确率"),
+                   ("alignment_rate", "Mermaid 对齐率"), ("mermaid_rate", "Mermaid 覆盖率")]
+        bv = [b.get(k, 0) for k, _ in metrics]
+        gv = [g.get(k, 0) for k, _ in metrics]
+        x = range(len(metrics)); w = 0.36
+        fig, ax = plt.subplots(figsize=(8, 3.8))
+        ax.bar([i - w/2 for i in x], bv, w, label="无 GraphRAG", color="#6c757d", alpha=0.9)
+        ax.bar([i + w/2 for i in x], gv, w, label="有 GraphRAG", color="#0d6efd", alpha=0.9)
+        ax.set_xticks(list(x)); ax.set_xticklabels([m[1] for m in metrics])
+        ax.set_ylim(0, 1.08); ax.set_ylabel("通过率"); ax.set_title("GraphRAG 检索增强对 OOD 表现的影响")
+        ax.legend(); ax.grid(axis="y", alpha=0.3)
+        for i, (u, v) in enumerate(zip(bv, gv)):
+            ax.text(i - w/2, u + 0.015, f"{u*100:.0f}%", ha="center", fontsize=9)
+            ax.text(i + w/2, v + 0.015, f"{v*100:.0f}%", ha="center", fontsize=9)
+        plt.tight_layout(); plt.show()
+    else:
+        print("等待 GraphRAG 对比结果…")
+else:
+    print("等待 GraphRAG 对比结果（需 AutoDL GPU 运行）…")
+```
