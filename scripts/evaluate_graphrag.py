@@ -49,6 +49,13 @@ PROTO_KEYWORDS = [
     ("串联系统", ["串联", "生产线", "部件"]),
 ]
 
+# 解题结构特征词：用于在同原型内挑选结构最贴近的范例
+STRUCT_FEATURES = [
+    "放回", "不放回", "至少", "恰好", "两次", "三次", "连续",
+    "独立", "同时", "先后", "抽取", "投掷", "骰子", "坛子", "硬币",
+    "条件", "给定", "已知", "对", "表",
+]
+
 
 def infer_proto(text):
     """从题目文本推断数学原型。"""
@@ -106,8 +113,13 @@ class GraphRAGRetriever:
         }
         return mapping.get(prefix)
 
-    def retrieve(self, question, k=1, max_chars=1200):
-        """检索与问题同原型的代表性解答。"""
+    def retrieve(self, question, k=1, max_chars=700):
+        """检索与问题同原型的代表性解答。
+
+        选取策略：在同原型的训练样例中，按"结构特征词"与当前题的
+        相似度排序（放回/不放回、至少/恰好、连续/两次…），
+        再从结构完整（四步法齐全）且较简洁的样例中挑一条。
+        """
         proto = infer_proto(question)
         if not proto:
             return "", None
@@ -118,21 +130,36 @@ class GraphRAGRetriever:
                 cands.extend(items)
         if not cands:
             return "", proto
-        # 选取结构完整（四步法齐全）且长度适中的样例
+
+        # 结构相似度排序
+        qf = {f for f in STRUCT_FEATURES if f in question}
+
+        def sim(c):
+            ef = {f for f in STRUCT_FEATURES if f in c["input"] + c["output"][:400]}
+            return len(qf & ef) - 0.1 * abs(len(qf) - len(ef))
+
+        cands = sorted(cands, key=sim, reverse=True)
+        # 结构完整（四步法齐全）优先
         good = [c for c in cands
                 if all(re.search(rf"#{{2,3}}\s*{i}\s*[\.、]", c["output"]) for i in range(1, 5))]
         pool = good or cands
-        pool = sorted(pool, key=lambda x: len(x["output"]))
-        mid = len(pool) // 2
-        picked = [pool[mid]] if pool else []
-        for c in picked[:k]:
-            snippet = c["output"][:max_chars]
-            emoji = self.emoji_by_proto.get(proto, [])
-            ctx = (f"【知识图谱检索】该问题属于「{proto}」数学原型"
-                   f"（图谱中的 Emoji 表征：{', '.join(emoji) if emoji else '无'}）。\n"
-                   f"【参考范例解答】\n{snippet}")
-            return ctx, proto
-        return "", proto
+        if not pool:
+            return "", proto
+        # 选结构最相似且较简洁（长度偏中下）的一条
+        best = min(pool[:max(3, len(pool) // 8)],
+                   key=lambda c: abs(len(c["output"]) - 900))
+        snippet = best["output"][:max_chars]
+        emoji = self.emoji_by_proto.get(proto, [])
+        emoji_txt = "、".join(emoji[:3]) if emoji else "无"
+        if len(emoji) > 3:
+            emoji_txt += f" 等 {len(emoji)} 种"
+        ctx = (f"【知识图谱检索结果】\n"
+               f"本题属于「{proto}」数学原型"
+               f"（图谱中的 Emoji 表征：{emoji_txt}）。\n"
+               f"以下范例仅供参考解题结构与表述风格，"
+               f"其中的数值属于范例题的条件，必须依据本题条件重新计算。\n"
+               f"---范例---\n{snippet}")
+        return ctx, proto
 
 
 # ============================================================
@@ -166,6 +193,7 @@ def evaluate_structure(text):
 
 
 def run_inference(model, tokenizer, instruction, input_text, max_tokens=512):
+    import torch
     messages = [
         {"role": "system", "content": instruction},
         {"role": "user", "content": input_text},
