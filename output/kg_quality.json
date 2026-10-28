@@ -1,0 +1,440 @@
+{
+  "kg_stats": {
+    "nodes": 732,
+    "edges": 1583,
+    "node_types": {
+      "Source": 5,
+      "ProblemText": 130,
+      "Numerical": 114,
+      "Emoji": 29,
+      "SolutionStep": 454
+    }
+  },
+  "p2b_emoji_numeric": {
+    "b1_consistency": {
+      "pass": 79,
+      "n": 79,
+      "rate": 1.0,
+      "inconsistent": 0,
+      "orphan": 0
+    },
+    "b2_holdout": {
+      "hit": 15,
+      "n": 15,
+      "rate": 1.0,
+      "holdout_size": 15
+    },
+    "b3_query_compat": {
+      "pass": 58,
+      "n": 79,
+      "rate": 0.7341772151898734
+    },
+    "overall_rate": 0.9113924050632911,
+    "details": [
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:两枚骰子",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:4面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:两枚骰子",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:12面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:4面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:4面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:8面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:4面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:两枚骰子",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:4面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:8面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:8面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:12面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:4面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:4面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:8面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:8面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:8面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:12面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁",
+        "numerical": "数值:12面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚪⚫⚫⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×5",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚪⚫⚫⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×5",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚪⚫⚫⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×5",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟠",
+        "numerical": "数值:3枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪🔴🔴🔴🔴⚪⚪⚪⚪⚪⚪⚪⚪🔴🔴🔴",
+        "numerical": "数值:白球×2",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁⚂",
+        "numerical": "数值:12面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁⚂",
+        "numerical": "数值:12面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁⚂",
+        "numerical": "数值:4面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁⚂",
+        "numerical": "数值:三枚骰子",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁⚂",
+        "numerical": "数值:12面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁⚂",
+        "numerical": "数值:8面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁⚂",
+        "numerical": "数值:8面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁⚂",
+        "numerical": "数值:三枚骰子",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁⚂",
+        "numerical": "数值:4面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁⚂",
+        "numerical": "数值:4面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚀⚁⚂",
+        "numerical": "数值:4面骰",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚪⚪⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×6",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚫⚫⚫⚫",
+        "numerical": "数值:白球×2",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚫⚫",
+        "numerical": "数值:白球×2",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚫⚫⚫⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×2",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚫⚫⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×4",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚪⚪⚪⚫⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×7",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚪⚪⚪⚫⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×7",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚪⚪⚪⚪⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×8",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚪⚪⚪⚪⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×8",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚫⚫⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×2",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚪⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×5",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚫⚫⚫",
+        "numerical": "数值:白球×3",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚪⚫⚫⚫",
+        "numerical": "数值:白球×5",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚪⚪⚪⚪⚫⚫",
+        "numerical": "数值:白球×8",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×3",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚫⚫⚫⚫",
+        "numerical": "数值:白球×3",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚪⚪⚫⚫⚫⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×6",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚪⚪⚫⚫",
+        "numerical": "数值:白球×6",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚪⚪⚪⚫⚫⚫⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×7",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚪⚪⚫⚫⚫",
+        "numerical": "数值:白球×6",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚫⚫⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×3",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×4",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:⚪⚪⚪⚪⚪⚪⚫⚫⚫⚫⚫⚫",
+        "numerical": "数值:白球×6",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣🟣🟣",
+        "numerical": "数值:4枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣🟣🟣",
+        "numerical": "数值:4枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣🟣🟣",
+        "numerical": "数值:4枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣🟣🟣",
+        "numerical": "数值:4枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣🟣🟣",
+        "numerical": "数值:4枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣🟣🟣",
+        "numerical": "数值:4枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣🟣🟣",
+        "numerical": "数值:4枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣🟣🟣",
+        "numerical": "数值:4枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣🟣",
+        "numerical": "数值:3枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣🟣",
+        "numerical": "数值:3枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣🟣",
+        "numerical": "数值:3枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣🟣",
+        "numerical": "数值:3枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣🟣",
+        "numerical": "数值:3枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣🟣",
+        "numerical": "数值:3枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣🟣",
+        "numerical": "数值:3枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣",
+        "numerical": "数值:2枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣",
+        "numerical": "数值:2枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣",
+        "numerical": "数值:2枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣",
+        "numerical": "数值:2枚硬币",
+        "status": "ok"
+      },
+      {
+        "emoji": "Emoji:🟣🟣",
+        "numerical": "数值:2枚硬币",
+        "status": "ok"
+      }
+    ]
+  },
+  "p2c_same_source_clustering": {
+    "c1_purity": 0.9457364341085271,
+    "c2_nmi": 0.8740389929352124,
+    "c3_ari": 0.8824358647216777,
+    "c4_emoji_same_structure": 1.0,
+    "n_labeled": 129,
+    "n_clusters": 5,
+    "n_same_source_edges": 470
+  }
+}
