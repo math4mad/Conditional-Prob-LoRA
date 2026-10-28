@@ -1,0 +1,224 @@
+{
+  "mode": "report",
+  "report_file": "output/eval_report_1.5b.json",
+  "n": 9,
+  "per_check": {
+    "c1_syntax": {
+      "pass": 3,
+      "n": 9
+    },
+    "c6_steps": {
+      "pass": 1,
+      "n": 9
+    },
+    "c2_node_consistency": {
+      "pass": 4,
+      "n": 9
+    },
+    "c3_prob_labels": {
+      "pass": 4,
+      "n": 9
+    },
+    "c4_names": {
+      "pass": 4,
+      "n": 9
+    },
+    "c5_ratio": {
+      "pass": 0,
+      "n": 5
+    }
+  },
+  "all_pass": 0,
+  "all_pass_rate": 0.0,
+  "rows": [
+    {
+      "source": 1,
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "block1: no flowchart header; block2: no flowchart header",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "3/3 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": 2,
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": false,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "节点标签无可比对数值",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": 3,
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": 4,
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": 5,
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": 6,
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": 7,
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": false,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "节点标签无可比对数值",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": 9,
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": 10,
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": false,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "4/4 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    }
+  ]
+}
