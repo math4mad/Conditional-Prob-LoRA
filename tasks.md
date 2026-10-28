@@ -94,3 +94,25 @@
 Phase 5: 测试
   - ref: ./external/dilalogue2.md
   - 按照 ### 🧪 第三层：下一步验证清单（按优先级排序）  逐步做测试
+  - [x] **P0-a** 工具 CLI 改造 (`generate_sft_500.py` / `evaluate_lora.py` 支持 seed/test_file/report_name)
+  - [x] **P0-b** 真 OOD 测试集 (`data/test_ood.jsonl`, 58条)
+    - 方法论纠正: 仅换随机种子无效 —— 与训练集数字组合重叠 25/39 (64%)，因参数空间过小
+    - 改为三层递进: OOD-Param(12-30球) / OOD-New(8个新题型) / OOD-Hard(40-80球+多层贝叶斯)
+    - 隔离性: 输入文本重叠 0/58，数字组合重叠 0/58，11个题型训练集从未出现
+    - 工具: `scripts/generate_ood_test.py`
+  - [x] **P1** Mermaid 语义对齐检查器 (`scripts/check_mermaid_alignment.py`)
+    - 6 项检查: C1语法 / C2节点计数 / C3概率标签 / C4名称 / C5比例 / C6四步法
+    - 自验证: 450/450 合成参考输出全项 100% 通过 (证明检查器本身正确)
+    - **发现真实缺陷1**: 训练数据 Bayes 题型 Mermaid `Posterior --> "标签"` 缺目标节点(非法语法) -> 已修复
+    - **发现真实缺陷2**: 1.5B 模型 Mermaid 碎片化(3块仅1块有 flowchart 头) -> C1 通过率仅 33.3%
+    - 工具已用于 `evaluate_lora.py` / `evaluate_graphrag.py` 的输出校验
+  - [x] **P2-b/c** KG 质量量化 (`scripts/eval_kg_quality.py`)
+    - P2-b Emoji<->Numerical 查询准确率 91.1% (B1一致性100% / B2留出预测100% / B3语义73.4%)
+    - P2-c 同源聚类: 纯度94.6% / NMI 0.874 / ARI 0.882 / Emoji同构100%
+    - 发现: emoji_to_num 为 1:1 映射，但 Emoji 序列编码多参数 -> 信息丢失，建议改 1:N
+    - 方法论自纠: ground truth 改用独立数学原型标注(非 source 字符串)，纯度 75.2%->94.6%
+  - [x] **P2-a** GraphRAG 对比脚本 (`scripts/evaluate_graphrag.py`)
+    - 检索路径: Source->Emoji/Problem->Numerical 三跳，注入同原型范例解答
+    - 远端冒烟发现并修复 2 个 bug: torch 作用域错误、GraphRAG 注入策略不当(反而变差)
+  - [ ] **P0-c** 7B 在 58 条 OOD 测试集上的泛化评估 (AutoDL 4090, `autodl_phase5.sh` 运行中)
+  - [ ] **P2-a** 完整 GraphRAG 对比实验 (OOD 58 条 x 2 变体，随 P0-c 一并执行)

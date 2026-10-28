@@ -23,6 +23,15 @@ from peft import PeftModel
 BASE_DIR = Path(__file__).resolve().parent.parent
 SFT_FILE = BASE_DIR / "data" / "sft_train_130.jsonl"
 
+# P1: Mermaid 语义对齐检查（与检查器同目录导入）
+try:
+    import sys as _sys
+    _sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from check_mermaid_alignment import check_alignment
+    _HAS_ALIGNMENT = True
+except Exception:      # 检查器缺失时退化为仅结构统计
+    _HAS_ALIGNMENT = False
+
 
 def load_test_data(limit: int = 20, test_file: str = None):
     """加载测试数据。test_file 可指定 OOD 测试集路径。"""
@@ -191,10 +200,27 @@ def evaluate(model_path: str, adapter_path: str = None, num_samples: int = 20,
         print(f"  [{i+1:2d}] 结构:{struct_pct:3.0f}% {acc_str} "
               f"gen={acc['generated_prob']} ref={acc['reference_prob']}")
 
+        # P1: Mermaid 语义对齐检查
+        align = None
+        if _HAS_ALIGNMENT:
+            try:
+                align = check_alignment(generated)
+            except Exception as e:
+                align = {"checks": {}, "score": 0, "total": 0, "details": str(e)}
+        if align:
+            stats.setdefault("alignment_pass", 0)
+            stats.setdefault("alignment_total", 0)
+            stats["alignment_total"] += 1
+            if all(v is not False for v in align["checks"].values()):
+                stats["alignment_pass"] += 1
+            stats.setdefault("alignment_scores", []).append(align["score"])
+
         stats["structure_details"].append({
             "source": r["source"],
             "struct": struct["checks"],
             "accuracy": acc,
+            "generated": generated,
+            "alignment": align,
         })
 
     # 汇总
@@ -220,20 +246,34 @@ def evaluate(model_path: str, adapter_path: str = None, num_samples: int = 20,
     print(f"\nMermaid 覆盖率: {mermaid_count}/{len(test_data)} ({mermaid_count/len(test_data)*100:.1f}%)")
     print(f"LaTeX 覆盖率: {latex_count}/{len(test_data)} ({latex_count/len(test_data)*100:.1f}%)")
 
+    # P1 对齐汇总
+    if _HAS_ALIGNMENT and stats.get("alignment_total"):
+        ap, at = stats["alignment_pass"], stats["alignment_total"]
+        avg_as = sum(stats.get("alignment_scores", [0])) / max(len(stats.get("alignment_scores", [1])), 1)
+        print(f"\nP1 Mermaid 语义对齐: {ap}/{at} ({ap/at*100:.1f}%)")
+        print(f"  平均对齐分: {avg_as:.2f}")
+
     # 保存详细结果
     report_path = BASE_DIR / "output" / f"{report_name}.json"
     with open(report_path, "w", encoding="utf-8") as f:
+        summary = {
+            "samples": len(test_data),
+            "structure_avg": avg_struct,
+            "structure_pass_rate": struct_pass_rate,
+            "accuracy_extracted": stats["accuracy_extracted"],
+            "accuracy_correct": stats["accuracy_correct"],
+            "mermaid_coverage": mermaid_count,
+            "latex_coverage": latex_count,
+        }
+        if _HAS_ALIGNMENT and stats.get("alignment_total"):
+            summary["alignment_pass"] = stats["alignment_pass"]
+            summary["alignment_total"] = stats["alignment_total"]
+            summary["alignment_rate"] = stats["alignment_pass"] / stats["alignment_total"]
+            summary["alignment_avg_score"] = (
+                sum(stats.get("alignment_scores", [0])) / max(len(stats.get("alignment_scores", [1])), 1))
         json.dump({
             "test_file": test_file or str(SFT_FILE),
-            "summary": {
-                "samples": len(test_data),
-                "structure_avg": avg_struct,
-                "structure_pass_rate": struct_pass_rate,
-                "accuracy_extracted": stats["accuracy_extracted"],
-                "accuracy_correct": stats["accuracy_correct"],
-                "mermaid_coverage": mermaid_count,
-                "latex_coverage": latex_count,
-            },
+            "summary": summary,
             "details": stats["structure_details"],
         }, f, ensure_ascii=False, indent=2)
     print(f"\n📄 评估报告: {report_path}")
