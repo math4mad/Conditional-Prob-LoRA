@@ -1,0 +1,2280 @@
+{
+  "test_file": "data/test_ood.jsonl",
+  "summary": {
+    "samples": 58,
+    "structure_avg": 6.293103448275862,
+    "structure_pass_rate": 0.9482758620689655,
+    "accuracy_extracted": 49,
+    "accuracy_correct": 1,
+    "mermaid_coverage": 50,
+    "latex_coverage": 56,
+    "alignment_pass": 26,
+    "alignment_total": 58,
+    "alignment_rate": 0.4482758620689655,
+    "alignment_avg_score": 4.206896551724138
+  },
+  "details": [
+    {
+      "source": "oodparam-urn-1",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "212/243",
+        "reference_prob": "7017/8309",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n坛子有 $\\{28\\text{白}, 19\\text{黑}\\}$，不放回取4个球。\n样本空间为所有有序抽取序列，$|\\Omega| = P(47,4) = 1038900$。\n\n## 2. 筛选条件子空间\n条件 $B$：「至少一白」。\n筛选后 $|B| = 899460$。\n每个序列在 $B$ 下概率为 $1/|B|$。\n\n## 3. 确定目标事件\n目标 $A$：「至少两白」。\n交集 $|A \\cap B| = 787320$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{787320}{899460} = 212/243$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"坛子: 28白+19黑<br/>共47球\"] -->|\"不放回取4个\"| Draw[\"Ω: 1038900种序列\"]\n    Draw -->|\"至少一白\"| B[\"B: 899460种\"]\n    B -->|\"至少两白: 787320种\"| AB[\"A∩B: 787320种\"]\n    B -->|\"不满足: 1117340种\"| NotA[\"B-A: 1117340种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 至少两白 ($A$) | 787320 | $212/243$ |\n| 不满足 ($A^c$) | 1117340 | $131/243$ |\n| **总计** | **899460** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "7/7 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 4374/4997 vs 正文 212/243"
+        },
+        "score": 5,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodparam-urn-2",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "3/4",
+        "reference_prob": "19/32",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n坛子有 $\\{20\\text{白}, 13\\text{黑}\\}$，不放回取4个球。\n样本空间为所有有序抽取序列，$|\\Omega| = P(33,4) = 408240$。\n\n## 2. 筛选条件子空间\n条件 $B$：「第一球为白」。\n筛选后 $|B| = 302400$。\n每个序列在 $B$ 下概率为 $1/302400$。\n\n## 3. 确定目标事件\n目标 $A$：「第二球为白」。\n交集 $|A \\cap B| = 226800$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{226800}{302400} = 3/4$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"坛子: 20白13黑<br/>共33球\"] -->|\"不放回取4个\"| Draw[\"Ω: 408240种序列\"]\n    Draw -->|\"第一球为白\"| B[\"B: 302400种\"]\n    B -->|\"第二球为白: 226800种\"| AB[\"A∩B: 226800种\"]\n    B -->|\"不满足: 75600种\"| NotA[\"B-A: 75600种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 第二球为白 ($A$) | 226800 | $3/4$ |\n| 不满足 ($A^c$) | 75600 | $1/4$ |\n| **总计** | **302400** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": true
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "7/7 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 3/4 vs 正文 3/4"
+        },
+        "score": 6,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodparam-urn-3",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "6/11",
+        "reference_prob": "4/9",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n坛子有 $\\{21\\text{白}, 25\\text{黑}\\}$，不放回取3个球。\n样本空间为所有有序抽取序列，$|\\Omega| = P(46,3) = 93020$。\n\n## 2. 筛选条件子空间\n条件 $B$：「第一球为白」。\n筛选后 $|B| = 48420$。\n每个序列在 $B$ 下概率为 $1/48420$。\n\n## 3. 确定目标事件\n目标 $A$：「第二球为白」。\n交集 $|A \\cap B| = 21960$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{21960}{48420} = 6/11$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"坛子: 21白+25黑<br/>共46球\"] -->|\"不放回取3个\"| Draw[\"Ω: 93020种序列\"]\n    Draw -->|\"第一球为白\"| B[\"B: 48420种\"]\n    B -->|\"第二球为白: 21960种\"| AB[\"A∩B: 21960种\"]\n    B -->|\"不满足: 26460种\"| NotA[\"B-A: 26460种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 第二球为白 ($A$) | 21960 | $6/11$ |\n| 不满足 ($A^c$) | 26460 | $5/11$ |\n| **总计** | **48420** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "7/7 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 122/269 vs 正文 6/11"
+        },
+        "score": 5,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodparam-urn-4",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "11/1407",
+        "reference_prob": "396/218081",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n坛子有 $\\{12\\text{白}, 26\\text{黑}\\}$，不放回取5个球。\n样本空间为所有有序抽取序列，$|\\Omega| = P(38,5) = 1168440$。\n\n## 2. 筛选条件子空间\n条件 $B$：「至少一白」。\n筛选后 $|B| = 1126800$。\n每个序列在 $B$ 下概率为 $1/1126800$。\n\n## 3. 确定目标事件\n目标 $A$：「全为白」。\n交集 $|A \\cap B| = 9240$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{9240}{1126800} = 11/1407$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"坛子: 12白+26黑<br/>共38球\"] -->|\"不放回取5个\"| Draw[\"Ω: 1168440种序列\"]\n    Draw -->|\"至少一白\"| B[\"B: 1126800种\"]\n    B -->|\"全为白: 9240种\"| AB[\"A∩B: 9240种\"]\n    B -->|\"不满足: 1117560种\"| NotA[\"B-A: 1117560种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 全为白 ($A$) | 9240 | $11/1407$ |\n| 不满足 ($A^c$) | 1117560 | $1396/1407$ |\n| **总计** | **1126800** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "7/7 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 77/9390 vs 正文 11/1407"
+        },
+        "score": 5,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodparam-urn-5",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "1/672",
+        "reference_prob": "77/6327",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n坛子有 $\\{15\\text{白}, 25\\text{黑}\\}$，不放回取5个球。\n样本空间为所有有序抽取序列，$|\\Omega| = P(40,5) = 658627200$。\n\n## 2. 筛选条件子空间\n条件 $B$：「第一球为白」。\n筛选后 $|B| = 244862880$。\n每个序列在 $B$ 下概率为 $1/244862880$。\n\n## 3. 确定目标事件\n目标 $A$：「全为白」。\n交集 $|A \\cap B| = 362880$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{362880}{244862880} = 1/672$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"坛子: 15白+25黑<br/>共40球\"] -->|\"不放回取5个\"| Draw[\"Ω: 658627200种序列\"]\n    Draw -->|\"第一球为白\"| B[\"B: 244862880种\"]\n    B -->|\"全为白: 362880种\"| AB[\"A∩B: 362880种\"]\n    B -->|\"不满足: 244500096种\"| NotA[\"B-A: 244500096种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 全为白 ($A$) | 362880 | $1/672$ |\n| 不满足 ($A^c$) | 244500096 | $671/672$ |\n| **总计** | **244862880** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "7/7 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 756/510131 vs 正文 1/672"
+        },
+        "score": 5,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodparam-urn-6",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "5/8",
+        "reference_prob": "952/1425",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n坛子有 $\\{24\\text{白}, 12\\text{黑}\\}$，不放回取5个球。\n样本空间为所有有序抽取序列，$|\\Omega| = P(36,5) = 3280320$。\n\n## 2. 筛选条件子空间\n条件 $B$：「至少一白」。\n筛选后 $|B| = 3278784$。\n每个序列在 $B$ 下概率为 $1/3278784$。\n\n## 3. 确定目标事件\n目标 $A$：「第二球为白」。\n交集 $|A \\cap B| = 2150400$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{2150400}{3278784} = 5/8$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"坛子: 24白12黑<br/>共36球\"] -->|\"不放回取5个\"| Draw[\"Ω: 3280320种序列\"]\n    Draw -->|\"至少一白\"| B[\"B: 3278784种\"]\n    B -->|\"第二球为白: 2150400种\"| AB[\"A∩B: 2150400种\"]\n    B -->|\"不满足: 1128384种\"| NotA[\"B-A: 1128384种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 第二球为白 ($A$) | 2150400 | $5/8$ |\n| 不满足 ($A^c$) | 1128384 | $3/8$ |\n| **总计** | **3278784** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "7/7 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 11200/17077 vs 正文 5/8"
+        },
+        "score": 5,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodparam-urn-7",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "5/583",
+        "reference_prob": "13/1419",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n坛子有 $\\{16\\text{白}, 30\\text{黑}\\}$，不放回取5个球。\n样本空间为所有有序抽取序列，$|\\Omega| = P(46,5) = 1685040$。\n\n## 2. 筛选条件子空间\n条件 $B$：「第一球为白」。\n筛选后 $|B| = 722016$。\n每个序列在 $B$ 下概率为 $1/722016$。\n\n## 3. 确定目标事件\n目标 $A$：「全为白」。\n交集 $|A \\cap B| = 5760$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{5760}{722016} = 5/583$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"坛子: 16白30黑<br/>共46球\"] -->|\"不放回取5个\"| Draw[\"Ω: 1685040种序列\"]\n    Draw -->|\"第一球为白\"| B[\"B: 722016种\"]\n    B -->|\"全为白: 5760种\"| AB[\"A∩B: 5760种\"]\n    B -->|\"不满足: 664296种\"| NotA[\"B-A: 664296种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 全为白 ($A$) | 5760 | $5/583$ |\n| 不满足 ($A^c$) | 664296 | $578/583$ |\n| **总计** | **722016** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "7/7 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 20/2507 vs 正文 5/583"
+        },
+        "score": 5,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodparam-urn-8",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "3/55",
+        "reference_prob": "13/248",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n坛子有 $\\{14\\text{白}, 20\\text{黑}\\}$，不放回取4个球。\n样本空间为所有有序抽取序列，$|\\Omega| = P(34,4) = 29240$。\n\n## 2. 筛选条件子空间\n条件 $B$：「第一球为白」。\n筛选后 $|B| = 23800$。\n每个序列在 $B$ 下概率为 $1/23800$。\n\n## 3. 确定目标事件\n目标 $A$：「全为白」。\n交集 $|A \\cap B| = 1260$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{1260}{23800} = 3/55$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"坛子: 14白20黑<br/>共34球\"] -->|\"不放回取4个\"| Draw[\"Ω: 29240种序列\"]\n    Draw -->|\"第一球为白\"| B[\"B: 23800种\"]\n    B -->|\"全为白: 1260种\"| AB[\"A∩B: 1260种\"]\n    B -->|\"不满足: 22540种\"| NotA[\"B-A: 22540种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 全为白 ($A$) | 1260 | $3/55$ |\n| 不满足 ($A^c$) | 22540 | $52/55$ |\n| **总计** | **23800** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "7/7 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 9/170 vs 正文 3/55"
+        },
+        "score": 5,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodparam-urn-9",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "13/29",
+        "reference_prob": "9/23",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n坛子有 $\\{19\\text{白}, 28\\text{黑}\\}$，不放回取4个球。\n样本空间为所有有序抽取序列，$|\\Omega| = P(47,4) = 5080320$。\n\n## 2. 筛选条件子空间\n条件 $B$：「第一球为白」。\n筛选后 $|B| = 2150400$。\n每个序列在 $B$ 下概率为 $1/2150400$。\n\n## 3. 确定目标事件\n目标 $A$：「第二球为白」。\n交集 $|A \\cap B| = 968400$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{968400}{2150400} = 13/29$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"坛子: 19白+28黑<br/>共47球\"] -->|\"不放回取4个\"| Draw[\"Ω: 5080320种序列\"]\n    Draw -->|\"第一球为白\"| B[\"B: 2150400种\"]\n    B -->|\"第二球为白: 968400种\"| AB[\"A∩B: 968400种\"]\n    B -->|\"不满足: 1182000种\"| NotA[\"B-A: 1182000种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 第二球为白 ($A$) | 968400 | $13/29$ |\n| 不满足 ($A^c$) | 1182000 | $16/29$ |\n| **总计** | **2150400** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "7/7 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 807/1792 vs 正文 13/29"
+        },
+        "score": 5,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodparam-urn-10",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "47/130",
+        "reference_prob": "57/74",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n坛子有 $\\{20\\text{白}, 18\\text{黑}\\}$，不放回取3个球。\n样本空间为所有有序抽取序列，$|\\Omega| = P(38,3)$。\n\n## 2. 筛选条件子空间\n条件 $B$：「第一球为白」。\n筛选后 $|B| = 15600$。\n每个序列在 $B$ 下概率为 $1/15600$。\n\n## 3. 确定目标事件\n目标 $A$：「至少两白」。\n交集 $|A \\cap B| = 5640$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{5640}{15600} = 47/130$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"坛子: 20白+18黑<br/>共38球\"] -->|\"不放回取3个\"| Draw[\"Ω: P(38,3) = 15600\"]\n    Draw -->|\"第一球为白\"| B[\"B: |B| = 15600\"]\n    B -->|\"至少两白: 5640\"| AB[\"A∩B: 5640\"]\n    B -->|\"不满足: 9960\"| NotA[\"B-A: 9960\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 至少两白 ($A$) | 5640 | $47/130$ |\n| 不满足 ($A^c$) | 9960 | $83/130$ |\n| **总计** | **15600** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": true
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "6/6 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 47/130 vs 正文 47/130"
+        },
+        "score": 6,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodparam-urn-11",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "3/7",
+        "reference_prob": "13/35",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n坛子有 $\\{14\\text{白}, 22\\text{黑}\\}$，不放回取5个球。\n样本空间为所有有序抽取序列，$|\\Omega| = P(36,5) = 32583360$。\n\n## 2. 筛选条件子空间\n条件 $B$：「第一球为白」。\n筛选后 $|B| = 12700320$。\n每个序列在 $B$ 下概率为 $1/12700320$。\n\n## 3. 确定目标事件\n目标 $A$：「第二球为白」。\n交集 $|A \\cap B| = 5042880$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{5042880}{12700320} = 3/7$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"坛子: 14白22黑<br/>共36球\"] -->|\"不放回取5个\"| Draw[\"Ω: 32583360种序列\"]\n    Draw -->|\"第一球为白\"| B[\"B: 12700320种\"]\n    B -->|\"第二球为白: 5042880种\"| AB[\"A∩B: 5042880种\"]\n    B -->|\"不满足: 7657440种\"| NotA[\"B-A: 7657440种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 第二球为白 ($A$) | 5042880 | $3/7$ |\n| 不满足 ($A^c$) | 7657440 | $4/7$ |\n| **总计** | **12700320** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "7/7 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 10506/26459 vs 正文 3/7"
+        },
+        "score": 5,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodparam-urn-12",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "1610/1987",
+        "reference_prob": "190/1639",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n坛子有 $\\{21\\text{白}, 23\\text{黑}\\}$，不放回取3个球。\n样本空间为所有有序抽取序列，$|\\Omega| = P(44,3) = 13200$。\n\n## 2. 筛选条件子空间\n条件 $B$：「至少一白」。\n筛选后 $|B| = 11922$。\n每个序列在 $B$ 下概率为 $1/11922$。\n\n## 3. 确定目标事件\n目标 $A$：「全为白」。\n交集 $|A \\cap B| = 9660$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{9660}{11922} = 1610/1987$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"坛子: 21白+23黑<br/>共44球\"] -->|\"不放回取3个\"| Draw[\"Ω: 13200种序列\"]\n    Draw -->|\"至少一白\"| B[\"B: 11922种\"]\n    B -->|\"全为白: 9660种\"| AB[\"A∩B: 9660种\"]\n    B -->|\"不满足: 2256种\"| NotA[\"B-A: 2256种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 全为白 ($A$) | 9660 | $1610/1987$ |\n| 不满足 ($A^c$) | 2256 | $3367/1987$ |\n| **总计** | **11922** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": true
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "7/7 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 1610/1987 vs 正文 1610/1987"
+        },
+        "score": 6,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodnew-lottery-1",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "4/5",
+        "reference_prob": "140/323",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n抽奖箱有 $\\{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19\\}$，共19张券。\n样本空间为所有有序抽取序列，$|\\Omega| = P(19,3) = 5040$。\n\n## 2. 筛选条件子空间\n条件 $B$：「抽到的券中包含1号券」。\n筛选后 $|B| = 1440$。\n每个序列在 $B$ 下概率为 $1/1440$。\n\n## 3. 确定目标事件\n目标 $A$：「恰好抽中1张中奖券」。\n交集 $|A \\cap B| = 1152$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{1152}{1440} = 4/5$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"抽奖箱: 19张券<br/>(4张中奖券)\"] -->|\"不放回抽3张\"| Draw[\"Ω: 5040种序列\"]\n    Draw -->|\"抽到包含1号券\"| B[\"B: 1440种\"]\n    B -->|\"恰好抽中1张中奖券: 1152种\"| AB[\"A∩B: 1152种\"]\n    B -->|\"不满足: 288种\"| NotA[\"B-A: 288种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 恰好抽中1张中奖券 ($A$) | 1152 | $4/5$ |\n| 不满足 ($A^c$) | 288 | $1/5$ |\n| **总计** | **1440** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": true
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "5/5 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 4/5 vs 正文 4/5"
+        },
+        "score": 6,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodnew-lottery-2",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "60/1561",
+        "reference_prob": "55/357",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n抽奖箱有 $\\{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18\\}$，共18张券。\n由于不放回抽样，抽取5张的组合数为 $|\\Omega| = P(18,5) = 187560$。\n\n## 2. 筛选条件子空间\n条件 $B$：「抽到的券中包含1号券」。\n筛选后 $|B| = 187560$。\n每个组合都包含1号券，筛选不改变总组合数。\n\n## 3. 确定目标事件\n目标 $A$：「恰好抽中3张中奖券」。\n交集 $|A \\cap B| = 7200$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{7200}{187560} = 60/1561$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"抽奖箱: 18张券<br/>(6张中奖券)\"] -->|\"不放回抽5张\"| Draw[\"Ω: 187560种组合\"]\n    Draw -->|\"抽到1号券\"| B[\"B: 187560种\"]\n    B -->|\"恰好抽中3张中奖券: 7200种\"| AB[\"A∩B: 7200种\"]\n    B -->|\"不满足: 180360种\"| NotA[\"B-A: 180360种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 恰好抽中3张中奖券 ($A$) | 7200 | $60/1561$ |\n| 不满足 ($A^c$) | 180360 | $1501/1561$ |\n| **总计** | **187560** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "4/4 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 20/521 vs 正文 60/1561"
+        },
+        "score": 5,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodnew-lottery-3",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "2/5",
+        "reference_prob": "28/65",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n16张券，其中8张中奖。不放回抽4张。样本空间为所有有序抽取序列，$|\\Omega| = P(16,4) = 3360$。\n\n## 2. 筛选条件子空间\n条件 $B$：「抽到的券中包含1号券」。\n筛选后 $|B| = 3360$（抽取序列不变，样本空间减小）。\n\n## 3. 确定目标事件\n目标 $A$：「恰好抽中2张中奖券」。\n交集 $|A \\cap B| = 1344$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{1344}{3360} = 2/5$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"抽奖箱: 16张券<br/>(8张中奖)\"] -->|\"不放回抽4张\"| Draw[\"Ω: 3360种序列\"]\n    Draw -->|\"抽到包含1号券\"| B[\"B: 3360种\"]\n    B -->|\"恰好抽中2张中奖券: 1344种\"| AB[\"A∩B: 1344种\"]\n    B -->|\"不满足: 2016种\"| NotA[\"B-A: 2016种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 恰好抽中2张中奖券 ($A$) | 1344 | $2/5$ |\n| 不满足 ($A^c$) | 2016 | $3/5$ |\n| **总计** | **3360** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": true
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "4/4 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 2/5 vs 正文 2/5"
+        },
+        "score": 6,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodnew-lottery-4",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "23/44",
+        "reference_prob": "28/65",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n15张券，其中7张中奖券。不放回抽4张。样本空间为所有抽法，$|\\Omega| = P(15,4) = 13200$。\n\n## 2. 筛选条件子空间\n条件 $B$：「抽到的券中包含1号券」。\n筛选后 $|B| = 2640$。\n\n## 3. 确定目标事件\n目标 $A$：「恰好抽中2张中奖券」。\n交集 $|A \\cap B| = 1380$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{1380}{2640} = 23/44$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"抽奖箱: 15张券<br/>(7张中奖券)\"] -->|\"不放回抽4张\"| Draw[\"Ω: 13200种抽法\"]\n    Draw -->|\"抽到的券中包含1号券\"| B[\"B: 2640种\"]\n    B -->|\"恰好抽中2张中奖券: 1380种\"| AB[\"A∩B: 1380种\"]\n    B -->|\"不满足: 1252种\"| NotA[\"B-A: 1252种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 恰好抽中2张中奖券 ($A$) | 1380 | $23/44$ |\n| 不满足 ($A^c$) | 1252 | $21/44$ |\n| **总计** | **2640** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": true
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "5/5 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 23/44 vs 正文 23/44"
+        },
+        "score": 6,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodnew-lottery-5",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": false,
+        "mermaid": false,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": null,
+        "reference_prob": "21/52",
+        "correct": false,
+        "extracted": false
+      },
+      "generated": "## 1. 构建总概率空间\n sampling without replacement from a box with 26 tickets, 5 of which are winning tickets.  \n    -样本空间为所有有序抽取序列，$|\\Omega| = P(26,3) = 14040$\n\n## 2. 筛选条件子空间\n条件 $B$：「抽到的券中包含1号券」\n    - $|B| = 1350$ \n    - 这里1号券在3次抽取中占3个位置，每次抽取1张，不放回\n\n## 3. 确定目标事件\n目标 $A$：「恰好抽中1张中奖券」\n    - $|A \\cap B| = 1200$\n    - 1200个序列: [1, 25, 5; 1, 25, 4; 1, 25, 3; 1, 25, 2; 1, 25, 1; 1, 5, 25; 1, 4, 25; 1, 3, 25; 1, 2, 25; 1, 1, 25; 25, 1, 5; 25, 1, 4; 25, 1, 3; 25, 1, 2; 25, 1, 1; 25, 5, 1; 25, 4, 1; 25, 3, 1; 25, 2, 1; 25, 1, 1; 5, 1, 25; 5, 25, 1; 5, 2, 25; 5, 3, 25; 5, 4, 1; 5, 4, 25; 5, 25, 2; 5, 25, 3; 5, 25, 4; 5, 1, 25; 2, 1, 25; 2, 25, 1; 2, 5, 25; 2, 25, 3; 2, 25, 4; 2, 25, 5; 2, 3, 25; 2, 4, 1; 2, 4, 25; 2, 5, 1; 25, 1, 5; 25, 1, 4; 25, 1, 3; 25, 1, 2; 25, 1, 1; 25, 5, 1; 25, 4, 1; 25, 3, 1; 25, 2, 1; 25, 1, 1; 5, 1, 25; 5, 25, 1; 5, 2, 25; 5, 3, 25; 5, 4, 1; 5, 4, 25; 5, 25, 2; 5, 25, 3; 5, 25,",
+      "alignment": {
+        "checks": {
+          "c1_syntax": false,
+          "c6_steps": false,
+          "c2_node_consistency": false,
+          "c3_prob_labels": false,
+          "c4_names": false,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "无 mermaid 代码块",
+          "c6_steps": "缺少步骤标题",
+          "c2_node_consistency": "无 mermaid，跳过",
+          "c3_prob_labels": "无 mermaid，跳过",
+          "c4_names": "无 mermaid，跳过",
+          "c5_ratio": "无 mermaid，跳过"
+        },
+        "score": 0,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodnew-geometry-1",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "1/4",
+        "reference_prob": "1/2",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n单位正方形 $\\Omega = [0,1] \\times [0,1]$, 可以表示为所有 $(x,y)$ 对的集合。\n示例: $(0.3,0.8)$, $(0.8,0.5)$, $(0.5,0.1)$\n\n## 2. 筛选条件子空间\n条件 $B$): 点 falls in 条带 $x \\leq 3/4$。\n$$P(B) = 3/4$$\n示例: $(0.3,0.8)$, $(0.8,0.5)$, $(0.5,0.1)$\n\n## 3. 确定目标事件\n目标 $A$): 点 falls in 条带 $x \\leq 1/2$。\n交集 $A \\cap B$ 的概率是矩形的面积，为 $3/16$。\n示例: $(0.3,0.8)$, $(0.2,0.5)$, $(0.1,0.1)$\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{3/16}{3/4} = 1/4$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Omega[\"Ω: [0,1]×[0,1]\"] -->|\"x≤3/4\"| B[\"B\"]\n    B -->|\"x≤1/2: 3/16\"| AB[\"A∩B\"]\n    B -->|\"不满足: 9/16\"| NotA[\"B-A\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 概率 |\n| :--- | :---: |\n| x≤1/2 ($A$) | $1/4$ |\n| 不满足 ($A^c$) | $3/4$ |\n| **总计** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "节点标签无可比对数值",
+          "c3_prob_labels": "3/3 边标签概率与正文一致",
+          "c4_names": "正文无「」标记（不适用）",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-geometry-2",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "1/2",
+        "reference_prob": "1/8",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n单位正方形 [0,1]×[0,1]，点 P 均匀分布。\n样本空间为所有点 (x,y) 的有序对，$|\\Omega| = 1$。\n\n## 2. 筛选条件子空间\n条件 $B$：点 P 落在区域 $x+y≤1$内。\n筛选后 $|B| = 1/2$。\n\n## 3. 确定目标事件\n目标事件 $A$：点 P 落在区域 $x+y≤1/2$内。\n交集 $|A \\cap B| = 1/4$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{1/4}{1/2} = 1/2$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Omega[\"Ω: [0,1]×[0,1]\"] -->|\"x+y≤1\"| B[\"B: 1/2\"]\n    B -->|\"x+y≤1/2\"| AB[\"A∩B: 1/4\"]\n    B -->|\"Not A\"| NotA[\"B-A: 1/4\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| $x+y≤1/2$ ($A$) | 1/4 | $1/2$ |\n| $Not \\ A$ ($A^c$) | 1/4 | $1/2$ |\n| **总计** | **1/2** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "2/2 节点数值可在正文找到",
+          "c3_prob_labels": "1/1 边标签概率与正文一致",
+          "c4_names": "正文无「」标记（不适用）",
+          "c5_ratio": "|A∩B|/|B| = 1 vs 正文 1/2"
+        },
+        "score": 5,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodnew-geometry-3",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "1/4",
+        "reference_prob": "1/2",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n单位正方形 $\\Omega = [0,1] \\times [0,1]$, 可以表示为所有 $(x,y)$ 对的集合。\n示例: $(0.3,0.8)$, $(0.8,0.5)$, $(0.5,0.1)$\n\n## 2. 筛选条件子空间\n条件 $B$): 点 falls in 条带 $x \\leq 3/4$。\n$$P(B) = 3/4$$\n示例: $(0.3,0.8)$, $(0.8,0.5)$, $(0.5,0.1)$\n\n## 3. 确定目标事件\n目标 $A$): 点 falls in 条带 $x \\leq 1/2$。\n交集 $A \\cap B$ 的概率是矩形的面积，为 $3/16$。\n示例: $(0.3,0.8)$, $(0.2,0.5)$, $(0.1,0.1)$\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{3/16}{3/4} = 1/4$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Omega[\"Ω: [0,1]×[0,1]\"] -->|\"x≤3/4\"| B[\"B\"]\n    B -->|\"x≤1/2: 3/16\"| AB[\"A∩B\"]\n    B -->|\"不满足: 9/16\"| NotA[\"B-A\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 概率 |\n| :--- | :---: |\n| x≤1/2 ($A$) | $1/4$ |\n| 不满足 ($A^c$) | $3/4$ |\n| **总计** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "节点标签无可比对数值",
+          "c3_prob_labels": "3/3 边标签概率与正文一致",
+          "c4_names": "正文无「」标记（不适用）",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-geometry-4",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "3/8",
+        "reference_prob": "1/4",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n单位正方形 [0,1]×[0,1]，点 P 的坐标 (x,y) 为随机变量， subject to $x \\in [0,1]$, $y \\in [0,1]$。\n\n## 2. 筛选条件子空间\n条件 $B$：点 P 落在正方形 x∈[0,1/2] 区域内。\n$$P(B) = 1/2$$\n\n## 3. 确定目标事件\n目标 $A$：点 P 落在正方形 x∈[0,1/4] 区域内。\n$$P(A \\cap B) = 1/8$$\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{1/8}{1/2} = 1/4$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Omega[\"Ω: [0,1]×[0,1]\"] -->|\"x∈[0,1/2]\"| B[\"B: P=1/2\"]\n    B -->|\"x∈[0,1/4]\"| AB[\"A∩B: P=1/8\"]\n    B -->|\"not A\"| NotA[\"B-A: P=3/8\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 概率 |\n| :--- | :---: |\n| x∈[0,1/4] ($A$) | $1/4$ |\n| not $A$ | $3/4$ |\n| **总计** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "3/3 节点数值可在正文找到",
+          "c3_prob_labels": "2/2 边标签概率与正文一致",
+          "c4_names": "正文无「」标记（不适用）",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-geometry-5",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "3/8",
+        "reference_prob": "1/4",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n单位正方形 [0,1]×[0,1]，点 P 的坐标 (x,y) 为随机变量， subject to $x \\in [0,1]$, $y \\in [0,1]$。\n\n## 2. 筛选条件子空间\n条件 $B$：点 P 落在正方形 x∈[0,1/2] 区域内。\n$$P(B) = 1/2$$\n\n## 3. 确定目标事件\n目标 $A$：点 P 落在正方形 x∈[0,1/4] 区域内。\n$$P(A \\cap B) = 1/8$$\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{1/8}{1/2} = 1/4$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Omega[\"Ω: [0,1]×[0,1]\"] -->|\"x∈[0,1/2]\"| B[\"B: P=1/2\"]\n    B -->|\"x∈[0,1/4]\"| AB[\"A∩B: P=1/8\"]\n    B -->|\"not A\"| NotA[\"B-A: P=3/8\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 概率 |\n| :--- | :---: |\n| x∈[0,1/4] ($A$) | $1/4$ |\n| not $A$ | $3/4$ |\n| **总计** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "3/3 节点数值可在正文找到",
+          "c3_prob_labels": "2/2 边标签概率与正文一致",
+          "c4_names": "正文无「」标记（不适用）",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-binomial-1",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": "1/8",
+        "reference_prob": "16369/16384",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n$B$：「不合格率 1/2」。\n$A$：「抽取 14 件至少有 2 件不合格」。\n$B$：「恰好 1 件不合格」。\n\n根据 described，$|B| = 1$，个体不合格概率为 1/2，抽样 14 件。\n样本空间为所有有序抽取序列，$|\\Omega| = 2^{14} = 16384$。\n\n Example: 11111111111111, 11111111111110, 11111111111101, 11111111111100, 11111111111011, ... (共 16384 种序列)\n\n## 2. 筛选条件子空间\n「至少 2 件不合格」，$P(A \\cap B) = 1/16384$\n\n Example: 11111111111110, 11111111111101, 11111111111010, 11111111111011, 11111111110100, 11111111110011, 11111111110010, 11111111110001 (共 8 个)\n\n## 3. 确定目标事件\n「恰好 1 件不合格」的子空间为 8 个序列，因此 $P(B|A) = 1/8$\n\n## 4. 概率路径图\n```mermaid\nflowchart LR\n    Omega[\"Ω: 14 件零件<br/>(2^14=16384)\"] -->|\"至少 2 件不合格\"| B[\"B: 1 个\"]\n    B -->|\"恰好 1 件不合格: 1 个\"| AB[\"A∩B: 1 个\"]\n    B -->|\"不满足: 7 个\"| NotA[\"B-A: 7 个\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "2/2 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "3/4 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-binomial-2",
+      "struct": {
+        "step1": true,
+        "step2": false,
+        "step3": false,
+        "step4": false,
+        "mermaid": false,
+        "latex": false,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": null,
+        "reference_prob": "1759077/1953125",
+        "correct": false,
+        "extracted": false
+      },
+      "generated": "## 1. 构建总概率空间\n hypotenuse\" > 5/11\n}\n```\n```{julia}\n   p4=sum([ 1//102400,  1//12800 , 1//2048 , 1//128 , 1//16 , 1//8 , 1//2 , 1//1]\n        ), \n\n```\n   1//102400+1//12800+1//2048+1//128+1//16+1//8+1//2+1//1=1\n   `1//102400`的\n\n   1//102400/(1//102400+1//12800+1//2048+1//128+1//16+1//8+1//2+1//1)\n   1//12800/(1//102400+1//12800+1//2048+1//128+1//16+1//8+1//2+1//1)\n   1//2048/(1//102400+1//12800+1//2048+1//128+1//16+1//8+1//2+1//1)\n   1//128/(1//102400+1//12800+1//2048+1//128+1//16+1//8+1//2+1//1)\n   1//16/(1//102400+1//12800+1//2048+1//128+1//16+1//8+1//2+1//1)\n   1//8/(1//102400+1//12800+1//2048+1//128+1//16+1//8+1//2+1//1)\n   1//2/(1//102400+1//12800+1//2048+1//128+1//16+1//8+1//2+1//1)\n   1//1/(1//102400+1//12800+1//2048+1//128+1//16+1//8+1//2+1//1)\n   1//102400/(1//102400+1//12800+1//2048+1//128+1//16+1//8+1//2+1//1)=1//1023\n   1//12800/(1//102400+1//12800+1//2048+1//128+1//16+1//8+1//2+1//1)=1//1023\n   1//2048/(1//102400+1//12800+1//2048+1//12",
+      "alignment": {
+        "checks": {
+          "c1_syntax": false,
+          "c6_steps": false,
+          "c2_node_consistency": false,
+          "c3_prob_labels": false,
+          "c4_names": false,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "无 mermaid 代码块",
+          "c6_steps": "缺少步骤标题",
+          "c2_node_consistency": "无 mermaid，跳过",
+          "c3_prob_labels": "无 mermaid，跳过",
+          "c4_names": "无 mermaid，跳过",
+          "c5_ratio": "无 mermaid，跳过"
+        },
+        "score": 0,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodnew-binomial-3",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": null,
+        "reference_prob": "30509066637/30517578125",
+        "correct": false,
+        "extracted": false
+      },
+      "generated": "## 1. 构建总概率空间\n hypotenuse\" > 3/5\n    |2nd draw \" < 2/5| > 1/5\n    |1st draw \" > 1/5\n    total: 1\n\n## 2. 筛选条件子空间\n条件 $B$：「不合格件数不少于 3 件」。\n   $$p(B)=1-\\sum_{i=0}^{2} C_{15}^{i} \\left(\\frac{2}{5}\\right)^{15-i}\\left(\\frac{3}{5}\\right)^{i} = 1-0.699791=0.300209$$\n\n## 3. 确定目标事件\n目标 $A$：「恰好 1 件不合格」。\n    $$p(A \\cap B) = \\sum_{i=1}^{1} C_{15}^{i} \\left(\\frac{2}{5}\\right)^{15-i}\\left(\\frac{3}{5}\\right)^{i} = 0.015517$$\n\n## 4. 条件概率计算与可视化\n$$p(A|B) = \\frac{p(A \\cap B)}{p(B)} = \\frac{0.015517}{0.300209} = 0.05168$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"零件: 2/5不合格, 3/5合格\"] -->|\"抽15件\"| Draw[\"抽15件\"]\n    Draw -->|\"不合格至少3件\"| B[\"B: P=0.3002\"]\n    B -->|\"恰好1件不合格: 0.05168\"| AB[\"A∩B: 0.015517\"]\n    B -->|\"不满足: 0.284622\"| NotA[\"B-A: 0.284622\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 概率 |\n| :--- | :---: |\n| 恰好1件不合格 ($A$) | $0.05168$ |\n| 不满足 ($A^c$) | $0.94832$ |\n| **总计** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": false,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "3/6 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "1/2 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 4,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-binomial-4",
+      "struct": {
+        "step1": true,
+        "step2": false,
+        "step3": false,
+        "step4": false,
+        "mermaid": false,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": null,
+        "reference_prob": "152579174337/152587890625",
+        "correct": false,
+        "extracted": false
+      },
+      "generated": "## 1. 构建总概率空间\n hypotenuse\" > 3/5\n    \"side\" < 3/5\n  }\n  }\n </p>\n</div>\n\n**结论：**\n在「至少 3 件不合格」的条件下，「恰好 2 件不合格」的条件概率为 $\\boxed{\\frac{13122}{31367} \\approx 41.8\\%}$。",
+      "alignment": {
+        "checks": {
+          "c1_syntax": false,
+          "c6_steps": false,
+          "c2_node_consistency": false,
+          "c3_prob_labels": false,
+          "c4_names": false,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "无 mermaid 代码块",
+          "c6_steps": "缺少步骤标题",
+          "c2_node_consistency": "无 mermaid，跳过",
+          "c3_prob_labels": "无 mermaid，跳过",
+          "c4_names": "无 mermaid，跳过",
+          "c5_ratio": "无 mermaid，跳过"
+        },
+        "score": 0,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodnew-binomial-5",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": false,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": "5/22",
+        "reference_prob": "6619897/9765625",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n hypotenuse\" > 1/5; \n    if (t < 1) {\n      return \"non-rapid\"\n    } else { \n      return \"rapid\"\n    }\n  }\n  }\n}\n\nif (rapid) { // 5/6\n  if (rapid1) {\n    rapid1: 5/6\n  } else { // 1/6\n    non_rapid1: 1/6\n  }\n}\n}\n```\n\n### 2. 计算$B$的大小\n$$P(B)= 11/25$$\n\n### 3. 计算$A \\cap B$的大小\n$$P(A \\cap B)= 1/10$$\n\n### 4. 条件概率计算\n$$P(A|B)= \\frac{P(A \\cap B)}{P(B)}= \\frac{1/10}{11/25}= 5/22$$",
+      "alignment": {
+        "checks": {
+          "c1_syntax": false,
+          "c6_steps": true,
+          "c2_node_consistency": false,
+          "c3_prob_labels": false,
+          "c4_names": false,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "无 mermaid 代码块",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "无 mermaid，跳过",
+          "c3_prob_labels": "无 mermaid，跳过",
+          "c4_names": "无 mermaid，跳过",
+          "c5_ratio": "无 mermaid，跳过"
+        },
+        "score": 1,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodnew-condexp-1",
+      "struct": {
+        "step1": false,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": false,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": "1/2",
+        "reference_prob": "11/2",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 2. 绘出概率路径图\n根据描述, 绘出概率路径图\n\n1. **总产品数** = 11\n2. **总不合格产品数** = 1/2×11 = 5.5\n3. **抽取的不合格产品数** = 4\n4. **条件 **: **第二批有 4 件不合格产品**\n\n5. **结论**: 0.118865\n\n## 3. 计算\n$$E(X|Y=4) = 0.118865 \\times 4.25 = 0.5000021$$\n\n## 4.结论\n$$\\boxed{0.5}$$",
+      "alignment": {
+        "checks": {
+          "c1_syntax": false,
+          "c6_steps": false,
+          "c2_node_consistency": false,
+          "c3_prob_labels": false,
+          "c4_names": false,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "无 mermaid 代码块",
+          "c6_steps": "缺少步骤标题",
+          "c2_node_consistency": "无 mermaid，跳过",
+          "c3_prob_labels": "无 mermaid，跳过",
+          "c4_names": "无 mermaid，跳过",
+          "c5_ratio": "无 mermaid，跳过"
+        },
+        "score": 0,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodnew-condexp-2",
+      "struct": {
+        "step1": false,
+        "step2": true,
+        "step3": true,
+        "step4": false,
+        "mermaid": true,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": null,
+        "reference_prob": "24/5",
+        "correct": false,
+        "extracted": false
+      },
+      "generated": "## 2. 计算条件概率分布表\n根据[ example 1 ](https://www.1688888.com ex3)可以列出联合概率分布表\n\n![](./images/ex3.10.1.png)\n\n## 3. 计算条件期望\n$$\nE(X|Y=2) = \\sum_{i=0}^{12} x_i * P(X=x_i|Y=2) = 0 * P(X=0|Y=2) + 1 * P(X=1|Y=2) + 2 * P(X=2|Y=2) + 3 * P(X=3|Y=2) + 4 * P(X=4|Y=2) + 5 * P(X=5|Y=2) + 6 * P(X=6|Y=2) + 7 * P(X=7|Y=2) + 8 * P(X=8|Y=2) + 9 * P(X=9|Y=2) + 10 * P(X=10|Y=2) + 11 * P(X=11|Y=2) + 12 * P(X=12|Y=2) = 9.6$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Pop[\"总体: products<br/>不合格率2/5\"] -->|\"抽12件\"| Draw[\"B: 12件\"]\n    Draw -->|\"不合格 item=2\"| Y[\"Y=2<br/> 合格=10\"]\n    Y -->|\"X=0\"| P0[\"P(X=0|Y=2)\"]\n    Y -->|\"X=1\"| P1[\"P(X=1|Y=2)\"]\n    Y -->|\"X=2\"| P2[\"P(X=2|Y=2)\"]\n    Y -->|\"X=3\"| P3[\"P(X=3|Y=2)\"]\n    Y -->|\"X=4\"| P4[\"P(X=4|Y=2)\"]\n    Y -->|\"X=5\"| P5[\"P(X=5|Y=2)\"]\n    Y -->|\"X=6\"| P6[\"P(X=6|Y=2)\"]\n    Y -->|\"X=7\"| P7[\"P(X=7|Y=2)\"]\n    Y -->|\"X=8\"| P8[\"P(X=8|Y=2)\"]\n    Y -->|\"X=9\"| P9[\"P(X=9|Y=2)\"]\n    Y -->|\"X=10\"| P10[\"P(X=10|Y=2)\"]\n    Y -->|\"X=11\"| P11[\"P(X=11|Y=2)\"]\n    Y -->|\"X=12\"| P12[\"P(X=12|Y=2)\"]\n    style P0 fill:#d4edda,stroke:#28a745\n    style P1 fill:#ffc107,stroke:#ffc107\n    style P2 fill:#ffc107,stroke:#ffc107\n    style P3 fill:#ffc107,stroke:#ffc107\n    style P4 fill:#ffc107,stroke:#ffc107\n    style P5 fill:#ffc107,stroke:#ffc107\n    style P6 fill:#ffc107,stroke:#ffc107\n    style P7 fill:#ffc107,",
+      "alignment": {
+        "checks": {
+          "c1_syntax": false,
+          "c6_steps": false,
+          "c2_node_consistency": false,
+          "c3_prob_labels": false,
+          "c4_names": false,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "无 mermaid 代码块",
+          "c6_steps": "缺少步骤标题",
+          "c2_node_consistency": "无 mermaid，跳过",
+          "c3_prob_labels": "无 mermaid，跳过",
+          "c4_names": "无 mermaid，跳过",
+          "c5_ratio": "无 mermaid，跳过"
+        },
+        "score": 0,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodnew-condexp-3",
+      "struct": {
+        "step1": false,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "266/2813",
+        "reference_prob": "33/10",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 2. 计算\n### 2.1 构建总概率空间\n假设两批产品不合格率均为 3/10，各抽取 11 件，根 据抽取的不合格件数占用\n概率构建总概率空间以计算后验概率\n\n### 2.2 计算条件子空间\n条件 $B$： 'Y = 4'。\n$$P(B) = 118098/148025$$\n\n### 2.3 计算目标事件\n目标事件 $A$： 'X = 0'。\n$$P(A \\cap B) = 10974/148025$$\n\n### 2.4 条件概率计算\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{10974}{118098} = 1862/19691$$\n\n## 3. 概率路径图\n```mermaid\nflowchart LR\n    Pop[\"总体: products<br/>不合格率: 3/10<br/>抽取: 11件\"] -->|\"条件 B\"| B[\"B: Y=4\"]\n    B -->|\"目标 A\"| AB[\"A∩B: X=0\"]\n    B -->|\"非A\"| NotA[\"B-A\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n## 4. 概率分布表 (条件分布表)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| X=0 ($A$) | 10974 | $1862/19691$ |\n| 非$A$ | 107054 | $17829/19691$ |\n| **总计** | **118098** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": false,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "缺少步骤标题",
+          "c2_node_consistency": "2/2 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "正文无「」标记（不适用）",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 4,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-condexp-4",
+      "struct": {
+        "step1": false,
+        "step2": true,
+        "step3": false,
+        "step4": false,
+        "mermaid": false,
+        "latex": false,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": null,
+        "reference_prob": "12/5",
+        "correct": false,
+        "extracted": false
+      },
+      "generated": "## 2. 计算条件概率分布表\n根据[ example 1 ](https://www.ime major.com exa m/1020) 可得 Y=1 的边缘分布表\n\n  **表 1. Y=1 的边缘分布表**\n\n|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | ",
+      "alignment": {
+        "checks": {
+          "c1_syntax": false,
+          "c6_steps": false,
+          "c2_node_consistency": false,
+          "c3_prob_labels": false,
+          "c4_names": false,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "无 mermaid 代码块",
+          "c6_steps": "缺少步骤标题",
+          "c2_node_consistency": "无 mermaid，跳过",
+          "c3_prob_labels": "无 mermaid，跳过",
+          "c4_names": "无 mermaid，跳过",
+          "c5_ratio": "无 mermaid，跳过"
+        },
+        "score": 0,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodnew-markov-1",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "2/3",
+        "reference_prob": "248/833",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n状态集为 $S = \\{A, B, C\\}$，转移矩阵为：\n$$P = \\begin{pmatrix}\n1/7 & 5/7 & 1/7 \\\\\n2/7 & 3/7 & 2/7 \\\\\n8/17 & 1/17 & 8/17\n\\end{pmatrix}$$\n\n## 2. 筛选条件子空间\n条件 $B$：「第一步转换后状态为 B」。\n$$P(B) = 3/7$$\n\n## 3. 确定目标事件\n目标 $A$：「第二步转换后状态为 A」。\n$$P(A \\cap B) = 2/7$$\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{2/7}{3/7} = 2/3$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    S[\"状态空间<br/>$S$\"] -->|\"条件 $B$\"| B[\"$B$\"]\n    B -->|\"目标 $A$\"| AB[\"$A \\cap B$\"]\n    B -->|\"不满足\"| NotA[\"$B-A$\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 概率 |\n| :--- | :---: |\n| 第二步转换后状态为 A ($A$) | $2/3$ |\n| 不满足 ($A^c$) | $1/3$ |\n| **总计** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "节点标签无可比对数值",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "1/2 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-markov-2",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "28/45",
+        "reference_prob": "817/2268",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n状态集为 $S = \\{A, B, C\\}$，转移矩阵为：\n$$P = \\begin{pmatrix}\n1/9 & 7/9 & 1/9 \\\\\n3/8 & 1/4 & 3/8 \\\\\n1/7 & 5/7 & 1/7\n\\end{pmatrix}$$\n\n## 2. 筛选条件子空间\n条件 $B$：「X₂ = B」。\n转移概率的全概率和为 $1$，因此在第 2 列中，$P(B) = 3/8 + 3/8 = 3/4$。\n\n## 3. 确定目标事件\n目标 $A \\cap B$：「X₂ = B 且 X₀ = A」。\n根据转移矩阵，$P(A \\cap B) = 7/9$。\n\n## 4. 概率计算与可视化\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{7/9}{3/4} = 28/45$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    S[\"状态空间<br/>$S$\"] -->|\"条件 $B$\"| B[\"$B$\"]\n    B -->|\"目标 $A$\"| AB[\"$A \\cap B$\"]\n    B -->|\"非$A$\"| NotA[\"$B-A$\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 概率 |\n| :--- | :---: |\n| 属性 $A$ ($A \\cap B$) | $28/45$ |\n| 属性非 $A$ ($B-A$) | $17/45$ |\n| **总计** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "节点标签无可比对数值",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "1/2 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-markov-3",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "7/15",
+        "reference_prob": "1273/2925",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n状态集为 $S = \\{A, B, C\\}$，转移矩阵为：\n$$P = \\begin{pmatrix}\n7/15 & 1/15 & 7/15 \\\\\n6/13 & 1/13 & 6/13 \\\\\n2/5 & 1/5 & 2/5\n\\end{pmatrix}$$\n\n## 2. 筛选条件子空间\n条件 $B$：「X₀ = A」。\n在 $B$ 的子空间下，状态在第一次转移后为各状态的概率分布为：\n$$P(X₁ = A|X₀ = A) = 7/15, \\quad P(X₁ = B|X₀ = A) = 1/15, \\quad P(X₁ = C|X₀ = A) = 7/15$$\n\n## 3. 确定目标事件\n目标 $A$：「X₂ = A」。\n交集 $A \\cap B$ 的概率为：\n$$P(A \\cap B) = 7/15$$\n\n## 4. 概率计算与可视化\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{7/15}{1} = 7/15$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    S[\"状态空间<br/>S:. |X₀ = A|\" style:#f2f2f2] -->|\"7/15\"| A[\"X₁ = A\"]\n    S[\"S<br/>:|X₀ = A|\" style:#f2f2f2] -->|\"1/15\"| B[\"X₁ = B\"]\n    S[\"S<br/>:|X₀ = A|\" style:#f2f2f2] -->|\"7/15\"| C[\"X₁ = C\"]\n    A[\"X₁ = A\"] -->|\"7/15\"| A[\"X₂ = A<br/>|X₀ = A\"]\n    A[\"X₁ = A\"] -->|\"1/15\"| B[\"X₂ = B<br/>|X₀ = A\"]\n    A[\"X₁ = A\"] -->|\"7/15\"| C[\"X₂ = C<br/>|X₀ = A\"]\n    style A fill:#d4edda,stroke:#28a745\n    style B fill:#ffc107,stroke:#ffc107\n    style C fill:#ffc107,stroke:#ffc107\n```\n\n### 各概率分布表\n#### 初始转移分布\n| 状态 | 概率 |\n| :--- | :---: |\n| X₁ = A | $7/15$ |\n| X₁ = B | $1/15$ |\n| X₁ = C | $7/15$ |\n| **总计** | **1** |\n\n#### 第一次转移后在 A 的条件下，第二次转移分布\n| 状态 | 概率 |\n| :--- | :---: |\n| X₂ = A | $7/15$ |\n| X₂ = B | $1/15$ |\n| X₂ = C | $7/15$ |\n| **总计** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "节点标签无可比对数值",
+          "c3_prob_labels": "6/6 边标签概率与正文一致",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-markov-4",
+      "struct": {
+        "step1": false,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": null,
+        "reference_prob": "31/100",
+        "correct": false,
+        "extracted": false
+      },
+      "generated": "## 2. 绘出概率路径图\n根据转移概率矩阵, 绘出概率路径图\n\n```mermaid\nflowchart LR\n    A[\"A: 2/5\"] -->|\"2/5\"| B[\"B\"]\n    A[\"A: 2/5\"] -->|\"1/5\"| C[\"C\"]\n    B[\"B\"] -->|\"1/4\"| AB[\"A: 1/4\"]\n    B[\"B\"] -->|\"1/2\"| BB[\"B: 1/2\"]\n    B[\"B\"] -->|\"1/4\"| CB[\"C: 1/4\"]\n    C[\"C\"] -->|\"3/10\"| AC[\"A: 3/10\"]\n    C[\"C\"] -->|\"2/5\"| BC[\"B: 2/5\"]\n    C[\"C\"] -->|\"3/10\"| CC[\"C: 3/10\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style BB fill:#ffc107,stroke:#ffc107\n    style CC fill:#ffc107,stroke:#ffc107\n```\n\n## 3. 计算\n### 3.1. 一个步骤转移概率矩阵\n```{julia}\n# 状态转移概率矩阵\nP1 = [2/5, 1/5, 2/5; \n      1/4, 1/2, 1/4; \n      3/10, 2/5, 3/10]\n```\n\n### 3.2. 两个步骤转移概率矩阵\n```{julia}\n# 两个步骤转移概率矩阵\nP2 = P1*P1\nP2\n```\n```{julia} output\nP2 = [13/50, 13/50, 14/25; \n      13/50, 19/50, 9/25; \n      14/25, 9/25, 13/25]\n```\n\n### 3.3. 计算 P(X₂ = C | X₀ = C)\n```{julia}\n# 初始状态向量\nx0 = [0, 0, 1]\n\n# 两个步骤转移概率矩阵\nP2 = [13/50, 13/50, 14/25; \n      13/50, 19/50, 9/25; \n      14/25, 9/25, 13/25]\n\n# 计算 t=2 时的状态概率向量\nx2 = x0 * P2\n\n# P(X₂ = C | X₀ = C) 对应 x2 的第三个元素\np_x2_c = x2[2]\np_x2_c\n```\n```{julia} output\n13/25\n```\n\n## 4. 结论\n$$\\boxed{13/25}$$",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": false,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "缺少步骤标题",
+          "c2_node_consistency": "4/4 节点数值可在正文找到",
+          "c3_prob_labels": "8/8 边标签概率与正文一致",
+          "c4_names": "正文无「」标记（不适用）",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 4,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-markov-5",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "4/9",
+        "reference_prob": "299/1134",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n状态集为 $S = \\{A, B, C\\}$，转移矩阵为：\n$$P = \\begin{pmatrix}\n1/8 & 3/4 & 1/8 \\\\\n4/9 & 1/9 & 4/9 \\\\\n5/14 & 2/7 & 5/14\n\\end{pmatrix}$$\n\n## 2. 筛选条件子空间\n条件 $B$：「第一步转换后状态为 $C$」。\n$$P(B) = 4/9$$\n\n## 3. 确定目标事件\n目标 $A$：「第二步转换后状态为 $C$」。\n$$P(A \\cap B) = 4/9$$\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{4/9}{4/9} = 1$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    S[\"状态集<br/>S=|\"  A[\"A\"] | B[\"B\"] | C[\"C\"]\n    X0[\"X0<br/>X0=B\"] -->|\"A: 3/4\"| A\n    X0 -->|\"B: 1/9\"| B\n    X0 -->|\"C: 1/8\"| C\n    style A fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n    style C fill:#ffc107,stroke:#ffc107\n\n    X1[\"X1<br/>P(X1)<br/>(向量)\"| style:#f2f2f2\n    X1A[\"X1=A<br/>:3/4\"| style:#ffc107]\n    X1B[\"X1=B<br/>:1/9\"| style:#28a745]\n    X1C[\"X1=C<br/>:1/8\"| style:#ffc107]\n    style X1A fill:#ffc107,stroke:#ffc107\n    style X1B fill:#28a745,stroke:#28a745\n    style X1C fill:#ffc107,stroke:#ffc107\n    style X0 fill:#fff3cd,stroke:#ffc107\n\n    X2[\"X2<br/>P(X2)\"| style:#fff3cd\n    X2C[\"X2=C\"| style:#28a745]\n    X2A[\"X2=A\"| style:#ffc107]\n    X2B[\"X2=B\"| style:#ffc107]\n    style X2C fill:#28a745,stroke:#28a745\n    style X2A fill:#ffc107,stroke:#ffc107\n    style X2B fill:#ffc107,stroke:#ffc107\n    style X1 fill:#fff3cd,stroke:#fff3cd\n\n    style X2 fill:#fff3cd,stroke:#fff3cd\n    style X0 fill:#fff3cd,stroke:#fff3cd\n```\n\n### 各概率分布表\n#### 第一步转换概率分布表\n| 状态 | 概率 |\n| :--- | :---: |\n| A | 3/4 |\n| B | 1/9 |\n|",
+      "alignment": {
+        "checks": {
+          "c1_syntax": false,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": false,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "block0: style references undefined node: X1; block0: style references undefined node: X2",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "6/6 节点数值可在正文找到",
+          "c3_prob_labels": "3/3 边标签概率与正文一致",
+          "c4_names": "0/2 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 3,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-naivebayes-1",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": "15/47",
+        "reference_prob": "77/1000",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n假设空间 $H = \\{患病, 健康\\}$，证据 $E = $「关键词A阳性」、$F = $「发送域名阳性」、$G = $「附件类型阳性」。\n先验概率：\n- $P(患病) = 2/5$\n- $P(健康) = 3/5$\n\n条件概率：\n- $P(E|患病) = 1/2$\n- $P(E|健康) = 3/10$\n- $P(F|患病) = 4/5$\n- $P(F|健康) = 1/2$\n- $P(G|患病) = 4/5$\n- $P(G|健康) = 1/2$\n\n## 2. 筛选条件子空间\n证据 $E \\cap F \\cap G$：\n$$P(E \\cap F \\cap G) = \\sum_i P(E|h_i) P(F|h_i) P(G|h_i) P(h_i) = 1/2 \\cdot 4/5 \\cdot 4/5 \\cdot 2/5 + 3/10 \\cdot 1/2 \\cdot 1/2 \\cdot 3/5 = 47/250$$\n\n## 3. 确定目标事件\n目标 $P(患病 | E \\cap F \\cap G)$：\n$$P(患病 | E \\cap F \\cap G) = \\frac{P(E|患病) P(F|患病) P(G|患病) P(h_{患病})}{P(E \\cap F \\cap G)} = \\frac{1/2 \\times 4/5 \\times 4/5 \\times 2/5}{47/250} = 32/47$$\n\n## 4. 概率路径图\n```mermaid\nflowchart LR\n    Prior[\"先验分布<br/>患病: 2/5<br/>健康: 3/5\"] -->|\"观察到关键词A阳性\"| Evidence[\"P(E) = 47/250\"]\n    Evidence -->|\"观察到发送域名阳性\"| EvidenceSub[\"B(1) = 19/47\"]\n    Evidence -->|\"观察到附件类型阳性\"| EvidenceSub[\"B(2) = 28/47\"]\n    EvidenceSub -->|\"患病\"| PriorSub[\"P(A|B) = 32/47\"]\n    EvidenceSub -->|\"健康\"| PriorSub[\"P(B|B) = 15/47\"]\n    style EvidenceSub fill:#d4edda,stroke:#28a745\n    style PriorSub fill:#ffc107,stroke:#ffc107\n```\n",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "5/5 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "3/3 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-naivebayes-2",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "2/65",
+        "reference_prob": "99/625",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n假设空间 $H = \\{患病, 健康\\}$，证据 $E = $「关键词A阳性」、$F = $「发送域名阳性」、$G = $「附件类型阳性」。\n先验概率：\n- $P(患病) = 3/5$\n- $P(健康) = 2/5$\n\n条件概率：\n- $P(E|患病) = 7/10$，$P(E|健康) = 1/10$\n- $P(F|患病) = 3/5$，$P(F|健康) = 2/5$\n- $P(G|患病) = 9/10$，$P(G|健康) = 3/10$\n\n## 2. 筛选条件子空间（全概率公式）\n$$P(E \\cap F \\cap G) = \\sum_i P(E|h_i) P(F|h_i) P(G|h_i) P(h_i)$$\n$$= P(E|患病)P(F|患病)P(G|患病)P(患病) + P(E|健康)P(F|健康)P(G|健康)P(健康)$$\n$$= (7/10)(3/5)(9/10)(3/5) + (1/10)(2/5)(3/10)(2/5)$$\n$$= 189/625 + 6/625$$\n$$= 195/625$$\n\n## 3. 确定目标事件\n目标：$P(患病 | E \\cap F \\cap G)$\n\n## 4. 贝叶斯公式计算\n$$P(患病 | E \\cap F \\cap G) = \\frac{P(E|患病) P(G|患病) P(F|患病) P(患病)}{P(E \\cap F \\cap G)}$$\n$$= \\frac{(7/10)(9/10)(3/5)(3/5)}{195/625}$$\n$$= \\frac{189/625}{195/625}$$\n$$= 189/195$$\n$$= 63/65$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Prior[\"先验分布<br/>患病: 3/5<br/>健康: 2/5\"] -->|\"观察到关键词A阳性\"| Evidence[\"P(E) = 195/625\"]\n    Evidence -->|\"观察到发送域名阳性\"| Evidence2[\"P(F|E) = 13/25\"]\n    Evidence2 -->|\"观察到附件类型阳性\"| Evidence3[\"P(G∩E)|F = 19/25\"]\n    Evidence3 -->|\"患病\"| Posterior[\"P(患病|G∩F∩E) = 63/65\"]\n    Evidence3 -->|\"健康\"| Posterior[\"P(健康|G∩F∩E) = 2/65\"]\n```\n\n### 各个路径概率分布表\n| 假设 | 先验 $P(h_i)$ | 条件概率 $P(E|h_i)$ | 合计 $P(E \\cap h_i)$ | 贝叶斯更新 $P(h_i|E)$ |\n| :--- | :---: | :---: | :---: | :---: |\n| 患",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "6/6 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "3/3 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-naivebayes-3",
+      "struct": {
+        "step1": false,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": false,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": "21/29",
+        "reference_prob": "237/1250",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 2. 绘出概率路径图\n根据描述, 绘出概率路径图\n\n## 3. 构建概率空间\n假设空间 $H = \\{ normal,欺诈 \\}$,观察到的证据 $E = $「 keywordA阳性,发送域名阴性,附件类型阳性」\n先验概率:\n- $P(normal) = 2/5$\n- $P(欺诈) = 3/5$\n\n证据的全概率 $P(E) = \\sum_i P(E|H_i) P(H_i)$\n\n条件概率:\n- $P(E| normal) = 2/5$\n- $P(E| 欺诈) = 7/10$\n\n## 4. 贝叶斯更新计算\n$$P(normal|E) = \\frac{P(E|normal) \\cdot P(normal)}{P(E)}$$\n\n$$P(欺诈|E) = \\frac{P(E|欺诈) \\cdot P(欺诈)}{P(E)}$$\n\n## 计算\n$$P(E) = 2/5 \\cdot 2/5 + 7/10 \\cdot 3/5 = 29/50$$\n\n$$P(normal|E) = \\frac{2/5 \\cdot 2/5}{29/50} = 4/29$$\n\n$$P(欺诈|E) = \\frac{7/10 \\cdot 3/5}{29/50} = 21/29$$\n\n## 结论\n观察到的证据下，「欺诈」的后验概率为 $21/29$，「正常交易」的后验概率为 $4/29$。因此， more likely 的结论是「欺诈」。",
+      "alignment": {
+        "checks": {
+          "c1_syntax": false,
+          "c6_steps": false,
+          "c2_node_consistency": false,
+          "c3_prob_labels": false,
+          "c4_names": false,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "无 mermaid 代码块",
+          "c6_steps": "缺少步骤标题",
+          "c2_node_consistency": "无 mermaid，跳过",
+          "c3_prob_labels": "无 mermaid，跳过",
+          "c4_names": "无 mermaid，跳过",
+          "c5_ratio": "无 mermaid，跳过"
+        },
+        "score": 0,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodnew-naivebayes-4",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "4/5",
+        "reference_prob": "39/500",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n假设空间 $H = \\{患病, 健康\\}$，证据 $E = $「关键词A阳性」、$F = $「发送域名阳性」、$G = $「附件类型阳性」。\n先验概率：\n- $P(患病) = 1/5$\n- $P(健康) = 4/5$\n\n条件概率：\n- $P(E|患病) = 1/2$，$P(E|健康) = 1/2$\n- $P(F|患病) = 4/5$，$P(F|健康) = 1/2$\n- $P(G|患病) = 9/10$，$P(G|健康) = 3/10$\n\n## 2. 筛选条件子空间\n证据 $E' = E \\cap F \\cap G$\n\n$$P(E') = \\sum_i P(E' | H_i) P(H_i) = \\sum_i P(E | H_i) P(F | H_i) P(G | H_i) P(H_i)$$\n\n## 3. 确定目标事件\n目标：$P(H_{患病} | E')$\n\n$$P(H_{患病} | E') = \\frac{P(E' | H_{患病}) P(H_{患病})}{P(E')}$$\n\n## 4. 概率计算\n计算 $P(E')$：\n\n$$P(E') = (1/2 \\cdot 4/5 \\cdot 9/10 \\cdot 1/5) + (1/2 \\cdot 1/2 \\cdot 3/10 \\cdot 4/5) = 9/125$$\n\n计算 $P(H_{患病} | E')$：\n\n$$P(H_{患病} | E') = \\frac{1/2 \\cdot 4/5 \\cdot 9/10 \\cdot 1/5}{9/125} = 1/5$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Prior[\"先验分布<br/>患病: 1/5<br/>健康: 4/5\"] -->|\"观察到关键词A阳性\"| Evidence[\"P(E) = 9/125\"]\n    Evidence -->|\"观察到发送域名阳性\"| Evidence[\"P(F|E) = 4/5\"]\n    Evidence -->|\"观察到附件类型阳性\"| Evidence[\"P(G|E) = 3/5\"]\n    Evidence -->|\"患病\"| Posterior[\"P(患病|E') = 1/5\"]\n    Evidence -->|\"健康\"| Posterior[\"P(健康|E') = 4/5\"]\n    style Posterior fill:#d4edda,stroke:#28a745\n    style Evidence fill:#fff3cd,stroke:#ffc107\n```\n\n### 各个路径概率分布表\n| 假设 | 先验 $P(H_i)$ | 条件概率 $P(E | H_i)$ | 贝叶斯更新 $P(H_i | E)$ |\n| :--- | :---: | :---: | :---: |\n| 患病 | 1/5 | 1/2 | 1/5 |\n| 健康 | 4/5 | 1/2 | 4/5 |\n| **总计** | **1** | — | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "3/3 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "3/3 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-naivebayes-5",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": "63/103",
+        "reference_prob": "351/2500",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n假设空间 $H = \\{患病, 健康\\}$，证据 $E = $「关键词A阳性」、$F = $「发送域名阳性」、$G = $「附件类型阳性」。\n先验概率：\n- $P(患病) = 2/5$\n- $P(健康) = 3/5$\n\n条件概率：\n- $P(E|患病) = 9/10$，$P(E|健康) = 2/5$\n- $P(F|患病) = 7/10$，$P(F|健康) = 2/5$\n- $P(G|患病) = 9/10$，$P(G|健康) = 3/10$\n\n## 2. 筛选条件子空间（全概率公式）\n$$P(E \\cap F \\cap G) = \\sum_i P(E|H_i) P(F|H_i) P(G|H_i) P(H_i)$$\n$$= P(E|患病)P(F|患病)P(G|患病)P(患病) + P(E|健康)P(F|健康)P(G|健康)P(健康)$$\n$$= 9/10 \\cdot 7/10 \\cdot 9/10 \\cdot 2/5 + 2/5 \\cdot 2/5 \\cdot 3/10 \\cdot 3/5$$\n$$= 597/1250$$\n\n## 3. 确定目标事件\n目标：$P(患病|E \\cap F \\cap G)$\n\n## 4. 贝叶斯公式计算\n$$P(患病|E \\cap F \\cap G) = \\frac{P(E|患病) P(G|患病) P(F|患病) P(患病)}{P(E \\cap F \\cap G)}$$\n$$= \\frac{9/10 \\cdot 9/10 \\cdot 7/10 \\cdot 2/5}{597/1250} = 63/103$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Prior[\"先验分布<br/>患病: 2/5<br/>健康: 3/5\"] -->|\"观察到关键词A阳性\"| Evidence[\"P(E)\"]\n    Evidence -->|\"观察到发送域名阳性\"| Evidence_sub[\"条件子空间<br/>P(E F G)\"]\n    Evidence_sub -->|\"患病\"| Posterior1[\"P(患病|E)\"]\n    Evidence_sub -->|\"健康\"| Posterior2[\"P(健康|E)\"]\n    style Posterior1 fill:#d4edda,stroke:#28a745\n    style Evidence_sub fill:#fff3cd,stroke:#ffc107\n```\n\n### 各个概率分布表\n#### 1. 先验分布表\n| 假设 | 概率\n- 患病 | 2/5\n- 健康 | 3/5\n| 合计 | 1\n\n#### 2. 条件子空间分布表 (给定E)\n| 假设 | 概率\n- 患病 | $63/125$\n- 健康 | $24/125$\n| 合计 | $63/125$\n\n#### 3. 后验分布表 (给定E F G)\n| �",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "2/2 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "3/3 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-normal-1",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": null,
+        "reference_prob": "1/2",
+        "correct": false,
+        "extracted": false
+      },
+      "generated": "## 1. 构建总概率空间\n假设空间 $\\Omega = \\{X > 3/2\\sigma\\}$，样本空间 $B = \\{X+Y > 0\\}$，目标事件 $A = \\{X > 3/2\\sigma\\}$。\n\n## 2. 筛选条件子空间\n$B$ 在 $\\Omega$ 下的条件概率为 $P(B|Ω) = 1$。\n\n## 3. 确定目标事件\n$A \\cap B$ 下的概率为 $P(A \\cap B) = P(A)$。\n\n## 4. 概率计算\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B|Ω)} = P(A) = \\int_{3/2\\sigma}^{+\\infty} \\frac{1}{\\sqrt{2\\pi}}e^{-\\frac{x^2}{2}}\\,dx = 1 - \\Phi(3/2)$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Omega[\"Ω: X > 3/2σ\"] -->|\"X+Y > 0\"| B[\"B\"]\n    B -->|\"X > 3/2σ\"| AB[\"A∩B\"]\n    B -->|\"Not A\"| NotA[\"B-A\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 各事件概率分布表\n| 事件 | 概率分布 | 概率值 |\n| :--- | :---: | :---: |\n| $A \\cap B: X > 3/2\\sigma$ | $N(0,1)$ | $1 - \\Phi(3/2)$ |\n| $B: X+Y > 0$ | $N(0,2)$ | $1$ |\n| $\\Omega: X > 3/2\\sigma$ | $N(0,1)$ | $1 - \\Phi(3/2)$ |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "1/1 节点数值可在正文找到",
+          "c3_prob_labels": "1/1 边标签概率与正文一致",
+          "c4_names": "正文无「」标记（不适用）",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-normal-2",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": "1/2",
+        "reference_prob": "1/2",
+        "correct": true,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n假设空间 $\\Omega = \\{X > 1\\sigma, Y > 0\\} \\cup \\{X < -1\\sigma, Y > 0\\} \\cup \\{X > 1\\sigma, Y < 0\\} \\cup \\{X < -1\\sigma, Y < 0\\}$，取 $B = \\{X+Y > 0\\}$ 作为条件。\n由于 $X$ 和 $Y$ 均为标准正态分布，根据对称性，$P(\\{X > 1\\sigma, Y > 0\\}) = P(\\{X < -1\\sigma, Y > 0\\})$，$P(\\{X > 1\\sigma, Y < 0\\}) = P(\\{X < -1\\sigma, Y < 0\\})$，因此 $B$ 的概率与 $X+Y > 0$ 的概率相同，即 $P(B) = 1/2$。\n\n## 2. 筛选条件子空间\n在子空间 $B$ 下，$X > 1\\sigma$ 的概率为 $P(\\{X > 1\\sigma\\} \\cap B) = 1/4$。\n\n## 3. 计算概率\n$$P(X > 1\\sigma | X+Y > 0) = \\frac{P(\\{X > 1\\sigma\\} \\cap B)}{P(B)} = \\frac{1/4}{1/2} = 1/2$$\n\n## 4. 概率路径图\n```mermaid\nflowchart LR\n    Omega[\"Ω: 所有样本点<br/>X>1σ Y>0, X<-1σ Y>0, X>1σ Y<0, X<-1σ Y<0\"] -->|\"X+Y>0\"| B[\"B: P=1/2\"]\n    B -->|\"X>1σ: 1/4\"| AB[\"A∩B\"]\n    B -->|\"X<-1σ: 1/4\"| NotA[\"B-A\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "1/1 节点数值可在正文找到",
+          "c3_prob_labels": "2/2 边标签概率与正文一致",
+          "c4_names": "正文无「」标记（不适用）",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-normal-3",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": false,
+        "latex": true,
+        "table": false
+      },
+      "accuracy": {
+        "generated_prob": null,
+        "reference_prob": "1/2",
+        "correct": false,
+        "extracted": false
+      },
+      "generated": "## 1. 构建总概率空间\n假设空间 $\\Omega: X+Y>0$，条件概率 $P(X > 1\\sigma | \\Omega)$。\n\n## 2. 筛选条件子空间\n$P(X > 1\\sigma | \\Omega) = P(X > 1\\sigma(X+Y>0))$。\n\n## 3. 确定目标事件\n目标 $B: X > 1\\sigma$，与条件 $A: X+Y > 0$ 的交集 $A \\cap B$。\n\n## 4. 概率计算\n在独立变量 $X \\sim N(0, 2^2)$ 和 $Y \\sim N(0, 2^2)$ 的概率空间下，计算条件概率 $P(A \\cap B) / P(A)$。\n\n### 4.1. 计算 $P(A \\cap B)$\n\n$$P(A \\cap B) = \\iint_{x>1\\sqrt{2}, x+y>0} f(x,y) \\, dx \\, dy$$\n\n$$= \\int_{x=1\\sqrt{2}}^{+\\infty} \\int_{y=-x}^{+\\infty} \\frac{1}{2\\pi 4} e^{-(x^2+y^2)/8} \\, dy \\, dx$$\n\n$$= \\int_{x=1\\sqrt{2}}^{+\\infty} \\left[ \\int_{y=-x}^{+\\infty} \\frac{1}{2\\pi 4} e^{-(x^2+y^2)/8} \\, dy \\right] dx$$\n\n$$= \\int_{x=1\\sqrt{2}}^{+\\infty} \\frac{1}{2\\pi 4} \\left[ \\frac{1}{2} \\text{erfc}\\left(\\frac{-x}{2\\sqrt{2}}\\right) \\right] \\, dx$$\n\n$$= \\int_{x=1\\sqrt{2}}^{+\\infty} \\frac{1}{4\\pi 2} \\left[ \\frac{1}{2} - \\text{erf}\\left(\\frac{x}{2\\sqrt{2}}\\right) \\right] \\, dx$$\n\n$$= \\frac{1}{4\\pi 2} \\left[ \\int_{x=1\\sqrt{2}}^{+\\infty} \\frac{1}{2} \\, dx - \\int_{x=1\\sqrt{2}}^{+\\infty} \\text{erf}\\left(\\frac{x}{2\\sqrt{2}}\\right) \\, dx \\right]$$\n\n$$= \\frac{1}{4\\pi 2} \\left[ \\frac{1}{2}x \\Big|_{x=1\\sqrt{2}}^{+\\infty} - \\int_{x=1\\sqrt{2}}^{+\\infty} \\text{erf}\\left(\\frac{x}{2\\sqrt{2}}\\right) \\, dx \\right]$$\n\n$$= \\frac{1}{4\\pi 2} \\left[ -\\frac{1}{2}x - 2\\sqrt{2} e^{-x^2/8} \\text{erfc}\\left(\\frac{x}{2\\sqrt{2}}\\right) \\Big|_{x=1\\sqrt{2}}^{+\\infty} \\right]$$\n\n$$= \\frac{1}{4\\pi 2} \\",
+      "alignment": {
+        "checks": {
+          "c1_syntax": false,
+          "c6_steps": true,
+          "c2_node_consistency": false,
+          "c3_prob_labels": false,
+          "c4_names": false,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "无 mermaid 代码块",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "无 mermaid，跳过",
+          "c3_prob_labels": "无 mermaid，跳过",
+          "c4_names": "无 mermaid，跳过",
+          "c5_ratio": "无 mermaid，跳过"
+        },
+        "score": 1,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodnew-normal-4",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "1",
+        "reference_prob": "1/2",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n假设空间 $\\Omega: X+Y > 0$，条件概率 $P(X > 1\\sigma | \\Omega)$。\n根据中心极限定理，$X+Y \\sim N(0, 18)$。\n\n## 2. 筛选条件子空间\n筛选条件 $B: X+Y > 0$。\n$$P(B) = 1$$\n\n## 3. 确定目标事件\n目标事件 $A: X > 1\\sigma$。\n$$P(A \\cap B) = P(X > 1\\sigma) = 1 - \\Phi\\left(\\frac{1\\sigma}{\\sqrt{18}}\\right)$$\n\n## 4. 概率计算与可视化\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = 1 - \\Phi\\left(\\frac{1\\sigma}{\\sqrt{18}}\\right)$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Omega[\"Ω: X+Y > 0\"] -->|\"X > 1σ\"| A[\"A∩Ω\"]\n    Omega -->|\"X+Y > 0\"| B[\"B\"]\n    B -->|\"X > 1σ\"| AB[\"A∩B\"]\n    B -->|\"Not A\"| NotA[\"B-A\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 概率 |\n| :--- | :---: |\n| X > 1σ ($A$) | $1 - \\Phi\\left(\\frac{1\\sigma}{\\sqrt{18}}\\right)$ |\n| Not $A$ ($A^c$) | $\\Phi\\left(\\frac{1\\sigma}{\\sqrt{18}}\\right)$ |\n| **总计** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "节点标签无可比对数值",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "正文无「」标记（不适用）",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-reliability-1",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "3/5",
+        "reference_prob": "81/250",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n生产线由 4 个部件组成，样本空间为所有部件的是否正常工作组合，共 $2^{4} = 16$ 种（非等可能，需加权计算）。\n\n各部件独立工作，正常工作概率分别为：\n- $P(部件1正常)=3/5$\n- $P(部件2正常)=3/5$\n- $P(部件3正常)=9/10$\n- $P(部件4正常)=3/5$\n\n示例：部件1、部件2正常，部件3、部件4不正常：\n```{julia}\n3//5 * 3//5 * 1//10 * 2//5 = 9//625\n```\n\n## 2. 筛选条件子空间\n条件 $B$：「部件1正常」。\n\n$$P(B) = 3/5$$\n\n## 3. 确定目标事件\n目标 $A$：「整条生产线正常工作」。\n\n$$P(A \\cap B) = 81/250$$\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{81/250}{3/5} = 27/50$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Space[\"样本空间<br/>2^4=16\"] -->|\"部件1正常\"| B[\"B: P=3/5\"]\n    B -->|\"整条生产线正常工作: 81/250\"| AB[\"A∩B\"]\n    B -->|\"不满足\"| NotA[\"B-A\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 概率 |\n| :--- | :---: |\n| 整条生产线正常工作 ($A$) | $27/50$ |\n| 不满足 ($A^c$) | $23/50$ |\n| **总计** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "2/2 节点数值可在正文找到",
+          "c3_prob_labels": "1/1 边标签概率与正文一致",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-reliability-2",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "9/10",
+        "reference_prob": "54/125",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n生产线由 4 个部件组成，样本空间为所有部件的是否正常工作组合，共 $2^{4} = 16$ 种（非等可能，需加权计算）。\n\n各部件独立工作，正常工作概率分别为：\n- $P(部件1正常)=9/10$\n- $P(部件2正常)=4/5$\n- $P(部件3正常)=9/10$\n- $P(部件4正常)=3/5$\n\n示例：部件1失败,部件2正常,部件3失败,部件4失败，概率为 $1/1000$（非等可能，非均匀样本空间）\n\n## 2. 筛选条件子空间\n条件 $B$：「部件1正常工作」。\n$$P(B) = 9/10$$\n\n## 3. 确定目标事件\n目标 $A$：「整条生产线正常工作」。\n由于部件1已经正常工作，为了使整条生产线正常工作，部件2、部件3和部件4也必须正常工作。\n$$P(A \\cap B) = 54/125$$\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{54/125}{9/10} = 12/25$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Space[\"样本空间<br/>2^4=16\"] -->|\"部件1正常\"| B[\"B: P=9/10\"]\n    B -->|\"部件2、部件3、部件4都正常\"| AB[\"A∩B: 54/125\"]\n    B -->|\"不满足\"| NotA[\"B-A: 36/125\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 概率 |\n| :--- | :---: |\n| 整条生产线正常工作 ($A$) | $12/25$ |\n| 不满足 ($A^c$) | $13/25$ |\n| **总计** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": false,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "4/4 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "0/2 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 4,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-reliability-3",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "27/50",
+        "reference_prob": "243/500",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n生产线由 4 个部件组成，样本空间为所有部件的是否正常工作组合，共 $2^{4} = 16$ 种（非等可能，需加权计算）。\n\n各部件独立工作，正常工作概率分别为：\n- $P(部件1正常)=9/10$\n- $P(部件2正常)=9/10$\n- $P(部件3正常)=9/10$\n- $P(部件4正常)=3/5$\n\n示例：部件1失败,部件2成功,部件3失败,部件4成功\n概率乘积为：$1/10$\n\n## 2. 筛选条件子空间\n条件 $B$：「部件1正常工作」。\n\n$$P(B) = 9/10$$\n\n## 3. 确定目标事件\n目标 $A$：「整条生产线正常工作」。\n交集 $A \\cap B$ 对应满足条件的组合，共 11 种。\n\n示例：部件1成功,部件2成功,部件3成功,部件4成功\n概率为：$243/500$\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{243/500}{9/10} = 27/50$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    P[\"总空间: 16种组合\"] -->|\"部件1正常工作\"| B[\"B: 9种\"]\n    B -->|\"整条生产线正常工作: 11种\"| AB[\"A∩B: 11种\"]\n    B -->|\"不满足: 38种\"| NotA[\"B-A: 38种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 整条生产线正常工作 ($A$) | 11 | $27/50$ |\n| 不满足 ($A^c$) | 38 | $23/50$ |\n| **总计** | **9** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "3/3 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-reliability-4",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "7/10",
+        "reference_prob": "243/1250",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n生产线由 5 个串联部件组成，各部件独立工作。\n各部件正常工作概率：\n- P(部件1正常)=7/10\n- P(部件2正常)=3/5\n- P(部件3正常)=3/5\n- P(部件4正常)=9/10\n- P(部件5正常)=3/5\n\n样本空间为所有部件的 itertools 乘积，共 $2^{5}$ 种组合。\n各部件状态独立，因此样本空间结构不变，各组合等可能。\n\n## 2. 筛选条件子空间\n条件 $B$：「部件1正常工作」。\n$$P(B) = 7/10$$\n\n## 3. 确定目标事件\n目标 $A$：「整条生产线正常工作」。\n$$A \\cap B = 243/625$$\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{243/625}{7/10} = 243/437.5$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Space[\"样本空间<br/>2^5种组合\"] -->|\"部件1正常工作\"| B[\"B: P=7/10\"]\n    B -->|\"整条生产线正常工作: 243/625\"| AB[\"A∩B\"]\n    B -->|\"不满足\"| NotA[\"B-A\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 概率 |\n| :--- | :---: |\n| 整条生产线正常工作 ($A$) | $243/437.5$ |\n| 不满足 ($A^c$) | $194/437.5$ |\n| **总计** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "1/1 节点数值可在正文找到",
+          "c3_prob_labels": "1/1 边标签概率与正文一致",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodnew-reliability-5",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "4/5",
+        "reference_prob": "63/125",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n生产线由 4 个部件组成，样本空间为所有部件的是否正常工作组合，共 $2^{4} = 16$ 种（非等可能，需加权计算）。\n\n各部件独立工作，正常工作概率分别为：\n- $P(部件1正常)=4/5$\n- $P(部件2正常)=7/10$\n- $P(部件3正常)=9/10$\n- $P(部件4正常)=4/5$\n\n示例： components\\(\"4/5\", \"7/10\", \"9/10\", \"4/5\") | \"9/10\"\n| 部件1 | 部件2 | 部件3 | 部件4 | 条件概率分布 |\n| :--- | :--- | :--- | :--- | :---: |\n| $4/5$ | $7/10$ | $9/10$ | $4/5$ | $9/10$ |\n| $4/5$ | $7/10$ | $9/10$ | $4/5$ | $9/10$ |\n| ... | ... | ... | ... | ... |\n| $4/5$ | $3/10$ | $1/10$ | $4/5$ | $1/5$ |\n| **总计** | **128/125** |**-** |**-** | **9/10** |\n```mermaid\nflowchart LR\n    space[\"样本空间<br/>2^4=16种组合\"] -->|\"部件1正常\"|上有(\"部件1正常\"|=4/5)\n    上有 -->|\"7/10\"|中(\"部件2正常\"|=7//10)\n    中 -->|\"9/10\"|下(\"部件3正常\"|=9//10)\n    下 -->|\"4/5\"|右(\"部件4正常\"|=4//5\")\n    下 -->|\"4/5\"|右2(\"部件4 normal\"|=4//5\")\n    有 -->|\"9/10\"|中2\n    style 中 fill:#d4edda,stroke:#28a745\n    style 有 fill:#fff3cd,stroke:#ffc107\n```\n\n## 2. 筛选条件子空间\n条件 $B$：「部件1正常」。\n$$P(B) = 4/5 = 128/125$$\n\n## 3. 确定目标事件\n目标 $A$：「整条生产线正常工作」。\n$$P(A \\cap B) = 54/125$$\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{54/125}{128/125} = 27/64$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    space[\"样本空间<br/>2^4=16种组合\"] -->|\"部件1正常\"|上有(\"部件1正常\"|=4/5)\n    上有 -->|\"7/10\"|中(\"部件2正常\"|=7//10\")\n    中 -->|\"9/10\"|下(\"部件3正常\"|=9//10\")\n    下 -->|\"4/5\"|右(\"部件4正常\"|=4//5\")\n    下 -->|\"4/5\"|",
+      "alignment": {
+        "checks": {
+          "c1_syntax": false,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "block0: edge missing target node: space --> 部件1正常; block0: edge missing target node: space --> 7/10; block0: edge missing target node: space --> 9/10; block0: edge missing target node: space --> 4/5; block0: edge missing target node: space --> 4/5; block0: edge missing target node: space --> 9/10",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "1/1 节点数值可在正文找到",
+          "c3_prob_labels": "5/5 边标签概率与正文一致",
+          "c4_names": "1/2 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 4,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodhard-urn-1",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "5/9",
+        "reference_prob": "67/146",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n生产了 147 个零件（68 个白件，79 个黑件）。不放回依次抽取 4 个，样本空间为所有有序抽取序列，$|\\Omega| = P(147,4) = 13583136$。\n\n## 2. 筛选条件子空间\n条件 $B$：「第一球为白」。\n筛选后 $|B| = 6444096$。\n\n## 3. 确定目标事件\n目标 $A$：「第二球为白」。\n交集 $|A \\cap B| = 3229440$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{3229440}{6444096} = 5/9$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"零件: 147种<br/>(68白, 79黑)\"] -->|\"不放回取4个\"| Draw[\"Ω: 13583136种序列\"]\n    Draw -->|\"第一球为白\"| B[\"B: 6444096种\"]\n    B -->|\"第二球为白: 3229440种\"| AB[\"A∩B: 3229440种\"]\n    B -->|\"不满足: 3214656种\"| NotA[\"B-A: 3214656种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 第二球为白 ($A$) | 3229440 | $5/9$ |\n| 不满足 ($A^c$) | 3214656 | $4/9$ |\n| **总计** | **6444096** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "7/7 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 16820/33563 vs 正文 5/9"
+        },
+        "score": 5,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodhard-urn-2",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "399/709",
+        "reference_prob": "3/5",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n生产了 116 个零件，其中 70 个为白件，46 个为黑件。\n不放回抽取 3 个，样本空间为所有有序抽取序列，$|\\Omega| = P(116,3) = 102960$。\n\n## 2. 筛选条件子空间\n条件 $B$：「第一球为白」。\n筛选后 $|B| = 70840$。\n每个序列在 $B$ 下概率为 $1/70840$。\n\n## 3. 确定目标事件\n目标 $A$：「第二球为白」。\n交集 $|A \\cap B| = 39900$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{39900}{70840} = 399/709$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"零件: 70白46黑<br/>共116件\"] -->|\"不放回抽3个\"| Draw[\"Ω: 102960种序列\"]\n    Draw -->|\"第一球为白\"| B[\"B: 70840种\"]\n    B -->|\"第二球为白: 39900种\"| AB[\"A∩B: 39900种\"]\n    B -->|\"不满足: 30940种\"| NotA[\"B-A: 30940种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 第二球为白 ($A$) | 39900 | $399/709$ |\n| 不满足 ($A^c$) | 30940 | $310/709$ |\n| **总计** | **70840** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "7/7 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 285/506 vs 正文 399/709"
+        },
+        "score": 5,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodhard-urn-3",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "5/13",
+        "reference_prob": "43/116",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n生产大量零件，有 44 个白件，73 个黑件，不放回取 4 个。\n样本空间为所有有序抽取序列，$|\\Omega| = P(117,4) = 117 \\times 116 \\times 115 \\times 114$。\n\n## 2. 筛选条件子空间\n条件 $B$：「第一球为白」。\n筛选后 $|B| = 517884 $。\n\n## 3. 确定目标事件\n目标 $A$：「第二球为白」。\n交集 $|A \\cap B| = 218280$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{218280}{517884} = 5/13$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"零件: 44白/73黑<br/>共117件\"] -->|\"不放回取4个\"| Draw[\"Ω: 117×116×115×114种序列\"]\n    Draw -->|\"第一球为白\"| B[\"B: 517884种\"]\n    B -->|\"第二球为白: 5/13\"| AB[\"A∩B: 218280种\"]\n    B -->|\"不满足: 105960种\"| NotA[\"B-A: 105960种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 第二球为白 ($A$) | 218280 | $5/13$ |\n| 不满足 ($A^c$) | 105960 | $8/13$ |\n| **总计** | **517884** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "8/8 节点数值可在正文找到",
+          "c3_prob_labels": "1/1 边标签概率与正文一致",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 18190/43157 vs 正文 5/13"
+        },
+        "score": 5,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodhard-urn-4",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "8/15",
+        "reference_prob": "25/47",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n生产了 142 个零件，其中 76 个为白件，66 个为黑件。\n不放回依次抽取 4 个，样本空间为所有有序抽取序列，$|\\Omega| = P(142,4) = 124882080$。\n\n## 2. 筛选条件子空间\n条件 $B$：「第一球为白」。\n筛选后 $|B| = 61929600$。\n\n## 3. 确定目标事件\n目标 $A$：「第二球为白」。\n交集 $|A \\cap B| = 31848960$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{|A \\cap B|}{|B|} = \\frac{31848960}{61929600} = 8/15$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Urn[\"零件: 142种<br/>(76白, 66黑)\"] -->|\"不放回抽4个\"| Draw[\"Ω: 124882080种序列\"]\n    Draw -->|\"第一球为白\"| B[\"B: 61929600种\"]\n    B -->|\"第二球为白: 31848960种\"| AB[\"A∩B: 31848960种\"]\n    B -->|\"不满足: 30080640种\"| NotA[\"B-A: 30080640种\"]\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 样本点数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 第二球为白 ($A$) | 31848960 | $8/15$ |\n| 不满足 ($A^c$) | 30080640 | $7/15$ |\n| **总计** | **61929600** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": false
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "7/7 节点数值可在正文找到",
+          "c3_prob_labels": "边标签无分数（不适用）",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "|A∩B|/|B| = 16588/32255 vs 正文 8/15"
+        },
+        "score": 5,
+        "total": 6
+      }
+    },
+    {
+      "source": "oodhard-bayesnet-5",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "1/2",
+        "reference_prob": "8/17",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n假设空间 $H = $ '患病'，其概率 $P(H) = 1/10$。\ncomplement $H^c$ 概率 $P(H^c) = 9/10$。\n\n## 2. 筛选条件子空间\n两项检测独立。\n条件 $B$：「两项检测均为阳性」。\n$$P(B) = \\prod_{i \\in cond} P(E_i) = 9/10 \\cdot 4/5 = 18/25$$\n\n## 3. 确定目标事件\n目标 $A$：「 actually sick」。\n交集 $A \\cap B = 9/25$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{9/25}{18/25} = 1/2$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    H[\"患病: 1/10\"] -->|\"两项检测均为阳性: 18/25\"| B[\"B: 18/25\"]\n    H -->|\"1/2\"| AB[\"A∩B: 9/25\"]\n    H -->|\"1/2\"| NotA[\"B-A: 9/25\"]\n    B -->|\"1/2\"| AB\n    B -->|\"1/2\"| NotA\n    style AB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 概率 |\n| :--- | :---: |\n| actually sick ($A$) | $1/2$ |\n| not sick ($A^c$) | $1/2$ |\n| **总计** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "3/3 节点数值可在正文找到",
+          "c3_prob_labels": "5/5 边标签概率与正文一致",
+          "c4_names": "1/2 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodhard-bayesnet-6",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "81/83",
+        "reference_prob": "9/13",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n假设空间 $H = $ '患病'，其概率 $P(H) = 1/10$。\n补事件 $H' = $ '未患病'，其概率 $P(H') = 9/10$。\n\n两项检测为独立事件，因此样本空间为所有检测结果的组合，共 $2^{2} = 4$ 种。\n\n## 2. 筛选条件子空间\n条件 $B$：「两项检测均为阳性」。\n$$P(B) = \\prod_{i \\in cond} P(E_i|H_i) + \\prod_{i \\in cond} P(E_i|H_i') = 9/10 \\cdot 9/10 + 2/5 \\cdot 1/10 = 83/250$$\n\n## 3. 确定目标事件\n目标 $A$：「 indeed 患病」。\n交集 $A \\cap B = 81/250$。\n\n## 4. 条件概率计算与可视化\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{81/250}{83/250} = 81/83$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    Pop[\" population: 1000000\"] -->|\"disease: 1/10\"| D[\"H: 100000\"]\n    Pop -->|\"no disease: 9/10\"| NotD[\"H': 9000000\"]\n    D -->|\"test positive: 9/10\"| B[\"B: 810000\"]\n    D -->|\"test negative: 1/10\"| NotB[\"B': 90000\"]\n    NotD -->|\"test positive: 2/5\"| B[\"B\": 1800000]\n    NotD -->|\"test negative: 3/5\"| NotB[\"B': 4500000\"]\n    style B fill:#d4edda,stroke:#28a745\n    style D fill:#ffc107,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 人数 | 条件概率 $P(\\cdot|B)$ |\n| :--- | :---: | :---: |\n| 确实患病 ($A$) | 810000 | $81/83$ |\n| 合并概率 ($A' \\cap B$) | 120000 | $12/83$ |\n| **总计** | **930000** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": false,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "5/5 节点数值可在正文找到",
+          "c3_prob_labels": "6/6 边标签概率与正文一致",
+          "c4_names": "0/2 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 4,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodhard-bayesnet-7",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": false,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "49/205",
+        "reference_prob": "63/79",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n假设空间 $H = $「某疾病」，概率 $P(H) = 1/5$。\n sampling space $B$ =「[至少一个阳性]」，$$P(B) = 41/50$$\n\n## 2. 筛选条件子空间\n sampling space under condition $B$:\n   - $H \\cap B$ 对应「两项检测均为阳性且患病」, $$P(H \\cap B) = 49/250$$\n   - $H^c \\cap B$ 对应「两项检测均为阳性但未患病」, $$P(H^c \\cap B) = 161/250$$\n\n## 3. 计算条件概率\n$$P(H|B) = \\frac{P(H \\cap B)}{P(B)} = \\frac{49/250}{41/50} = 49/205$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    H[\"疾病: 1/5\"] -->|\"两项检测均为阳性: 41/50\"| B[\"B\"]\n    B -->|\"两项检测均为阳性且患病: 49/250\"| HcapB[\"H∩B\"]\n    B -->|\"两项检测均为阳性但未患病: 161/250\"| HccapB[\"Hc∩B\"]\n    style HcapB fill:#d4edda,stroke:#28a745\n    style B fill:#fff3cd,stroke:#ffc107\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 概率 |\n| :--- | :---: |\n| 两项检测均为阳性且患病 ($H$) | $49/205$ |\n| 两项检测均为阳性但未患病 ($H^c$) | $156/205$ |\n| **总计** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": false,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "缺少步骤标题",
+          "c2_node_consistency": "1/1 节点数值可在正文找到",
+          "c3_prob_labels": "3/3 边标签概率与正文一致",
+          "c4_names": "3/4 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 4,
+        "total": 5
+      }
+    },
+    {
+      "source": "oodhard-bayesnet-8",
+      "struct": {
+        "step1": true,
+        "step2": true,
+        "step3": true,
+        "step4": true,
+        "mermaid": true,
+        "latex": true,
+        "table": true
+      },
+      "accuracy": {
+        "generated_prob": "7/10",
+        "reference_prob": "6/7",
+        "correct": false,
+        "extracted": true
+      },
+      "generated": "## 1. 构建总概率空间\n假设空间 $H = $「 having the disease」，概率 $P(H) = 3/10$。\ncomplement $P(H^c) = 7/10$。\n\n## 2. 筛选条件子空间\n两项检测独立。\n条件 $B$：「 two positive test results」。\n$$P(B) = \\prod_{i \\in cond} P(B_i|H_i)$$\n\n## 3. 确定目标事件\n目标 $A$：「 having the disease」。\n$A \\cap B$ 为交集。\n\n## 4. 条件概率计算\n$$P(A|B) = \\frac{P(A \\cap B)}{P(B)}$$\n\n### 概率路径图\n```mermaid\nflowchart LR\n    H[\"having the disease: 3/10\"] -->|\"two positive test results: 14/25\"| B[\"B: 3/10\"]\n    H -->|\"not H: 11/25\"| NotB[\"not B: 22/25\"]\n    B -->|\"H: 7/15\"| B intersect H[\"H∩B: 7/50\"]\n    B -->|\"not H: 13/50\"| NotH[\"B-A: 13/50\"]\n```\n\n### 条件概率分布表 (给定B)\n| 事件 | 概率 |\n| :--- | :---: |\n| having the disease ($A$) | $7/15$ |\n| not having the disease ($A^c$) | $13/15$ |\n| **总计** | **1** |",
+      "alignment": {
+        "checks": {
+          "c1_syntax": true,
+          "c6_steps": true,
+          "c2_node_consistency": true,
+          "c3_prob_labels": true,
+          "c4_names": true,
+          "c5_ratio": null
+        },
+        "details": {
+          "c1_syntax": "全部合法",
+          "c6_steps": "步骤 1-4 齐全",
+          "c2_node_consistency": "3/3 节点数值可在正文找到",
+          "c3_prob_labels": "4/4 边标签概率与正文一致",
+          "c4_names": "2/2 条件/目标名出现在图中",
+          "c5_ratio": "集合大小或最终概率缺失（不适用）"
+        },
+        "score": 5,
+        "total": 5
+      }
+    }
+  ]
+}

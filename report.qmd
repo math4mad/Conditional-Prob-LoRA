@@ -456,6 +456,59 @@ else:
     print("等待 OOD 评估结果（需 AutoDL GPU 运行）…")
 ```
 
+### 7.7.1 结论：分布内的 100% 是幻觉
+
+| 指标 | 训练集内评估 | 真 OOD（58 条） |
+|:---|:---:|:---:|
+| 四步法完整率 | 100% | 94.8% |
+| Mermaid 覆盖率 | 100% | 86.2% |
+| LaTeX 覆盖率 | 100% | 96.6% |
+| 数值提取率 | 100% | 84.5% |
+| **数值正确率** | **100%** | **1.7%** |
+
+模型在 OOD 上**几乎完全掌握了输出格式，却几乎完全算不对**。这是本项目最重要的发现：此前的"全指标 100%"是分布内自测，不构成泛化证据。
+
+### 7.7.2 答案复杂度坍缩
+
+失败并非"差一点点"，而是系统性偏移：
+
+```{python}
+#| label: answer-collapse
+#| fig-cap: "答案分母复杂度：OOD 真值 vs 模型生成（模型回避大分母答案）"
+#| fig-width: 8
+#| fig-height: 3.4
+import re
+from fractions import Fraction
+
+def final_prob(t):
+    m = re.findall(r"=\s*(\d+)/(\d+)", t)
+    return Fraction(int(m[-1][0]), int(m[-1][1])) if m else None
+
+tr_recs = [json.loads(l) for l in open("data/sft_train_580.jsonl", encoding="utf-8") if l.strip()]
+ood_recs = [json.loads(l) for l in open("data/test_ood.jsonl", encoding="utf-8") if l.strip()]
+ood_rep_d = json.loads(Path("output/eval_ood.json").read_text())["details"] if Path("output/eval_ood.json").exists() else []
+
+sets = {
+    "训练集答案": [d.denominator for d in (final_prob(x["output"]) for x in tr_recs) if d],
+    "OOD 真值": [d.denominator for d in (final_prob(x["output"]) for x in ood_recs) if d],
+    "OOD 模型生成": [d.denominator for d in (final_prob(x["generated"]) for x in ood_rep_d) if d],
+}
+fig, ax = plt.subplots(figsize=(8, 3.4))
+names = list(sets)
+meds = [sorted(v)[len(v)//2] for v in sets.values()]
+simples = [sum(1 for d in v if d <= 12)/len(v)*100 for v in sets.values()]
+bars = ax.bar(names, meds, color=["#0d6efd", "#6c757d", "#dc3545"], alpha=0.88, width=0.55)
+ax.set_yscale("log"); ax.set_ylabel("答案分母中位数 (log)")
+ax.set_title("答案复杂度坍缩：模型生成的分母远小于 OOD 真值")
+for b, m, s in zip(bars, meds, simples):
+    ax.text(b.get_x() + b.get_width()/2, m*1.25,
+            f"中位 {m}\n简单分数占比 {s:.0f}%", ha="center", fontsize=9)
+ax.grid(axis="y", alpha=0.3)
+plt.tight_layout(); plt.show()
+```
+
+模型生成答案的中位分母仅 **13**，而 OOD 真值为 **125**；且模型"简单分数（分母 ≤ 12）"占比达 **50%**，甚至高于训练集自身的 36.8%。这说明模型在遇到超出训练分布的题时，回退到训练集中最常见的答案形态，而非执行组合计算——**学到的是答案格式，不是计算过程**。
+
 ## 7.8 GraphRAG 增强效果对比
 
 ```{python}
