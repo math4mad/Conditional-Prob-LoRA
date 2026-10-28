@@ -24,10 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SFT_FILE = BASE_DIR / "data" / "sft_train_130.jsonl"
 
 
-def load_test_data(limit: int = 20):
-    """加载测试数据。"""
+def load_test_data(limit: int = 20, test_file: str = None):
+    """加载测试数据。test_file 可指定 OOD 测试集路径。"""
+    path = Path(test_file) if test_file else SFT_FILE
     records = []
-    with open(SFT_FILE, encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         for line in f:
             records.append(json.loads(line))
     return records[:limit]
@@ -101,7 +102,9 @@ def run_inference(model, tokenizer, instruction: str, input_text: str, max_token
     return generated
 
 
-def evaluate(model_path: str, adapter_path: str = None, num_samples: int = 20):
+def evaluate(model_path: str, adapter_path: str = None, num_samples: int = 20,
+             test_file: str = None, report_name: str = "eval_report",
+             max_tokens: int = 512):
     """完整评估流程。"""
     print("=" * 60)
     print("LoRA 模型结构化评估")
@@ -148,8 +151,11 @@ def evaluate(model_path: str, adapter_path: str = None, num_samples: int = 20):
         model = PeftModel.from_pretrained(model, adapter_path)
 
     # 加载测试数据
-    test_data = load_test_data(num_samples)
-    print(f"测试样本数: {len(test_data)}\n")
+    test_data = load_test_data(num_samples, test_file)
+    print(f"测试样本数: {len(test_data)}")
+    if test_file:
+        print(f"测试集: {test_file}")
+    print()
 
     # 评估统计
     stats = {
@@ -164,7 +170,7 @@ def evaluate(model_path: str, adapter_path: str = None, num_samples: int = 20):
     for i, r in enumerate(test_data):
         # 生成
         generated = run_inference(
-            model, tokenizer, r["instruction"], r["input"], max_tokens=512
+            model, tokenizer, r["instruction"], r["input"], max_tokens=max_tokens
         )
 
         # 结构评估
@@ -215,9 +221,10 @@ def evaluate(model_path: str, adapter_path: str = None, num_samples: int = 20):
     print(f"LaTeX 覆盖率: {latex_count}/{len(test_data)} ({latex_count/len(test_data)*100:.1f}%)")
 
     # 保存详细结果
-    report_path = BASE_DIR / "output" / "eval_report.json"
+    report_path = BASE_DIR / "output" / f"{report_name}.json"
     with open(report_path, "w", encoding="utf-8") as f:
         json.dump({
+            "test_file": test_file or str(SFT_FILE),
             "summary": {
                 "samples": len(test_data),
                 "structure_avg": avg_struct,
@@ -252,9 +259,29 @@ def main():
         default=20,
         help="评估样本数",
     )
+    parser.add_argument(
+        "--test_file",
+        type=str,
+        default=None,
+        help="测试集路径（OOD 测试用，默认用训练集）",
+    )
+    parser.add_argument(
+        "--report_name",
+        type=str,
+        default="eval_report",
+        help="评估报告文件名（不含 .json）",
+    )
+    parser.add_argument(
+        "--max_tokens",
+        type=int,
+        default=512,
+        help="单条生成最大 token 数",
+    )
     args = parser.parse_args()
 
-    evaluate(args.model_path, args.adapter_path, args.num_samples)
+    evaluate(args.model_path, args.adapter_path, args.num_samples,
+             test_file=args.test_file, report_name=args.report_name,
+             max_tokens=args.max_tokens)
 
 
 if __name__ == "__main__":

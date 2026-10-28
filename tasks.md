@@ -90,3 +90,7 @@
     - 结论: 516条数据(4倍扩充) + 10epoch → 全指标 100%，数值正确率从 0% 突破到 100%
   - 工具: `scripts/train_lora.py` / `scripts/evaluate_lora.py`
   - 部署: `autodl_setup.sh` / `.autoDL-SSH` (本地凭据)
+
+Phase 5: 测试
+  - ref: ./external/dilalogue2.md
+  - 按照 ### 🧪 第三层：下一步验证清单（按优先级排序）  逐步做测试

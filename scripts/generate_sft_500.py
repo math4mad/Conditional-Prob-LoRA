@@ -210,7 +210,7 @@ $$P({hypo_names[target_idx]}|E) = \\frac{{P(E|{hypo_names[target_idx]}) \\cdot P
 flowchart LR
     Prior["先验分布<br/>""" + "<br/>".join(f"{hypo_names[i]}: {frac_str(priors[i])}" for i in range(num_hypo)) + f""""] -->|"观察到{evidence}"| Evidence["P(E) = {frac_str(pe)}"]
     Evidence -->|"贝叶斯更新"| Posterior["后验分布"]
-""" + "\n".join(f'    Posterior --> "{hypo_names[i]}: {frac_str(posteriors[i])}"' for i in range(num_hypo)) + f"""
+""" + "\n".join(f'    Posterior -->|"{frac_str(posteriors[i])}"| Post{i}["{hypo_names[i]}"]' for i in range(num_hypo)) + f"""
     style Posterior fill:#d4edda,stroke:#28a745
     style Evidence fill:#fff3cd,stroke:#ffc107
 ```
@@ -331,48 +331,78 @@ flowchart LR
 # 主函数
 # ============================================================
 def main():
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    import argparse
 
-    print("生成骰子条件概率题目 (80条)...")
-    dice = gen_dice_problems(80)
+    parser = argparse.ArgumentParser(description="生成条件概率 SFT 语料")
+    parser.add_argument("--seed", type=int, default=2026, help="随机种子（OOD 测试用不同种子）")
+    parser.add_argument("--num", type=int, default=450, help="生成总条数")
+    parser.add_argument("--output", type=str, default=OUTPUT_FILE, help="输出 JSONL 路径")
+    parser.add_argument("--prefix", type=str, default="synth", help="source 前缀")
+    args = parser.parse_args()
+
+    # 重新设种子（所有生成器共用全局 random）
+    random.seed(args.seed)
+
+    os.makedirs(os.path.dirname(os.path.abspath(args.output)), exist_ok=True)
+
+    # 按目标总量等比分配到 8 个题型
+    ratio = args.num / 450
+    counts = {
+        "dice": max(1, round(80 * ratio)),
+        "urn": max(1, round(70 * ratio)),
+        "coin": max(1, round(60 * ratio)),
+        "table": max(1, round(50 * ratio)),
+        "path": max(1, round(40 * ratio)),
+        "poker": max(1, round(60 * ratio)),
+        "bayes": max(1, round(50 * ratio)),
+        "chain": max(1, round(40 * ratio)),
+    }
+
+    print(f"生成骰子条件概率题目 ({counts['dice']}条)...")
+    dice = gen_dice_problems(counts["dice"])
     print(f"  ✅ 生成 {len(dice)} 条")
 
-    print("生成坛子/球条件概率题目 (70条)...")
-    urn = gen_urn_problems(70)
+    print(f"生成坛子/球条件概率题目 ({counts['urn']}条)...")
+    urn = gen_urn_problems(counts["urn"])
     print(f"  ✅ 生成 {len(urn)} 条")
 
-    print("生成硬币条件概率题目 (60条)...")
-    coin = gen_coin_problems(60)
+    print(f"生成硬币条件概率题目 ({counts['coin']}条)...")
+    coin = gen_coin_problems(counts["coin"])
     print(f"  ✅ 生成 {len(coin)} 条")
 
-    print("生成双向表/贝叶斯题目 (50条)...")
-    table = gen_table_problems(50)
+    print(f"生成双向表/贝叶斯题目 ({counts['table']}条)...")
+    table = gen_table_problems(counts["table"])
     print(f"  ✅ 生成 {len(table)} 条")
 
-    print("生成多阶段路径图题目 (40条)...")
-    path = gen_path_problems(40)
+    print(f"生成多阶段路径图题目 ({counts['path']}条)...")
+    path = gen_path_problems(counts["path"])
     print(f"  ✅ 生成 {len(path)} 条")
 
-    print("生成扑克牌条件概率题目 (60条)...")
-    poker = gen_poker_problems(60)
+    print(f"生成扑克牌条件概率题目 ({counts['poker']}条)...")
+    poker = gen_poker_problems(counts["poker"])
     print(f"  ✅ 生成 {len(poker)} 条")
 
-    print("生成贝叶斯后验概率题目 (50条)...")
-    bayes = gen_bayes_problems(50)
+    print(f"生成贝叶斯后验概率题目 ({counts['bayes']}条)...")
+    bayes = gen_bayes_problems(counts["bayes"])
     print(f"  ✅ 生成 {len(bayes)} 条")
 
-    print("生成独立事件链条件概率题目 (40条)...")
-    chain = gen_chain_problems(40)
+    print(f"生成独立事件链条件概率题目 ({counts['chain']}条)...")
+    chain = gen_chain_problems(counts["chain"])
     print(f"  ✅ 生成 {len(chain)} 条")
 
     all_problems = dice + urn + coin + table + path + poker + bayes + chain
+
+    # 统一 source 前缀，便于区分训练集与测试集
+    for i, p in enumerate(all_problems):
+        p["source"] = f"{args.prefix}-{p['source'].split('-', 1)[1]}"
+
     print(f"\n总计: {len(all_problems)} 条")
 
     # 写入JSONL
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+    with open(args.output, "w", encoding="utf-8") as f:
         for p in all_problems:
             f.write(json.dumps(p, ensure_ascii=False) + "\n")
-    print(f"📄 输出: {OUTPUT_FILE}")
+    print(f"📄 输出: {args.output}")
 
     # 质量统计
     has_mermaid = sum(1 for p in all_problems if "```mermaid" in p["output"])

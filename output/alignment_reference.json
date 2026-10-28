@@ -1,0 +1,33 @@
+{
+  "mode": "reference",
+  "data_file": "data/sft_train_580.jsonl",
+  "n": 546,
+  "per_check": {
+    "c1_syntax": {
+      "pass": 546,
+      "n": 546
+    },
+    "c6_steps": {
+      "pass": 517,
+      "n": 546
+    },
+    "c2_node_consistency": {
+      "pass": 545,
+      "n": 546
+    },
+    "c3_prob_labels": {
+      "pass": 546,
+      "n": 546
+    },
+    "c4_names": {
+      "pass": 546,
+      "n": 546
+    },
+    "c5_ratio": {
+      "pass": 233,
+      "n": 233
+    }
+  },
+  "all_pass": 517,
+  "all_pass_rate": 0.9468864468864469
+}
