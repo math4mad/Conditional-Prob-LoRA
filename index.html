@@ -159,7 +159,11 @@ window.Quarto = {
   <li><a href="#结论分布内的-100-是幻觉" id="toc-结论分布内的-100-是幻觉" class="nav-link" data-scroll-target="#结论分布内的-100-是幻觉">7.7.1 结论：分布内的 100% 是幻觉</a></li>
   <li><a href="#答案复杂度坍缩" id="toc-答案复杂度坍缩" class="nav-link" data-scroll-target="#答案复杂度坍缩">7.7.2 答案复杂度坍缩</a></li>
   </ul></li>
-  <li><a href="#graphrag-增强效果对比" id="toc-graphrag-增强效果对比" class="nav-link" data-scroll-target="#graphrag-增强效果对比">7.8 GraphRAG 增强效果对比</a></li>
+  <li><a href="#graphrag-增强效果对比" id="toc-graphrag-增强效果对比" class="nav-link" data-scroll-target="#graphrag-增强效果对比">7.8 GraphRAG 增强效果对比</a>
+  <ul class="collapse">
+  <li><a href="#结果graphrag-在本任务上是负收益" id="toc-结果graphrag-在本任务上是负收益" class="nav-link" data-scroll-target="#结果graphrag-在本任务上是负收益">7.8.1 结果：GraphRAG 在本任务上是负收益</a></li>
+  <li><a href="#机制损害全部来自范例数值锚定" id="toc-机制损害全部来自范例数值锚定" class="nav-link" data-scroll-target="#机制损害全部来自范例数值锚定">7.8.2 机制：损害全部来自范例数值锚定</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -369,60 +373,60 @@ Tip
 <style type="text/css">
 </style>
 
-<table id="T_8d38c" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="T_828b5" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>各实验点评估指标对比 {#cell-main-results}</caption>
 <thead>
 <tr class="header">
-<th id="T_8d38c_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">实验点</th>
-<th id="T_8d38c_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">数据量</th>
-<th id="T_8d38c_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">四步法遵循率</th>
-<th id="T_8d38c_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">结构项平均分</th>
-<th id="T_8d38c_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Mermaid覆盖率</th>
-<th id="T_8d38c_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">LaTeX覆盖率</th>
-<th id="T_8d38c_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">数值提取率</th>
-<th id="T_8d38c_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">数值正确率</th>
+<th id="T_828b5_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">实验点</th>
+<th id="T_828b5_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">数据量</th>
+<th id="T_828b5_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">四步法遵循率</th>
+<th id="T_828b5_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">结构项平均分</th>
+<th id="T_828b5_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Mermaid覆盖率</th>
+<th id="T_828b5_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">LaTeX覆盖率</th>
+<th id="T_828b5_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">数值提取率</th>
+<th id="T_828b5_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">数值正确率</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_8d38c_row0_col0" class="data row0 col0">0.5B (MPS)</td>
-<td id="T_8d38c_row0_col1" class="data row0 col1">20</td>
-<td id="T_8d38c_row0_col2" class="data row0 col2">20%</td>
-<td id="T_8d38c_row0_col3" class="data row0 col3">—</td>
-<td id="T_8d38c_row0_col4" class="data row0 col4">80%</td>
-<td id="T_8d38c_row0_col5" class="data row0 col5">60%</td>
-<td id="T_8d38c_row0_col6" class="data row0 col6">0%</td>
-<td id="T_8d38c_row0_col7" class="data row0 col7">0%</td>
+<td id="T_828b5_row0_col0" class="data row0 col0">0.5B (MPS)</td>
+<td id="T_828b5_row0_col1" class="data row0 col1">20</td>
+<td id="T_828b5_row0_col2" class="data row0 col2">20%</td>
+<td id="T_828b5_row0_col3" class="data row0 col3">—</td>
+<td id="T_828b5_row0_col4" class="data row0 col4">80%</td>
+<td id="T_828b5_row0_col5" class="data row0 col5">60%</td>
+<td id="T_828b5_row0_col6" class="data row0 col6">0%</td>
+<td id="T_828b5_row0_col7" class="data row0 col7">0%</td>
 </tr>
 <tr class="even">
-<td id="T_8d38c_row1_col0" class="data row1 col0">1.5B (Kaggle T4)</td>
-<td id="T_8d38c_row1_col1" class="data row1 col1">130</td>
-<td id="T_8d38c_row1_col2" class="data row1 col2">0%</td>
-<td id="T_8d38c_row1_col3" class="data row1 col3">0.6/4</td>
-<td id="T_8d38c_row1_col4" class="data row1 col4">70%</td>
-<td id="T_8d38c_row1_col5" class="data row1 col5">30%</td>
-<td id="T_8d38c_row1_col6" class="data row1 col6">40%</td>
-<td id="T_8d38c_row1_col7" class="data row1 col7">0%</td>
+<td id="T_828b5_row1_col0" class="data row1 col0">1.5B (Kaggle T4)</td>
+<td id="T_828b5_row1_col1" class="data row1 col1">130</td>
+<td id="T_828b5_row1_col2" class="data row1 col2">0%</td>
+<td id="T_828b5_row1_col3" class="data row1 col3">0.6/4</td>
+<td id="T_828b5_row1_col4" class="data row1 col4">70%</td>
+<td id="T_828b5_row1_col5" class="data row1 col5">30%</td>
+<td id="T_828b5_row1_col6" class="data row1 col6">40%</td>
+<td id="T_828b5_row1_col7" class="data row1 col7">0%</td>
 </tr>
 <tr class="odd">
-<td id="T_8d38c_row2_col0" class="data row2 col0">7B 130条 (AutoDL)</td>
-<td id="T_8d38c_row2_col1" class="data row2 col1">130</td>
-<td id="T_8d38c_row2_col2" class="data row2 col2">30%</td>
-<td id="T_8d38c_row2_col3" class="data row2 col3">2.8/7</td>
-<td id="T_8d38c_row2_col4" class="data row2 col4">60%</td>
-<td id="T_8d38c_row2_col5" class="data row2 col5">30%</td>
-<td id="T_8d38c_row2_col6" class="data row2 col6">50%</td>
-<td id="T_8d38c_row2_col7" class="data row2 col7">0%</td>
+<td id="T_828b5_row2_col0" class="data row2 col0">7B 130条 (AutoDL)</td>
+<td id="T_828b5_row2_col1" class="data row2 col1">130</td>
+<td id="T_828b5_row2_col2" class="data row2 col2">30%</td>
+<td id="T_828b5_row2_col3" class="data row2 col3">2.8/7</td>
+<td id="T_828b5_row2_col4" class="data row2 col4">60%</td>
+<td id="T_828b5_row2_col5" class="data row2 col5">30%</td>
+<td id="T_828b5_row2_col6" class="data row2 col6">50%</td>
+<td id="T_828b5_row2_col7" class="data row2 col7">0%</td>
 </tr>
 <tr class="even">
-<td id="T_8d38c_row3_col0" class="data row3 col0">7B 516条 (AutoDL)</td>
-<td id="T_8d38c_row3_col1" class="data row3 col1">516</td>
-<td id="T_8d38c_row3_col2" class="data row3 col2">100%</td>
-<td id="T_8d38c_row3_col3" class="data row3 col3">6.4/7</td>
-<td id="T_8d38c_row3_col4" class="data row3 col4">100%</td>
-<td id="T_8d38c_row3_col5" class="data row3 col5">100%</td>
-<td id="T_8d38c_row3_col6" class="data row3 col6">100%</td>
-<td id="T_8d38c_row3_col7" class="data row3 col7">100%</td>
+<td id="T_828b5_row3_col0" class="data row3 col0">7B 516条 (AutoDL)</td>
+<td id="T_828b5_row3_col1" class="data row3 col1">516</td>
+<td id="T_828b5_row3_col2" class="data row3 col2">100%</td>
+<td id="T_828b5_row3_col3" class="data row3 col3">6.4/7</td>
+<td id="T_828b5_row3_col4" class="data row3 col4">100%</td>
+<td id="T_828b5_row3_col5" class="data row3 col5">100%</td>
+<td id="T_828b5_row3_col6" class="data row3 col6">100%</td>
+<td id="T_828b5_row3_col7" class="data row3 col7">100%</td>
 </tr>
 </tbody>
 </table>
@@ -585,11 +589,14 @@ Important
 <section id="结论" class="level1">
 <h1>6. 结论</h1>
 <ol type="1">
-<li><strong>516 条程序化合成语料 + 7B QLoRA 10 epoch = 全指标 100%</strong></li>
+<li><strong>516 条程序化合成语料 + 7B QLoRA 10 epoch = 分布内全指标 100%</strong></li>
 <li>数据量是关键瓶颈：130→516 条是质变阈值</li>
 <li>4-bit 量化对小模型有害，7B 以下用 FP16</li>
 <li>程序化合成 + <code>Fraction</code> 精确计算确保标签 100% 正确</li>
 </ol>
+<blockquote class="blockquote">
+<p><strong>Phase 5 修正</strong>：上述 100% 全部来自<strong>训练集内自测</strong>。在真 OOD 测试集（58 条，与训练集零重叠）上， 数值正确率仅 <strong>1.7%</strong>，而格式类指标仍近 100%。结论 1 应读作 “<strong>分布内</strong>全指标 100%”，详见第 7 章。</p>
+</blockquote>
 <section id="复现" class="level2">
 <h2 class="anchored" data-anchor-id="复现">6.1 复现</h2>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 生成语料</span></span>
@@ -891,15 +898,168 @@ OOD 汇总: {"samples": 58, "structure_avg": 6.293103448275862, "structure_pass_
 </div>
 </div>
 <p>模型生成答案的中位分母仅 <strong>13</strong>，而 OOD 真值为 <strong>125</strong>；且模型”简单分数（分母 ≤ 12）“占比达 <strong>50%</strong>，甚至高于训练集自身的 36.8%。这说明模型在遇到超出训练分布的题时，回退到训练集中最常见的答案形态，而非执行组合计算——<strong>学到的是答案格式，不是计算过程</strong>。</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>一次被量化推翻的定性判断</strong></p>
+<p>初看失败样本时，“图里算的比正文更接近真值”（如 oodparam-urn-3：图 122/269 vs 文 6/11，真值 4/9），一度提示”模型在图里保留了计算线索，只是最终结论被覆盖”。</p>
+<p>但对全部 20 条 c5_ratio 分歧样本量化后：<strong>图中比值更接近真值 6 条 (30%)，正文结论更接近真值 8 条 (40%)，误差相同 6 条 (30%)</strong>——图并不比文更准。</p>
+<p>结论因此修正为：图与文是<strong>各自独立的错误</strong>，Mermaid 只是”看起来像推导”的格式化产物。这条修正只有量化才能做出。</p>
+</div>
+</div>
 </section>
 </section>
 <section id="graphrag-增强效果对比" class="level2">
 <h2 class="anchored" data-anchor-id="graphrag-增强效果对比">7.8 GraphRAG 增强效果对比</h2>
-<div id="graphrag-compare" class="cell" data-fig-height="3.8" data-fig-width="8" data-execution_count="10">
-<div class="cell-output cell-output-stdout">
-<pre><code>等待 GraphRAG 对比结果（需 AutoDL GPU 运行）…</code></pre>
+<div id="cell-graphrag-compare" class="cell" data-fig-height="3.8" data-fig-width="8" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<div id="graphrag-compare" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/graphrag-compare-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>无 GraphRAG vs 有 GraphRAG（7B LoRA，58 条 OOD 测试集）</figcaption>
+</figure>
 </div>
 </div>
+</div>
+<div id="cell-graphrag-mechanism" class="cell" data-fig-height="3.2" data-fig-width="8" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<div id="graphrag-mechanism" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/graphrag-mechanism-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>GraphRAG 影响的机制分解：无检索上下文的层 Δ=0，唯一的可检索层大幅下降</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="结果graphrag-在本任务上是负收益" class="level3">
+<h3 class="anchored" data-anchor-id="结果graphrag-在本任务上是负收益">7.8.1 结果：GraphRAG 在本任务上是负收益</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">指标</th>
+<th style="text-align: center;">无 GraphRAG</th>
+<th style="text-align: center;">有 GraphRAG</th>
+<th style="text-align: right;">Δ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">四步法完整率</td>
+<td style="text-align: center;">82.8%</td>
+<td style="text-align: center;">74.1%</td>
+<td style="text-align: right;"><strong>−8.6pp</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mermaid 覆盖率</td>
+<td style="text-align: center;">86.2%</td>
+<td style="text-align: center;">82.8%</td>
+<td style="text-align: right;">−3.4pp</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LaTeX 覆盖率</td>
+<td style="text-align: center;">91.4%</td>
+<td style="text-align: center;">87.9%</td>
+<td style="text-align: right;">−3.4pp</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">概率表覆盖率</td>
+<td style="text-align: center;">75.9%</td>
+<td style="text-align: center;">70.7%</td>
+<td style="text-align: right;">−5.2pp</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">数值提取率</td>
+<td style="text-align: center;">84.5%</td>
+<td style="text-align: center;">79.3%</td>
+<td style="text-align: right;">−5.2pp</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">数值正确率</td>
+<td style="text-align: center;">1.7%</td>
+<td style="text-align: center;">1.7%</td>
+<td style="text-align: right;">±0.0pp</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mermaid 对齐通过率</td>
+<td style="text-align: center;">44.8%</td>
+<td style="text-align: center;">39.7%</td>
+<td style="text-align: right;">−5.2pp</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">平均对齐分</td>
+<td style="text-align: center;">4.21</td>
+<td style="text-align: center;">3.93</td>
+<td style="text-align: right;">−0.28</td>
+</tr>
+</tbody>
+</table>
+<p>检索增强没有改善任何一项指标。这与”GraphRAG 普遍更好”的预设相反，因此必须给出机制解释而非仅结论。</p>
+</section>
+<section id="机制损害全部来自范例数值锚定" class="level3">
+<h3 class="anchored" data-anchor-id="机制损害全部来自范例数值锚定">7.8.2 机制：损害全部来自范例数值锚定</h3>
+<p>按”该题是否能检索到上下文”分层后，结论变得清晰：</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">层</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: center;">有检索上下文</th>
+<th style="text-align: right;">四步法 Δ</th>
+<th style="text-align: right;">对齐率 Δ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">OOD-New</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: center;">0/38</td>
+<td style="text-align: right;"><strong>±0.0pp</strong></td>
+<td style="text-align: right;"><strong>±0.0pp</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OOD-Hard</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: center;">0/8</td>
+<td style="text-align: right;"><strong>±0.0pp</strong></td>
+<td style="text-align: right;"><strong>±0.0pp</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">OOD-Param</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: center;">12/12</td>
+<td style="text-align: right;"><strong>−41.7pp</strong></td>
+<td style="text-align: right;"><strong>−25.0pp</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>检索不到上下文的题：GraphRAG 完全没有影响</strong>（Δ 精确为 0），因为 OOD-New 的 8 个新题型在 KG 中无对应原型，检索器返回空。</li>
+<li><strong>唯一能检索到上下文的层（OOD-Param），出现了灾难性下降</strong>：训练集的坛子题只有 2–8 球，OOD-Param 是 12–30 球，注入的范例带着”8 白 3 黑、不放回取 4 球”这类<strong>具体数值</strong>，成为错误的锚点，把模型的计算拉向范例的参数。</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>GraphRAG 的适用边界</strong></p>
+<p>本任务的瓶颈是<strong>能力缺失</strong>（不会做组合计算），而非<strong>知识缺失</strong>（不知道某个事实）。 - 对”知识缺失”：检索注入事实 → 有益 - 对”能力缺失”：检索注入的是<em>同分布的解答模板</em> → 干扰计算 → 有害</p>
+<p>因此”有 GraphRAG 一定更好”并非普遍规律，前提是被检索的内容能补上模型缺的东西。</p>
+</div>
+</div>
+<p>此外还有两处结构性限制： 1. KG 仍基于旧的 130 条语料构建，未覆盖新增的 546 条合成数据，检索到的范例代表性不足； 2. P2-b 的 B3 指标显示 <code>emoji_to_num</code> 是 1:1 映射，检索到的”知识”本身不完整（Emoji 序列编码的多参数未被覆盖）。</p>
+</section>
 </section>
 </section>
 
