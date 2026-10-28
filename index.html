@@ -154,7 +154,11 @@ window.Quarto = {
   <li><a href="#p2-知识图谱质量量化" id="toc-p2-知识图谱质量量化" class="nav-link" data-scroll-target="#p2-知识图谱质量量化">7.4 P2 知识图谱质量量化</a></li>
   <li><a href="#ood-测试集隔离性验证" id="toc-ood-测试集隔离性验证" class="nav-link" data-scroll-target="#ood-测试集隔离性验证">7.5 OOD 测试集隔离性验证</a></li>
   <li><a href="#mermaid-对齐检查参考输出-vs-模型输出" id="toc-mermaid-对齐检查参考输出-vs-模型输出" class="nav-link" data-scroll-target="#mermaid-对齐检查参考输出-vs-模型输出">7.6 Mermaid 对齐检查：参考输出 vs 模型输出</a></li>
-  <li><a href="#ood-泛化结果分层" id="toc-ood-泛化结果分层" class="nav-link" data-scroll-target="#ood-泛化结果分层">7.7 OOD 泛化结果（分层）</a></li>
+  <li><a href="#ood-泛化结果分层" id="toc-ood-泛化结果分层" class="nav-link" data-scroll-target="#ood-泛化结果分层">7.7 OOD 泛化结果（分层）</a>
+  <ul class="collapse">
+  <li><a href="#结论分布内的-100-是幻觉" id="toc-结论分布内的-100-是幻觉" class="nav-link" data-scroll-target="#结论分布内的-100-是幻觉">7.7.1 结论：分布内的 100% 是幻觉</a></li>
+  <li><a href="#答案复杂度坍缩" id="toc-答案复杂度坍缩" class="nav-link" data-scroll-target="#答案复杂度坍缩">7.7.2 答案复杂度坍缩</a></li>
+  </ul></li>
   <li><a href="#graphrag-增强效果对比" id="toc-graphrag-增强效果对比" class="nav-link" data-scroll-target="#graphrag-增强效果对比">7.8 GraphRAG 增强效果对比</a></li>
   </ul></li>
   </ul>
@@ -365,60 +369,60 @@ Tip
 <style type="text/css">
 </style>
 
-<table id="T_24404" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="T_8d38c" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>各实验点评估指标对比 {#cell-main-results}</caption>
 <thead>
 <tr class="header">
-<th id="T_24404_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">实验点</th>
-<th id="T_24404_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">数据量</th>
-<th id="T_24404_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">四步法遵循率</th>
-<th id="T_24404_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">结构项平均分</th>
-<th id="T_24404_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Mermaid覆盖率</th>
-<th id="T_24404_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">LaTeX覆盖率</th>
-<th id="T_24404_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">数值提取率</th>
-<th id="T_24404_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">数值正确率</th>
+<th id="T_8d38c_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">实验点</th>
+<th id="T_8d38c_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">数据量</th>
+<th id="T_8d38c_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">四步法遵循率</th>
+<th id="T_8d38c_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">结构项平均分</th>
+<th id="T_8d38c_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Mermaid覆盖率</th>
+<th id="T_8d38c_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">LaTeX覆盖率</th>
+<th id="T_8d38c_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">数值提取率</th>
+<th id="T_8d38c_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">数值正确率</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_24404_row0_col0" class="data row0 col0">0.5B (MPS)</td>
-<td id="T_24404_row0_col1" class="data row0 col1">20</td>
-<td id="T_24404_row0_col2" class="data row0 col2">20%</td>
-<td id="T_24404_row0_col3" class="data row0 col3">—</td>
-<td id="T_24404_row0_col4" class="data row0 col4">80%</td>
-<td id="T_24404_row0_col5" class="data row0 col5">60%</td>
-<td id="T_24404_row0_col6" class="data row0 col6">0%</td>
-<td id="T_24404_row0_col7" class="data row0 col7">0%</td>
+<td id="T_8d38c_row0_col0" class="data row0 col0">0.5B (MPS)</td>
+<td id="T_8d38c_row0_col1" class="data row0 col1">20</td>
+<td id="T_8d38c_row0_col2" class="data row0 col2">20%</td>
+<td id="T_8d38c_row0_col3" class="data row0 col3">—</td>
+<td id="T_8d38c_row0_col4" class="data row0 col4">80%</td>
+<td id="T_8d38c_row0_col5" class="data row0 col5">60%</td>
+<td id="T_8d38c_row0_col6" class="data row0 col6">0%</td>
+<td id="T_8d38c_row0_col7" class="data row0 col7">0%</td>
 </tr>
 <tr class="even">
-<td id="T_24404_row1_col0" class="data row1 col0">1.5B (Kaggle T4)</td>
-<td id="T_24404_row1_col1" class="data row1 col1">130</td>
-<td id="T_24404_row1_col2" class="data row1 col2">0%</td>
-<td id="T_24404_row1_col3" class="data row1 col3">0.6/4</td>
-<td id="T_24404_row1_col4" class="data row1 col4">70%</td>
-<td id="T_24404_row1_col5" class="data row1 col5">30%</td>
-<td id="T_24404_row1_col6" class="data row1 col6">40%</td>
-<td id="T_24404_row1_col7" class="data row1 col7">0%</td>
+<td id="T_8d38c_row1_col0" class="data row1 col0">1.5B (Kaggle T4)</td>
+<td id="T_8d38c_row1_col1" class="data row1 col1">130</td>
+<td id="T_8d38c_row1_col2" class="data row1 col2">0%</td>
+<td id="T_8d38c_row1_col3" class="data row1 col3">0.6/4</td>
+<td id="T_8d38c_row1_col4" class="data row1 col4">70%</td>
+<td id="T_8d38c_row1_col5" class="data row1 col5">30%</td>
+<td id="T_8d38c_row1_col6" class="data row1 col6">40%</td>
+<td id="T_8d38c_row1_col7" class="data row1 col7">0%</td>
 </tr>
 <tr class="odd">
-<td id="T_24404_row2_col0" class="data row2 col0">7B 130条 (AutoDL)</td>
-<td id="T_24404_row2_col1" class="data row2 col1">130</td>
-<td id="T_24404_row2_col2" class="data row2 col2">30%</td>
-<td id="T_24404_row2_col3" class="data row2 col3">2.8/7</td>
-<td id="T_24404_row2_col4" class="data row2 col4">60%</td>
-<td id="T_24404_row2_col5" class="data row2 col5">30%</td>
-<td id="T_24404_row2_col6" class="data row2 col6">50%</td>
-<td id="T_24404_row2_col7" class="data row2 col7">0%</td>
+<td id="T_8d38c_row2_col0" class="data row2 col0">7B 130条 (AutoDL)</td>
+<td id="T_8d38c_row2_col1" class="data row2 col1">130</td>
+<td id="T_8d38c_row2_col2" class="data row2 col2">30%</td>
+<td id="T_8d38c_row2_col3" class="data row2 col3">2.8/7</td>
+<td id="T_8d38c_row2_col4" class="data row2 col4">60%</td>
+<td id="T_8d38c_row2_col5" class="data row2 col5">30%</td>
+<td id="T_8d38c_row2_col6" class="data row2 col6">50%</td>
+<td id="T_8d38c_row2_col7" class="data row2 col7">0%</td>
 </tr>
 <tr class="even">
-<td id="T_24404_row3_col0" class="data row3 col0">7B 516条 (AutoDL)</td>
-<td id="T_24404_row3_col1" class="data row3 col1">516</td>
-<td id="T_24404_row3_col2" class="data row3 col2">100%</td>
-<td id="T_24404_row3_col3" class="data row3 col3">6.4/7</td>
-<td id="T_24404_row3_col4" class="data row3 col4">100%</td>
-<td id="T_24404_row3_col5" class="data row3 col5">100%</td>
-<td id="T_24404_row3_col6" class="data row3 col6">100%</td>
-<td id="T_24404_row3_col7" class="data row3 col7">100%</td>
+<td id="T_8d38c_row3_col0" class="data row3 col0">7B 516条 (AutoDL)</td>
+<td id="T_8d38c_row3_col1" class="data row3 col1">516</td>
+<td id="T_8d38c_row3_col2" class="data row3 col2">100%</td>
+<td id="T_8d38c_row3_col3" class="data row3 col3">6.4/7</td>
+<td id="T_8d38c_row3_col4" class="data row3 col4">100%</td>
+<td id="T_8d38c_row3_col5" class="data row3 col5">100%</td>
+<td id="T_8d38c_row3_col6" class="data row3 col6">100%</td>
+<td id="T_8d38c_row3_col7" class="data row3 col7">100%</td>
 </tr>
 </tbody>
 </table>
@@ -819,15 +823,79 @@ Note
 </section>
 <section id="ood-泛化结果分层" class="level2">
 <h2 class="anchored" data-anchor-id="ood-泛化结果分层">7.7 OOD 泛化结果（分层）</h2>
-<div id="ood-layers" class="cell" data-fig-height="4" data-fig-width="9" data-execution_count="8">
+<div id="cell-ood-layers" class="cell" data-fig-height="4" data-fig-width="9" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div id="ood-layers" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/ood-layers-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>OOD 测试集分层表现：结构遵循率 / 数值正确率 / Mermaid 对齐率</figcaption>
+</figure>
+</div>
+</div>
 <div class="cell-output cell-output-stdout">
-<pre><code>等待 OOD 评估结果（需 AutoDL GPU 运行）…</code></pre>
+<pre><code>
+OOD 汇总: {"samples": 58, "structure_avg": 6.293103448275862, "structure_pass_rate": 0.9482758620689655, "accuracy_extracted": 49, "accuracy_correct": 1, "mermaid_coverage": 50, "latex_coverage": 56, "alignment_pass": 26, "alignment_total": 58, "alignment_rate": 0.4482758620689655, "alignment_avg_score": 4.206896551724138}</code></pre>
 </div>
 </div>
+<section id="结论分布内的-100-是幻觉" class="level3">
+<h3 class="anchored" data-anchor-id="结论分布内的-100-是幻觉">7.7.1 结论：分布内的 100% 是幻觉</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">指标</th>
+<th style="text-align: center;">训练集内评估</th>
+<th style="text-align: center;">真 OOD（58 条）</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">四步法完整率</td>
+<td style="text-align: center;">100%</td>
+<td style="text-align: center;">94.8%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mermaid 覆盖率</td>
+<td style="text-align: center;">100%</td>
+<td style="text-align: center;">86.2%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LaTeX 覆盖率</td>
+<td style="text-align: center;">100%</td>
+<td style="text-align: center;">96.6%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">数值提取率</td>
+<td style="text-align: center;">100%</td>
+<td style="text-align: center;">84.5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>数值正确率</strong></td>
+<td style="text-align: center;"><strong>100%</strong></td>
+<td style="text-align: center;"><strong>1.7%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>模型在 OOD 上<strong>几乎完全掌握了输出格式，却几乎完全算不对</strong>。这是本项目最重要的发现：此前的”全指标 100%“是分布内自测，不构成泛化证据。</p>
+</section>
+<section id="答案复杂度坍缩" class="level3">
+<h3 class="anchored" data-anchor-id="答案复杂度坍缩">7.7.2 答案复杂度坍缩</h3>
+<p>失败并非”差一点点”，而是系统性偏移：</p>
+<div id="cell-answer-collapse" class="cell" data-fig-height="3.4" data-fig-width="8" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div id="answer-collapse" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/answer-collapse-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>答案分母复杂度：OOD 真值 vs 模型生成（模型回避大分母答案）</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>模型生成答案的中位分母仅 <strong>13</strong>，而 OOD 真值为 <strong>125</strong>；且模型”简单分数（分母 ≤ 12）“占比达 <strong>50%</strong>，甚至高于训练集自身的 36.8%。这说明模型在遇到超出训练分布的题时，回退到训练集中最常见的答案形态，而非执行组合计算——<strong>学到的是答案格式，不是计算过程</strong>。</p>
+</section>
 </section>
 <section id="graphrag-增强效果对比" class="level2">
 <h2 class="anchored" data-anchor-id="graphrag-增强效果对比">7.8 GraphRAG 增强效果对比</h2>
-<div id="graphrag-compare" class="cell" data-fig-height="3.8" data-fig-width="8" data-execution_count="9">
+<div id="graphrag-compare" class="cell" data-fig-height="3.8" data-fig-width="8" data-execution_count="10">
 <div class="cell-output cell-output-stdout">
 <pre><code>等待 GraphRAG 对比结果（需 AutoDL GPU 运行）…</code></pre>
 </div>
