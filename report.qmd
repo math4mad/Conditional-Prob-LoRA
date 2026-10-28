@@ -21,6 +21,13 @@ execute:
 #| label: setup
 import json, os
 from pathlib import Path
+import matplotlib
+import matplotlib.pyplot as plt
+
+# 图表内文字统一使用 ASCII/英文（DejaVu Sans 自带，避免 CJK 缺字方框）
+matplotlib.rcParams["font.family"] = "DejaVu Sans"
+matplotlib.rcParams["axes.unicode_minus"] = False   # 用 ASCII 连字符代替 U+2212
+matplotlib.rcParams["svg.fonttype"] = "path"
 
 # 加载评估报告
 reports = {}
@@ -364,12 +371,12 @@ ov_in = sum(1 for r in ood if r["input"] in train_in)
 ov_num = sum(1 for r in ood if nums(r["input"]) in train_num)
 
 fig, ax = plt.subplots(figsize=(8, 3.2))
-labels = ["输入文本重叠", "数字组合重叠"]
+labels = ["Input text overlap", "Numeric tuple overlap"]
 vals = [ov_in, ov_num]
 bars = ax.bar(labels, vals, color=["#d4edda", "#d4edda"], edgecolor="#28a745", width=0.5)
 ax.set_ylim(0, max(len(ood), 1))
-ax.set_ylabel(f"重叠条数（共 {len(ood)} 条 OOD）")
-ax.set_title("OOD 测试集隔离性：与训练集零重叠")
+ax.set_ylabel(f"Overlapping samples (of {len(ood)} OOD items)")
+ax.set_title("OOD Isolation: Zero Overlap with Training Set")
 for b, v in zip(bars, vals):
     ax.text(b.get_x() + b.get_width()/2, v + 0.6, f"{v}", ha="center", fontsize=13, fontweight="bold")
 plt.tight_layout()
@@ -391,20 +398,20 @@ if ref_path.exists() and gen_path.exists():
     gen = json.loads(gen_path.read_text())["per_check"]
     keys = ["c1_syntax", "c2_node_consistency", "c3_prob_labels",
             "c4_names", "c5_ratio", "c6_steps"]
-    short = ["C1 语法", "C2 计数", "C3 概率标签", "C4 名称", "C5 比例", "C6 步骤"]
+    short = ["C1 Syntax", "C2 Node count", "C3 Prob labels", "C4 Names", "C5 Ratio", "C6 Steps"]
     ref_r = [ref.get(k, {}).get("pass", 0) / max(ref.get(k, {}).get("n", 1), 1) for k in keys]
     gen_r = [gen.get(k, {}).get("pass", 0) / max(gen.get(k, {}).get("n", 1), 1) for k in keys]
 
     x = range(len(keys))
     fig, ax = plt.subplots(figsize=(8, 3.6))
     w = 0.38
-    ax.bar([i - w/2 for i in x], ref_r, w, label="参考输出（自验证）",
+    ax.bar([i - w/2 for i in x], ref_r, w, label="Reference output (self-validated)",
            color="#28a745", alpha=0.85)
-    ax.bar([i + w/2 for i in x], gen_r, w, label="1.5B 模型输出",
+    ax.bar([i + w/2 for i in x], gen_r, w, label="1.5B model output",
            color="#dc3545", alpha=0.85)
     ax.set_xticks(list(x)); ax.set_xticklabels(short)
-    ax.set_ylim(0, 1.05); ax.set_ylabel("通过率")
-    ax.set_title("Mermaid 语义对齐：通过率对比")
+    ax.set_ylim(0, 1.05); ax.set_ylabel("Pass rate")
+    ax.set_title("Mermaid Semantic Alignment: Pass Rate Comparison")
     ax.legend(); ax.grid(axis="y", alpha=0.3)
     plt.tight_layout(); plt.show()
 else:
@@ -426,8 +433,8 @@ ood_rep = Path("output/eval_ood.json")
 if ood_rep.exists():
     rep = json.loads(ood_rep.read_text(encoding="utf-8"))
     det = rep["details"]
-    layers = {"oodparam": "OOD-Param\n参数外推", "oodnew": "OOD-New\n新题型",
-              "oodhard": "OOD-Hard\n极限"}
+    layers = {"oodparam": "OOD-Param\nparam shift", "oodnew": "OOD-New\nnew types",
+              "oodhard": "OOD-Hard\nextreme"}
     agg = defaultdict(lambda: {"n": 0, "fs": 0, "num": 0, "align": 0})
     for d in det:
         lay = d["source"].split("-")[0]
@@ -440,9 +447,9 @@ if ood_rep.exists():
     keys = [k for k in layers if k in agg]
     if keys:
         fig, axes = plt.subplots(1, 3, figsize=(9, 3.2), sharey=True)
-        metrics = [("四步法完整率", "fs", "#0d6efd"),
-                   ("数值正确率", "num", "#dc3545"),
-                   ("Mermaid 对齐通过率", "align", "#28a745")]
+        metrics = [("Four-step rate", "fs", "#0d6efd"),
+                   ("Numerical accuracy", "num", "#dc3545"),
+                   ("Mermaid alignment rate", "align", "#28a745")]
         for ax, (title, key, color) in zip(axes, metrics):
             vals = [agg[k][key] / agg[k]["n"] for k in keys]
             bars = ax.bar([layers[k] for k in keys], vals, color=color, alpha=0.85, width=0.55)
@@ -451,7 +458,7 @@ if ood_rep.exists():
             for b, v, k in zip(bars, vals, keys):
                 ax.text(b.get_x() + b.get_width()/2, v + 0.02,
                         f"{v*100:.0f}%\n(n={agg[k]['n']})", ha="center", fontsize=9)
-        axes[0].set_ylabel("通过率")
+        axes[0].set_ylabel("Pass rate")
         plt.tight_layout(); plt.show()
         print("\nOOD 汇总:", json.dumps(rep.get("summary", {}), ensure_ascii=False))
     else:
@@ -493,20 +500,22 @@ ood_recs = [json.loads(l) for l in open("data/test_ood.jsonl", encoding="utf-8")
 ood_rep_d = json.loads(Path("output/eval_ood.json").read_text())["details"] if Path("output/eval_ood.json").exists() else []
 
 sets = {
-    "训练集答案": [d.denominator for d in (final_prob(x["output"]) for x in tr_recs) if d],
-    "OOD 真值": [d.denominator for d in (final_prob(x["output"]) for x in ood_recs) if d],
-    "OOD 模型生成": [d.denominator for d in (final_prob(x["generated"]) for x in ood_rep_d) if d],
+    "Training set": [d.denominator for d in (final_prob(x["output"]) for x in tr_recs) if d],
+    "OOD ground truth": [d.denominator for d in (final_prob(x["output"]) for x in ood_recs) if d],
+    "Model output (OOD)": [d.denominator for d in (final_prob(x["generated"]) for x in ood_rep_d) if d],
 }
 fig, ax = plt.subplots(figsize=(8, 3.4))
 names = list(sets)
 meds = [sorted(v)[len(v)//2] for v in sets.values()]
 simples = [sum(1 for d in v if d <= 12)/len(v)*100 for v in sets.values()]
 bars = ax.bar(names, meds, color=["#0d6efd", "#6c757d", "#dc3545"], alpha=0.88, width=0.55)
-ax.set_yscale("log"); ax.set_ylabel("答案分母中位数 (log)")
-ax.set_title("答案复杂度坍缩：模型生成的分母远小于 OOD 真值")
+ax.set_yscale("log")
+ax.set_ylim(top=max(meds) * 8)   # 顶部留白，避免标注与标题重叠
+ax.set_ylabel("Median answer denominator (log)")
+ax.set_title("Answer Complexity Collapse: Model Denominators Far Below OOD Ground Truth")
 for b, m, s in zip(bars, meds, simples):
     ax.text(b.get_x() + b.get_width()/2, m*1.25,
-            f"中位 {m}\n简单分数占比 {s:.0f}%", ha="center", fontsize=9)
+            f"median {m}\nsimple frac {s:.0f}%", ha="center", fontsize=9)
 ax.grid(axis="y", alpha=0.3)
 plt.tight_layout(); plt.show()
 ```
@@ -535,16 +544,16 @@ if gr_path.exists():
     gr = json.loads(gr_path.read_text(encoding="utf-8"))["results"]
     if "baseline" in gr and "graphrag" in gr:
         b, g = gr["baseline"]["summary"], gr["graphrag"]["summary"]
-        metrics = [("four_step_rate", "四步法完整率"), ("num_correct_rate", "数值正确率"),
-                   ("alignment_rate", "Mermaid 对齐率"), ("mermaid_rate", "Mermaid 覆盖率")]
+        metrics = [("four_step_rate", "Four-step rate"), ("num_correct_rate", "Numerical accuracy"),
+                   ("alignment_rate", "Mermaid alignment"), ("mermaid_rate", "Mermaid coverage")]
         bv = [b.get(k, 0) for k, _ in metrics]
         gv = [g.get(k, 0) for k, _ in metrics]
         x = range(len(metrics)); w = 0.36
         fig, ax = plt.subplots(figsize=(8, 3.8))
-        ax.bar([i - w/2 for i in x], bv, w, label="无 GraphRAG", color="#6c757d", alpha=0.9)
-        ax.bar([i + w/2 for i in x], gv, w, label="有 GraphRAG", color="#0d6efd", alpha=0.9)
+        ax.bar([i - w/2 for i in x], bv, w, label="Without GraphRAG", color="#6c757d", alpha=0.9)
+        ax.bar([i + w/2 for i in x], gv, w, label="With GraphRAG", color="#0d6efd", alpha=0.9)
         ax.set_xticks(list(x)); ax.set_xticklabels([m[1] for m in metrics])
-        ax.set_ylim(0, 1.08); ax.set_ylabel("通过率"); ax.set_title("GraphRAG 检索增强对 OOD 表现的影响")
+        ax.set_ylim(0, 1.08); ax.set_ylabel("Pass rate"); ax.set_title("Effect of GraphRAG Retrieval Augmentation on OOD Performance")
         ax.legend(); ax.grid(axis="y", alpha=0.3)
         for i, (u, v) in enumerate(zip(bv, gv)):
             ax.text(i - w/2, u + 0.015, f"{u*100:.0f}%", ha="center", fontsize=9)
@@ -580,14 +589,15 @@ if Path("output/eval_graphrag_ood.json").exists():
             _a[_k] += all(_det["struct"][f"step{i}"] for i in range(1, 5))
     ks = [k for k in ["oodnew", "oodhard", "oodparam"] if k in _agg]
     fig, ax = plt.subplots(figsize=(8, 3.2))
-    lbl = {"oodnew": "OOD-New\n0 条有上下文", "oodhard": "OOD-Hard\n0 条有上下文",
-           "oodparam": "OOD-Param\n12 条有上下文"}
+    lbl = {"oodnew": "OOD-New\n0 with context", "oodhard": "OOD-Hard\n0 with context",
+           "oodparam": "OOD-Param\n12 with context"}
     deltas = [(_agg[k]["g"] - _agg[k]["b"]) / _agg[k]["n"] * 100 for k in ks]
     colors = ["#adb5bd" if _agg[k]["ctx"] == 0 else "#dc3545" for k in ks]
     bars = ax.bar([lbl[k] for k in ks], deltas, color=colors, alpha=0.88, width=0.5)
     ax.axhline(0, color="#333", lw=1)
-    ax.set_ylabel("四步法完整率变化 (pp)")
-    ax.set_title("GraphRAG 的全部负面影响来自唯一的可检索层")
+    ax.set_ylim(min(deltas) - 6, max(deltas) + 14)   # 顶部留白，避免零值标注撞标题
+    ax.set_ylabel("Change in four-step rate (pp)")
+    ax.set_title("All GraphRAG Harm Comes From the Only Retrievable Layer")
     for b, d, k in zip(bars, deltas, ks):
         ax.text(b.get_x() + b.get_width()/2, d + (0.6 if d >= 0 else -1.6),
                 f"{d:+.1f}pp", ha="center", fontsize=11, fontweight="bold")
