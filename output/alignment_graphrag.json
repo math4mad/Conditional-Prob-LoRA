@@ -1,0 +1,2471 @@
+{
+  "mode": "report",
+  "report_file": "output/eval_graphrag_ood.json",
+  "n": 116,
+  "per_check": {
+    "c1_syntax": {
+      "pass": 92,
+      "n": 116
+    },
+    "c6_steps": {
+      "pass": 91,
+      "n": 116
+    },
+    "c2_node_consistency": {
+      "pass": 94,
+      "n": 116
+    },
+    "c3_prob_labels": {
+      "pass": 96,
+      "n": 116
+    },
+    "c4_names": {
+      "pass": 90,
+      "n": 116
+    },
+    "c5_ratio": {
+      "pass": 9,
+      "n": 58
+    }
+  },
+  "all_pass": 49,
+  "all_pass_rate": 0.4224137931034483,
+  "rows": [
+    {
+      "source": "baseline/oodparam-urn-1",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 4374/4997 vs 正文 212/243"
+      }
+    },
+    {
+      "source": "baseline/oodparam-urn-2",
+      "score": 6,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": true
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 3/4 vs 正文 3/4"
+      }
+    },
+    {
+      "source": "baseline/oodparam-urn-3",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 122/269 vs 正文 6/11"
+      }
+    },
+    {
+      "source": "baseline/oodparam-urn-4",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 77/9390 vs 正文 11/1407"
+      }
+    },
+    {
+      "source": "baseline/oodparam-urn-5",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 756/510131 vs 正文 1/672"
+      }
+    },
+    {
+      "source": "baseline/oodparam-urn-6",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 11200/17077 vs 正文 5/8"
+      }
+    },
+    {
+      "source": "baseline/oodparam-urn-7",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 20/2507 vs 正文 5/583"
+      }
+    },
+    {
+      "source": "baseline/oodparam-urn-8",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 9/170 vs 正文 3/55"
+      }
+    },
+    {
+      "source": "baseline/oodparam-urn-9",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 807/1792 vs 正文 13/29"
+      }
+    },
+    {
+      "source": "baseline/oodparam-urn-10",
+      "score": 6,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": true
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "6/6 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 47/130 vs 正文 47/130"
+      }
+    },
+    {
+      "source": "baseline/oodparam-urn-11",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 10506/26459 vs 正文 3/7"
+      }
+    },
+    {
+      "source": "baseline/oodparam-urn-12",
+      "score": 6,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": true
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 1610/1987 vs 正文 1610/1987"
+      }
+    },
+    {
+      "source": "baseline/oodnew-lottery-1",
+      "score": 6,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": true
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "5/5 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 4/5 vs 正文 4/5"
+      }
+    },
+    {
+      "source": "baseline/oodnew-lottery-2",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "4/4 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 20/521 vs 正文 60/1561"
+      }
+    },
+    {
+      "source": "baseline/oodnew-lottery-3",
+      "score": 6,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": true
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "4/4 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 2/5 vs 正文 2/5"
+      }
+    },
+    {
+      "source": "baseline/oodnew-lottery-4",
+      "score": 6,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": true
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "5/5 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 23/44 vs 正文 23/44"
+      }
+    },
+    {
+      "source": "baseline/oodnew-lottery-5",
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "baseline/oodnew-geometry-1",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "节点标签无可比对数值",
+        "c3_prob_labels": "3/3 边标签概率与正文一致",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-geometry-2",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "2/2 节点数值可在正文找到",
+        "c3_prob_labels": "1/1 边标签概率与正文一致",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "|A∩B|/|B| = 1 vs 正文 1/2"
+      }
+    },
+    {
+      "source": "baseline/oodnew-geometry-3",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "节点标签无可比对数值",
+        "c3_prob_labels": "3/3 边标签概率与正文一致",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-geometry-4",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "3/3 节点数值可在正文找到",
+        "c3_prob_labels": "2/2 边标签概率与正文一致",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-geometry-5",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "3/3 节点数值可在正文找到",
+        "c3_prob_labels": "2/2 边标签概率与正文一致",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-binomial-1",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "2/2 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "3/4 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-binomial-2",
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "baseline/oodnew-binomial-3",
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": false,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "3/6 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "1/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-binomial-4",
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "baseline/oodnew-binomial-5",
+      "score": 1,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": true,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "baseline/oodnew-condexp-1",
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "baseline/oodnew-condexp-2",
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "baseline/oodnew-condexp-3",
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": false,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "2/2 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-condexp-4",
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "baseline/oodnew-markov-1",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "节点标签无可比对数值",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "1/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-markov-2",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "节点标签无可比对数值",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "1/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-markov-3",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "节点标签无可比对数值",
+        "c3_prob_labels": "6/6 边标签概率与正文一致",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-markov-4",
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": false,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "4/4 节点数值可在正文找到",
+        "c3_prob_labels": "8/8 边标签概率与正文一致",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-markov-5",
+      "score": 3,
+      "total": 5,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": false,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "block0: style references undefined node: X2; block0: style references undefined node: X1",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "6/6 节点数值可在正文找到",
+        "c3_prob_labels": "3/3 边标签概率与正文一致",
+        "c4_names": "0/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-naivebayes-1",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "5/5 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "3/3 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-naivebayes-2",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "6/6 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "3/3 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-naivebayes-3",
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "baseline/oodnew-naivebayes-4",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "3/3 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "3/3 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-naivebayes-5",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "2/2 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "3/3 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-normal-1",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "1/1 节点数值可在正文找到",
+        "c3_prob_labels": "1/1 边标签概率与正文一致",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-normal-2",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "1/1 节点数值可在正文找到",
+        "c3_prob_labels": "2/2 边标签概率与正文一致",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-normal-3",
+      "score": 1,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": true,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "baseline/oodnew-normal-4",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "节点标签无可比对数值",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-reliability-1",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "2/2 节点数值可在正文找到",
+        "c3_prob_labels": "1/1 边标签概率与正文一致",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-reliability-2",
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": false,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "4/4 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "0/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-reliability-3",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "3/3 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-reliability-4",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "1/1 节点数值可在正文找到",
+        "c3_prob_labels": "1/1 边标签概率与正文一致",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodnew-reliability-5",
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "block0: edge missing target node: space --> 部件1正常; block0: edge missing target node: space --> 7/10; block0: edge missing target node: space --> 9/10; block0: edge missing target node: space --> 4/5; block0: edge missing target node: space --> 4/5; block0: edge missing target node: space --> 9/10",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "1/1 节点数值可在正文找到",
+        "c3_prob_labels": "5/5 边标签概率与正文一致",
+        "c4_names": "1/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodhard-urn-1",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 16820/33563 vs 正文 5/9"
+      }
+    },
+    {
+      "source": "baseline/oodhard-urn-2",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 285/506 vs 正文 399/709"
+      }
+    },
+    {
+      "source": "baseline/oodhard-urn-3",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "8/8 节点数值可在正文找到",
+        "c3_prob_labels": "1/1 边标签概率与正文一致",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 18190/43157 vs 正文 5/13"
+      }
+    },
+    {
+      "source": "baseline/oodhard-urn-4",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 16588/32255 vs 正文 8/15"
+      }
+    },
+    {
+      "source": "baseline/oodhard-bayesnet-5",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "3/3 节点数值可在正文找到",
+        "c3_prob_labels": "5/5 边标签概率与正文一致",
+        "c4_names": "1/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodhard-bayesnet-6",
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": false,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "5/5 节点数值可在正文找到",
+        "c3_prob_labels": "6/6 边标签概率与正文一致",
+        "c4_names": "0/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodhard-bayesnet-7",
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": false,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "1/1 节点数值可在正文找到",
+        "c3_prob_labels": "3/3 边标签概率与正文一致",
+        "c4_names": "3/4 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "baseline/oodhard-bayesnet-8",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "3/3 节点数值可在正文找到",
+        "c3_prob_labels": "4/4 边标签概率与正文一致",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodparam-urn-1",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 580830/828941 vs 正文 20/27"
+      }
+    },
+    {
+      "source": "graphrag/oodparam-urn-2",
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "graphrag/oodparam-urn-3",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 333/730 vs 正文 103/246"
+      }
+    },
+    {
+      "source": "graphrag/oodparam-urn-4",
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": false,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "5/5 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "1/1 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodparam-urn-5",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 39/569 vs 正文 7/108"
+      }
+    },
+    {
+      "source": "graphrag/oodparam-urn-6",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 23732/45045 vs 正文 2/5"
+      }
+    },
+    {
+      "source": "graphrag/oodparam-urn-7",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 1241/676754 vs 正文 1/55"
+      }
+    },
+    {
+      "source": "graphrag/oodparam-urn-8",
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": false,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodparam-urn-9",
+      "score": 4,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": false,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 164309/170421 vs 正文 112/121"
+      }
+    },
+    {
+      "source": "graphrag/oodparam-urn-10",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 305/1584 vs 正文 61/316"
+      }
+    },
+    {
+      "source": "graphrag/oodparam-urn-11",
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "graphrag/oodparam-urn-12",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 48/451 vs 正文 16/143"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-lottery-1",
+      "score": 6,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": true
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "5/5 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 4/5 vs 正文 4/5"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-lottery-2",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "4/4 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 20/521 vs 正文 60/1561"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-lottery-3",
+      "score": 6,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": true
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "4/4 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 2/5 vs 正文 2/5"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-lottery-4",
+      "score": 6,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": true
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "5/5 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 23/44 vs 正文 23/44"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-lottery-5",
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-geometry-1",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "节点标签无可比对数值",
+        "c3_prob_labels": "3/3 边标签概率与正文一致",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-geometry-2",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "2/2 节点数值可在正文找到",
+        "c3_prob_labels": "1/1 边标签概率与正文一致",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "|A∩B|/|B| = 1 vs 正文 1/2"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-geometry-3",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "节点标签无可比对数值",
+        "c3_prob_labels": "3/3 边标签概率与正文一致",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-geometry-4",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "3/3 节点数值可在正文找到",
+        "c3_prob_labels": "2/2 边标签概率与正文一致",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-geometry-5",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "3/3 节点数值可在正文找到",
+        "c3_prob_labels": "2/2 边标签概率与正文一致",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-binomial-1",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "2/2 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "3/4 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-binomial-2",
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-binomial-3",
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": false,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "3/6 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "1/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-binomial-4",
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-binomial-5",
+      "score": 1,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": true,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-condexp-1",
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-condexp-2",
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-condexp-3",
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": false,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "2/2 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-condexp-4",
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-markov-1",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "节点标签无可比对数值",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "1/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-markov-2",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "节点标签无可比对数值",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "1/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-markov-3",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "节点标签无可比对数值",
+        "c3_prob_labels": "6/6 边标签概率与正文一致",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-markov-4",
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": false,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "4/4 节点数值可在正文找到",
+        "c3_prob_labels": "8/8 边标签概率与正文一致",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-markov-5",
+      "score": 3,
+      "total": 5,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": false,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "block0: style references undefined node: X2; block0: style references undefined node: X1",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "6/6 节点数值可在正文找到",
+        "c3_prob_labels": "3/3 边标签概率与正文一致",
+        "c4_names": "0/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-naivebayes-1",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "5/5 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "3/3 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-naivebayes-2",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "6/6 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "3/3 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-naivebayes-3",
+      "score": 0,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": false,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-naivebayes-4",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "3/3 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "3/3 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-naivebayes-5",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "2/2 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "3/3 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-normal-1",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "1/1 节点数值可在正文找到",
+        "c3_prob_labels": "1/1 边标签概率与正文一致",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-normal-2",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "1/1 节点数值可在正文找到",
+        "c3_prob_labels": "2/2 边标签概率与正文一致",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-normal-3",
+      "score": 1,
+      "total": 6,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": true,
+        "c2_node_consistency": false,
+        "c3_prob_labels": false,
+        "c4_names": false,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "无 mermaid 代码块",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "无 mermaid，跳过",
+        "c3_prob_labels": "无 mermaid，跳过",
+        "c4_names": "无 mermaid，跳过",
+        "c5_ratio": "无 mermaid，跳过"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-normal-4",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "节点标签无可比对数值",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "正文无「」标记（不适用）",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-reliability-1",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "2/2 节点数值可在正文找到",
+        "c3_prob_labels": "1/1 边标签概率与正文一致",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-reliability-2",
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": false,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "4/4 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "0/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-reliability-3",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "3/3 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-reliability-4",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "1/1 节点数值可在正文找到",
+        "c3_prob_labels": "1/1 边标签概率与正文一致",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodnew-reliability-5",
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": false,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "block0: edge missing target node: space --> 部件1正常; block0: edge missing target node: space --> 7/10; block0: edge missing target node: space --> 9/10; block0: edge missing target node: space --> 4/5; block0: edge missing target node: space --> 4/5; block0: edge missing target node: space --> 9/10",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "1/1 节点数值可在正文找到",
+        "c3_prob_labels": "5/5 边标签概率与正文一致",
+        "c4_names": "1/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodhard-urn-1",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 16820/33563 vs 正文 5/9"
+      }
+    },
+    {
+      "source": "graphrag/oodhard-urn-2",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 285/506 vs 正文 399/709"
+      }
+    },
+    {
+      "source": "graphrag/oodhard-urn-3",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "8/8 节点数值可在正文找到",
+        "c3_prob_labels": "1/1 边标签概率与正文一致",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 18190/43157 vs 正文 5/13"
+      }
+    },
+    {
+      "source": "graphrag/oodhard-urn-4",
+      "score": 5,
+      "total": 6,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": false
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "7/7 节点数值可在正文找到",
+        "c3_prob_labels": "边标签无分数（不适用）",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "|A∩B|/|B| = 16588/32255 vs 正文 8/15"
+      }
+    },
+    {
+      "source": "graphrag/oodhard-bayesnet-5",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "3/3 节点数值可在正文找到",
+        "c3_prob_labels": "5/5 边标签概率与正文一致",
+        "c4_names": "1/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodhard-bayesnet-6",
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": false,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "5/5 节点数值可在正文找到",
+        "c3_prob_labels": "6/6 边标签概率与正文一致",
+        "c4_names": "0/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodhard-bayesnet-7",
+      "score": 4,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": false,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "缺少步骤标题",
+        "c2_node_consistency": "1/1 节点数值可在正文找到",
+        "c3_prob_labels": "3/3 边标签概率与正文一致",
+        "c4_names": "3/4 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    },
+    {
+      "source": "graphrag/oodhard-bayesnet-8",
+      "score": 5,
+      "total": 5,
+      "checks": {
+        "c1_syntax": true,
+        "c6_steps": true,
+        "c2_node_consistency": true,
+        "c3_prob_labels": true,
+        "c4_names": true,
+        "c5_ratio": null
+      },
+      "details": {
+        "c1_syntax": "全部合法",
+        "c6_steps": "步骤 1-4 齐全",
+        "c2_node_consistency": "3/3 节点数值可在正文找到",
+        "c3_prob_labels": "4/4 边标签概率与正文一致",
+        "c4_names": "2/2 条件/目标名出现在图中",
+        "c5_ratio": "集合大小或最终概率缺失（不适用）"
+      }
+    }
+  ]
+}

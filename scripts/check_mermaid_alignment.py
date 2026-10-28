@@ -439,17 +439,31 @@ def run_reference(data_file, limit=None):
 
 
 def run_report(report_file):
-    """对模型生成结果跑检查。"""
+    """对模型生成结果跑检查。
+
+    兼容三种报告格式：
+      1. eval_ood.json 格式          —— 顶层 details[]，含 generated
+      2. eval_graphrag_ood.json 格式 —— results.{baseline,graphrag}.details[]
+      3. 旧 eval_report_*.json 格式  —— 只有结构化标记，无原文
+    """
     report = json.loads(Path(report_file).read_text(encoding="utf-8"))
-    details = report.get("details", [])
-    # 兼容两种报告格式
+
+    def collect(details):
+        out = []
+        for d in details:
+            if "generated" in d and d["generated"]:
+                out.append((d.get("source", d.get("idx", "?")), d["generated"]))
+            elif "struct" in d:
+                out.append((d.get("source", "?"), None))
+        return out
+
     texts = []
-    for d in details:
-        if "generated" in d:
-            texts.append((d.get("source", d.get("idx", "?")), d["generated"]))
-        elif "struct" in d:
-            # eval_report_516.json 格式：只有结构化标记，无原文
-            texts.append((d.get("source", "?"), None))
+    if "results" in report:                      # GraphRAG 对比报告
+        for variant, blk in report["results"].items():
+            for src, txt in collect(blk.get("details", [])):
+                texts.append((f"{variant}/{src}", txt))
+    else:
+        texts = collect(report.get("details", []))
 
     agg = {}
     n_full = 0

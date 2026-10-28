@@ -230,10 +230,14 @@ if "1.5B-130" in reports:
 
 # 6. 结论
 
-1. **516 条程序化合成语料 + 7B QLoRA 10 epoch = 全指标 100%**
+1. **516 条程序化合成语料 + 7B QLoRA 10 epoch = 分布内全指标 100%**
 2. 数据量是关键瓶颈：130→516 条是质变阈值
 3. 4-bit 量化对小模型有害，7B 以下用 FP16
 4. 程序化合成 + `Fraction` 精确计算确保标签 100% 正确
+
+> **Phase 5 修正**：上述 100% 全部来自**训练集内自测**。在真 OOD 测试集（58 条，与训练集零重叠）上，
+> 数值正确率仅 **1.7%**，而格式类指标仍近 100%。结论 1 应读作
+> "**分布内**全指标 100%"，详见第 7 章。
 
 ## 6.1 复现
 
@@ -551,3 +555,85 @@ if gr_path.exists():
 else:
     print("等待 GraphRAG 对比结果（需 AutoDL GPU 运行）…")
 ```
+
+```{python}
+#| label: graphrag-mechanism
+#| fig-cap: "GraphRAG 影响的机制分解：无检索上下文的层 Δ=0，唯一的可检索层大幅下降"
+#| fig-width: 8
+#| fig-height: 3.2
+if Path("output/eval_graphrag_ood.json").exists():
+    import sys as _s
+    _s.path.insert(0, "scripts")
+    from evaluate_graphrag import GraphRAGRetriever as _GR
+    from collections import defaultdict as _dd
+    _gr = json.loads(Path("output/eval_graphrag_ood.json").read_text())["results"]
+    _ret = _GR()
+    _ood = {json.loads(l)["source"]: json.loads(l)
+            for l in open("data/test_ood.jsonl", encoding="utf-8") if l.strip()}
+    _agg = _dd(lambda: {"n": 0, "ctx": 0, "b": 0, "g": 0})
+    for _s_, _d in _ood.items():
+        _lay = _s_.split("-")[0]
+        _a = _agg[_lay]; _a["n"] += 1
+        _c, _ = _ret.retrieve(_d["input"]); _a["ctx"] += 1 if _c else 0
+        for _v, _k in (("baseline", "b"), ("graphrag", "g")):
+            _det = next(x for x in _gr[_v]["details"] if x["source"] == _s_)
+            _a[_k] += all(_det["struct"][f"step{i}"] for i in range(1, 5))
+    ks = [k for k in ["oodnew", "oodhard", "oodparam"] if k in _agg]
+    fig, ax = plt.subplots(figsize=(8, 3.2))
+    lbl = {"oodnew": "OOD-New\n0 条有上下文", "oodhard": "OOD-Hard\n0 条有上下文",
+           "oodparam": "OOD-Param\n12 条有上下文"}
+    deltas = [(_agg[k]["g"] - _agg[k]["b"]) / _agg[k]["n"] * 100 for k in ks]
+    colors = ["#adb5bd" if _agg[k]["ctx"] == 0 else "#dc3545" for k in ks]
+    bars = ax.bar([lbl[k] for k in ks], deltas, color=colors, alpha=0.88, width=0.5)
+    ax.axhline(0, color="#333", lw=1)
+    ax.set_ylabel("四步法完整率变化 (pp)")
+    ax.set_title("GraphRAG 的全部负面影响来自唯一的可检索层")
+    for b, d, k in zip(bars, deltas, ks):
+        ax.text(b.get_x() + b.get_width()/2, d + (0.6 if d >= 0 else -1.6),
+                f"{d:+.1f}pp", ha="center", fontsize=11, fontweight="bold")
+    plt.tight_layout(); plt.show()
+else:
+    print("等待 GraphRAG 对比结果…")
+```
+
+### 7.8.1 结果：GraphRAG 在本任务上是负收益
+
+| 指标 | 无 GraphRAG | 有 GraphRAG | Δ |
+|:---|:---:|:---:|---:|
+| 四步法完整率 | 82.8% | 74.1% | **−8.6pp** |
+| Mermaid 覆盖率 | 86.2% | 82.8% | −3.4pp |
+| LaTeX 覆盖率 | 91.4% | 87.9% | −3.4pp |
+| 概率表覆盖率 | 75.9% | 70.7% | −5.2pp |
+| 数值提取率 | 84.5% | 79.3% | −5.2pp |
+| 数值正确率 | 1.7% | 1.7% | ±0.0pp |
+| Mermaid 对齐通过率 | 44.8% | 39.7% | −5.2pp |
+| 平均对齐分 | 4.21 | 3.93 | −0.28 |
+
+检索增强没有改善任何一项指标。这与"GraphRAG 普遍更好"的预设相反，因此必须给出机制解释而非仅结论。
+
+### 7.8.2 机制：损害全部来自范例数值锚定
+
+按"该题是否能检索到上下文"分层后，结论变得清晰：
+
+| 层 | n | 有检索上下文 | 四步法 Δ | 对齐率 Δ |
+|:---|---:|:---:|---:|---:|
+| OOD-New | 38 | 0/38 | **±0.0pp** | **±0.0pp** |
+| OOD-Hard | 8 | 0/8 | **±0.0pp** | **±0.0pp** |
+| OOD-Param | 12 | 12/12 | **−41.7pp** | **−25.0pp** |
+
+- **检索不到上下文的题：GraphRAG 完全没有影响**（Δ 精确为 0），因为 OOD-New 的 8 个新题型在 KG 中无对应原型，检索器返回空。
+- **唯一能检索到上下文的层（OOD-Param），出现了灾难性下降**：训练集的坛子题只有 2–8 球，OOD-Param 是 12–30 球，注入的范例带着"8 白 3 黑、不放回取 4 球"这类**具体数值**，成为错误的锚点，把模型的计算拉向范例的参数。
+
+::: {.callout-important}
+**GraphRAG 的适用边界**
+
+本任务的瓶颈是**能力缺失**（不会做组合计算），而非**知识缺失**（不知道某个事实）。
+- 对"知识缺失"：检索注入事实 → 有益
+- 对"能力缺失"：检索注入的是*同分布的解答模板* → 干扰计算 → 有害
+
+因此"有 GraphRAG 一定更好"并非普遍规律，前提是被检索的内容能补上模型缺的东西。
+:::
+
+此外还有两处结构性限制：
+1. KG 仍基于旧的 130 条语料构建，未覆盖新增的 546 条合成数据，检索到的范例代表性不足；
+2. P2-b 的 B3 指标显示 `emoji_to_num` 是 1:1 映射，检索到的"知识"本身不完整（Emoji 序列编码的多参数未被覆盖）。
