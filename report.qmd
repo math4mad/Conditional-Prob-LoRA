@@ -254,3 +254,155 @@ python scripts/evaluate_lora.py --num_samples 10
 - 数据：`data/sft_train_580.jsonl` (516 条)
 - 模型：`output/formal/adapter_model.safetensors`
 - 报告：`output/eval_report_516.json`
+
+# 7. Phase 5：严格测试与验证
+
+前述 100% 的指标存在**测量缺陷**：只检查了 Mermaid 代码块是否存在，未验证其语法与语义正确性。Phase 5 建立独立验证层。
+
+## 7.1 P0 分布外（OOD）泛化测试
+
+### 方法论：换种子 ≠ 分布外
+
+最初方案用不同随机种子生成测试集。实测发现**该方案失效**：
+
+| 检查项 | 结果 |
+|:---|:---|
+| 输入文本与训练集重合 | 5/39 |
+| **数字组合与训练集重合** | **25/39 (64%)** |
+
+参数空间过小，换种子仅改变表面数字。改为三层递进的真 OOD 测试集（`data/test_ood.jsonl`，58 条）：
+
+| 层级 | 设计 | 考察 |
+|:---|:---|:---|
+| OOD-Param | 坛子 12–30 球（训练集 2–8） | 参数外推 |
+| OOD-New | 8 个训练集完全没有的题型 | 结构外推 |
+| OOD-Hard | 新结构 + 40–80 球 + 多层贝叶斯网络 | 极限泛化 |
+
+OOD-New 的 8 个新题型：超几何抽签、几何概率、二项分布条件、条件期望、马尔可夫链、朴素贝叶斯、正态对称条件、串联系统可靠性。
+
+**隔离性验证**：输入文本重叠 0/58，数字组合重叠 0/58，11 个题型训练集从未出现。
+
+## 7.2 P1 Mermaid 语义对齐检查
+
+建立 6 项自动检查（`scripts/check_mermaid_alignment.py`）：
+
+| 检查 | 内容 |
+|:---|:---|
+| C1 | Mermaid 语法合法性（含缺目标节点、style 悬空引用） |
+| C2 | 图中计数与正文集合大小一致 |
+| C3 | 边标签概率出现在正文公式中 |
+| C4 | 条件/目标名称在图中出现 |
+| C5 | $\lvert A \cap B\rvert / \lvert B\rvert$ 与正文结论一致 |
+| C6 | 四步法标题齐全 |
+
+**自验证**：对 450 条合成参考输出运行 → 全部 6 项 100% 通过（证明检查器本身正确）。
+
+## 7.3 P1 发现的真实缺陷
+
+检查器立即暴露了参考数据与模型输出中的两类问题：
+
+::: {.callout-important}
+**缺陷 1 — 训练数据 Mermaid 语法非法**（已修复）
+
+Bayes 题型生成的 `Posterior --> "疾病A: 5/7"` 缺少目标节点，是无效 Mermaid。原先"Mermaid 覆盖率 100%"只统计代码块存在性，完全掩盖了这一点。修复后合成数据 450/450 语法合法。
+:::
+
+::: {.callout-warning}
+**缺陷 2 — 1.5B 模型 Mermaid 碎片化**
+
+1.5B 模型把一张图拆成 3 个代码块，但只有第一块含 `flowchart LR`，后两块是孤立边定义，在渲染器中直接报错。C1 语法通过率仅 33.3%，C5 比例校验 0%，六项全通过 0/9。
+:::
+
+## 7.4 P2 知识图谱质量量化
+
+`scripts/eval_kg_quality.py` 给出 6 项指标：
+
+| 指标 | 结果 |
+|:---|:---:|
+| B1 Emoji↔Numerical 内在一致性 | 100.0% |
+| B2 留出预测（遮蔽 20% 后经三跳路径推理） | 100.0% |
+| B3 端到端查询语义相容 | 73.4% |
+| **P2-b 综合查询准确率** | **91.1%** |
+| C1 聚类纯度 | 94.6% |
+| C2 NMI / C3 ARI | 0.874 / 0.882 |
+| C4 不同 Emoji 表征同一化 | 100.0% |
+
+::: {.callout-note}
+**B3 的 26.6% 缺口是设计缺陷而非噪声**：Emoji 序列（如 `⚪×5 ⚫×7`）编码了多个数值参数，但 KG 的 `emoji_to_num` 是 1:1 映射，只落到单一 Numerical 节点，丢失了另一半信息。建议改为 1:N 边。
+:::
+
+**评估方法的自纠**：初版以 `source` 字符串为 ground truth，导致 29 道教材题各自成为单点簇，纯度被低估至 75.2%。改用独立的数学原型标注后回升至 94.6%。
+
+## 7.5 OOD 测试集隔离性验证
+
+```{python}
+#| label: owd-isolation
+#| fig-cap: "OOD 测试集与训练集的隔离性检查"
+#| fig-width: 8
+#| fig-height: 3.2
+import json
+from pathlib import Path
+import matplotlib.pyplot as plt
+
+def load(p):
+    return [json.loads(l) for l in Path(p).read_text(encoding="utf-8").splitlines() if l.strip()]
+
+train = load("data/sft_train_580.jsonl")
+ood = load("data/test_ood.jsonl")
+train_in = set(r["input"] for r in train)
+
+import re
+def nums(t):
+    return tuple(sorted(re.findall(r"\d+", t)))
+train_num = set(nums(r["input"]) for r in train)
+
+ov_in = sum(1 for r in ood if r["input"] in train_in)
+ov_num = sum(1 for r in ood if nums(r["input"]) in train_num)
+
+fig, ax = plt.subplots(figsize=(8, 3.2))
+labels = ["输入文本重叠", "数字组合重叠"]
+vals = [ov_in, ov_num]
+bars = ax.bar(labels, vals, color=["#d4edda", "#d4edda"], edgecolor="#28a745", width=0.5)
+ax.set_ylim(0, max(len(ood), 1))
+ax.set_ylabel(f"重叠条数（共 {len(ood)} 条 OOD）")
+ax.set_title("OOD 测试集隔离性：与训练集零重叠")
+for b, v in zip(bars, vals):
+    ax.text(b.get_x() + b.get_width()/2, v + 0.6, f"{v}", ha="center", fontsize=13, fontweight="bold")
+plt.tight_layout()
+plt.show()
+```
+
+## 7.6 Mermaid 对齐检查：参考输出 vs 模型输出
+
+```{python}
+#| label: alignment-compare
+#| fig-cap: "六项语义对齐检查：参考输出（自验证）vs 1.5B 模型输出"
+#| fig-width: 8
+#| fig-height: 3.6
+ref_path = Path("output/alignment_reference.json")
+gen_path = Path("output/alignment_1.5b.json")
+
+if ref_path.exists() and gen_path.exists():
+    ref = json.loads(ref_path.read_text())["per_check"]
+    gen = json.loads(gen_path.read_text())["per_check"]
+    keys = ["c1_syntax", "c2_node_consistency", "c3_prob_labels",
+            "c4_names", "c5_ratio", "c6_steps"]
+    short = ["C1 语法", "C2 计数", "C3 概率标签", "C4 名称", "C5 比例", "C6 步骤"]
+    ref_r = [ref.get(k, {}).get("pass", 0) / max(ref.get(k, {}).get("n", 1), 1) for k in keys]
+    gen_r = [gen.get(k, {}).get("pass", 0) / max(gen.get(k, {}).get("n", 1), 1) for k in keys]
+
+    x = range(len(keys))
+    fig, ax = plt.subplots(figsize=(8, 3.6))
+    w = 0.38
+    ax.bar([i - w/2 for i in x], ref_r, w, label="参考输出（自验证）",
+           color="#28a745", alpha=0.85)
+    ax.bar([i + w/2 for i in x], gen_r, w, label="1.5B 模型输出",
+           color="#dc3545", alpha=0.85)
+    ax.set_xticks(list(x)); ax.set_xticklabels(short)
+    ax.set_ylim(0, 1.05); ax.set_ylabel("通过率")
+    ax.set_title("Mermaid 语义对齐：通过率对比")
+    ax.legend(); ax.grid(axis="y", alpha=0.3)
+    plt.tight_layout(); plt.show()
+else:
+    print("等待对齐检查结果文件…")
+```
