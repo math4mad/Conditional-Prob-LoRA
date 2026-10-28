@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="math4mad">
-<meta name="dcterms.date" content="2026-10-27">
+<meta name="dcterms.date" content="2026-10-28">
 
 <title>条件概率 LoRA 微调实验报告</title>
 <style>
@@ -143,6 +143,18 @@ window.Quarto = {
   <li><a href="#复现" id="toc-复现" class="nav-link" data-scroll-target="#复现">6.1 复现</a></li>
   <li><a href="#资源" id="toc-资源" class="nav-link" data-scroll-target="#资源">6.2 资源</a></li>
   </ul></li>
+  <li><a href="#phase-5严格测试与验证" id="toc-phase-5严格测试与验证" class="nav-link" data-scroll-target="#phase-5严格测试与验证">7. Phase 5：严格测试与验证</a>
+  <ul class="collapse">
+  <li><a href="#p0-分布外ood泛化测试" id="toc-p0-分布外ood泛化测试" class="nav-link" data-scroll-target="#p0-分布外ood泛化测试">7.1 P0 分布外（OOD）泛化测试</a>
+  <ul class="collapse">
+  <li><a href="#方法论换种子-分布外" id="toc-方法论换种子-分布外" class="nav-link" data-scroll-target="#方法论换种子-分布外">方法论：换种子 ≠ 分布外</a></li>
+  </ul></li>
+  <li><a href="#p1-mermaid-语义对齐检查" id="toc-p1-mermaid-语义对齐检查" class="nav-link" data-scroll-target="#p1-mermaid-语义对齐检查">7.2 P1 Mermaid 语义对齐检查</a></li>
+  <li><a href="#p1-发现的真实缺陷" id="toc-p1-发现的真实缺陷" class="nav-link" data-scroll-target="#p1-发现的真实缺陷">7.3 P1 发现的真实缺陷</a></li>
+  <li><a href="#p2-知识图谱质量量化" id="toc-p2-知识图谱质量量化" class="nav-link" data-scroll-target="#p2-知识图谱质量量化">7.4 P2 知识图谱质量量化</a></li>
+  <li><a href="#ood-测试集隔离性验证" id="toc-ood-测试集隔离性验证" class="nav-link" data-scroll-target="#ood-测试集隔离性验证">7.5 OOD 测试集隔离性验证</a></li>
+  <li><a href="#mermaid-对齐检查参考输出-vs-模型输出" id="toc-mermaid-对齐检查参考输出-vs-模型输出" class="nav-link" data-scroll-target="#mermaid-对齐检查参考输出-vs-模型输出">7.6 Mermaid 对齐检查：参考输出 vs 模型输出</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -168,7 +180,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 27, 2026</p>
+      <p class="date">October 28, 2026</p>
     </div>
   </div>
   
@@ -351,60 +363,60 @@ Tip
 <style type="text/css">
 </style>
 
-<table id="T_b53de" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="T_2e9d4" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>各实验点评估指标对比 {#cell-main-results}</caption>
 <thead>
 <tr class="header">
-<th id="T_b53de_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">实验点</th>
-<th id="T_b53de_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">数据量</th>
-<th id="T_b53de_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">四步法遵循率</th>
-<th id="T_b53de_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">结构项平均分</th>
-<th id="T_b53de_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Mermaid覆盖率</th>
-<th id="T_b53de_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">LaTeX覆盖率</th>
-<th id="T_b53de_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">数值提取率</th>
-<th id="T_b53de_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">数值正确率</th>
+<th id="T_2e9d4_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">实验点</th>
+<th id="T_2e9d4_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">数据量</th>
+<th id="T_2e9d4_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">四步法遵循率</th>
+<th id="T_2e9d4_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">结构项平均分</th>
+<th id="T_2e9d4_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Mermaid覆盖率</th>
+<th id="T_2e9d4_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">LaTeX覆盖率</th>
+<th id="T_2e9d4_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">数值提取率</th>
+<th id="T_2e9d4_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">数值正确率</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_b53de_row0_col0" class="data row0 col0">0.5B (MPS)</td>
-<td id="T_b53de_row0_col1" class="data row0 col1">20</td>
-<td id="T_b53de_row0_col2" class="data row0 col2">20%</td>
-<td id="T_b53de_row0_col3" class="data row0 col3">—</td>
-<td id="T_b53de_row0_col4" class="data row0 col4">80%</td>
-<td id="T_b53de_row0_col5" class="data row0 col5">60%</td>
-<td id="T_b53de_row0_col6" class="data row0 col6">0%</td>
-<td id="T_b53de_row0_col7" class="data row0 col7">0%</td>
+<td id="T_2e9d4_row0_col0" class="data row0 col0">0.5B (MPS)</td>
+<td id="T_2e9d4_row0_col1" class="data row0 col1">20</td>
+<td id="T_2e9d4_row0_col2" class="data row0 col2">20%</td>
+<td id="T_2e9d4_row0_col3" class="data row0 col3">—</td>
+<td id="T_2e9d4_row0_col4" class="data row0 col4">80%</td>
+<td id="T_2e9d4_row0_col5" class="data row0 col5">60%</td>
+<td id="T_2e9d4_row0_col6" class="data row0 col6">0%</td>
+<td id="T_2e9d4_row0_col7" class="data row0 col7">0%</td>
 </tr>
 <tr class="even">
-<td id="T_b53de_row1_col0" class="data row1 col0">1.5B (Kaggle T4)</td>
-<td id="T_b53de_row1_col1" class="data row1 col1">130</td>
-<td id="T_b53de_row1_col2" class="data row1 col2">0%</td>
-<td id="T_b53de_row1_col3" class="data row1 col3">0.6/4</td>
-<td id="T_b53de_row1_col4" class="data row1 col4">70%</td>
-<td id="T_b53de_row1_col5" class="data row1 col5">30%</td>
-<td id="T_b53de_row1_col6" class="data row1 col6">40%</td>
-<td id="T_b53de_row1_col7" class="data row1 col7">0%</td>
+<td id="T_2e9d4_row1_col0" class="data row1 col0">1.5B (Kaggle T4)</td>
+<td id="T_2e9d4_row1_col1" class="data row1 col1">130</td>
+<td id="T_2e9d4_row1_col2" class="data row1 col2">0%</td>
+<td id="T_2e9d4_row1_col3" class="data row1 col3">0.6/4</td>
+<td id="T_2e9d4_row1_col4" class="data row1 col4">70%</td>
+<td id="T_2e9d4_row1_col5" class="data row1 col5">30%</td>
+<td id="T_2e9d4_row1_col6" class="data row1 col6">40%</td>
+<td id="T_2e9d4_row1_col7" class="data row1 col7">0%</td>
 </tr>
 <tr class="odd">
-<td id="T_b53de_row2_col0" class="data row2 col0">7B 130条 (AutoDL)</td>
-<td id="T_b53de_row2_col1" class="data row2 col1">130</td>
-<td id="T_b53de_row2_col2" class="data row2 col2">30%</td>
-<td id="T_b53de_row2_col3" class="data row2 col3">2.8/7</td>
-<td id="T_b53de_row2_col4" class="data row2 col4">60%</td>
-<td id="T_b53de_row2_col5" class="data row2 col5">30%</td>
-<td id="T_b53de_row2_col6" class="data row2 col6">50%</td>
-<td id="T_b53de_row2_col7" class="data row2 col7">0%</td>
+<td id="T_2e9d4_row2_col0" class="data row2 col0">7B 130条 (AutoDL)</td>
+<td id="T_2e9d4_row2_col1" class="data row2 col1">130</td>
+<td id="T_2e9d4_row2_col2" class="data row2 col2">30%</td>
+<td id="T_2e9d4_row2_col3" class="data row2 col3">2.8/7</td>
+<td id="T_2e9d4_row2_col4" class="data row2 col4">60%</td>
+<td id="T_2e9d4_row2_col5" class="data row2 col5">30%</td>
+<td id="T_2e9d4_row2_col6" class="data row2 col6">50%</td>
+<td id="T_2e9d4_row2_col7" class="data row2 col7">0%</td>
 </tr>
 <tr class="even">
-<td id="T_b53de_row3_col0" class="data row3 col0">7B 516条 (AutoDL)</td>
-<td id="T_b53de_row3_col1" class="data row3 col1">516</td>
-<td id="T_b53de_row3_col2" class="data row3 col2">100%</td>
-<td id="T_b53de_row3_col3" class="data row3 col3">6.4/7</td>
-<td id="T_b53de_row3_col4" class="data row3 col4">100%</td>
-<td id="T_b53de_row3_col5" class="data row3 col5">100%</td>
-<td id="T_b53de_row3_col6" class="data row3 col6">100%</td>
-<td id="T_b53de_row3_col7" class="data row3 col7">100%</td>
+<td id="T_2e9d4_row3_col0" class="data row3 col0">7B 516条 (AutoDL)</td>
+<td id="T_2e9d4_row3_col1" class="data row3 col1">516</td>
+<td id="T_2e9d4_row3_col2" class="data row3 col2">100%</td>
+<td id="T_2e9d4_row3_col3" class="data row3 col3">6.4/7</td>
+<td id="T_2e9d4_row3_col4" class="data row3 col4">100%</td>
+<td id="T_2e9d4_row3_col5" class="data row3 col5">100%</td>
+<td id="T_2e9d4_row3_col6" class="data row3 col6">100%</td>
+<td id="T_2e9d4_row3_col7" class="data row3 col7">100%</td>
 </tr>
 </tbody>
 </table>
@@ -591,6 +603,217 @@ Important
 <li>模型：<code>output/formal/adapter_model.safetensors</code></li>
 <li>报告：<code>output/eval_report_516.json</code></li>
 </ul>
+</section>
+</section>
+<section id="phase-5严格测试与验证" class="level1">
+<h1>7. Phase 5：严格测试与验证</h1>
+<p>前述 100% 的指标存在<strong>测量缺陷</strong>：只检查了 Mermaid 代码块是否存在，未验证其语法与语义正确性。Phase 5 建立独立验证层。</p>
+<section id="p0-分布外ood泛化测试" class="level2">
+<h2 class="anchored" data-anchor-id="p0-分布外ood泛化测试">7.1 P0 分布外（OOD）泛化测试</h2>
+<section id="方法论换种子-分布外" class="level3">
+<h3 class="anchored" data-anchor-id="方法论换种子-分布外">方法论：换种子 ≠ 分布外</h3>
+<p>最初方案用不同随机种子生成测试集。实测发现<strong>该方案失效</strong>：</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">检查项</th>
+<th style="text-align: left;">结果</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">输入文本与训练集重合</td>
+<td style="text-align: left;">5/39</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>数字组合与训练集重合</strong></td>
+<td style="text-align: left;"><strong>25/39 (64%)</strong></td>
+</tr>
+</tbody>
+</table>
+<p>参数空间过小，换种子仅改变表面数字。改为三层递进的真 OOD 测试集（<code>data/test_ood.jsonl</code>，58 条）：</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">层级</th>
+<th style="text-align: left;">设计</th>
+<th style="text-align: left;">考察</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">OOD-Param</td>
+<td style="text-align: left;">坛子 12–30 球（训练集 2–8）</td>
+<td style="text-align: left;">参数外推</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OOD-New</td>
+<td style="text-align: left;">8 个训练集完全没有的题型</td>
+<td style="text-align: left;">结构外推</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">OOD-Hard</td>
+<td style="text-align: left;">新结构 + 40–80 球 + 多层贝叶斯网络</td>
+<td style="text-align: left;">极限泛化</td>
+</tr>
+</tbody>
+</table>
+<p>OOD-New 的 8 个新题型：超几何抽签、几何概率、二项分布条件、条件期望、马尔可夫链、朴素贝叶斯、正态对称条件、串联系统可靠性。</p>
+<p><strong>隔离性验证</strong>：输入文本重叠 0/58，数字组合重叠 0/58，11 个题型训练集从未出现。</p>
+</section>
+</section>
+<section id="p1-mermaid-语义对齐检查" class="level2">
+<h2 class="anchored" data-anchor-id="p1-mermaid-语义对齐检查">7.2 P1 Mermaid 语义对齐检查</h2>
+<p>建立 6 项自动检查（<code>scripts/check_mermaid_alignment.py</code>）：</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">检查</th>
+<th style="text-align: left;">内容</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">C1</td>
+<td style="text-align: left;">Mermaid 语法合法性（含缺目标节点、style 悬空引用）</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C2</td>
+<td style="text-align: left;">图中计数与正文集合大小一致</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C3</td>
+<td style="text-align: left;">边标签概率出现在正文公式中</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C4</td>
+<td style="text-align: left;">条件/目标名称在图中出现</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C5</td>
+<td style="text-align: left;"><span class="math inline">\(\lvert A \cap B\rvert / \lvert B\rvert\)</span> 与正文结论一致</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C6</td>
+<td style="text-align: left;">四步法标题齐全</td>
+</tr>
+</tbody>
+</table>
+<p><strong>自验证</strong>：对 450 条合成参考输出运行 → 全部 6 项 100% 通过（证明检查器本身正确）。</p>
+</section>
+<section id="p1-发现的真实缺陷" class="level2">
+<h2 class="anchored" data-anchor-id="p1-发现的真实缺陷">7.3 P1 发现的真实缺陷</h2>
+<p>检查器立即暴露了参考数据与模型输出中的两类问题：</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>缺陷 1 — 训练数据 Mermaid 语法非法</strong>（已修复）</p>
+<p>Bayes 题型生成的 <code>Posterior --&gt; "疾病A: 5/7"</code> 缺少目标节点，是无效 Mermaid。原先”Mermaid 覆盖率 100%“只统计代码块存在性，完全掩盖了这一点。修复后合成数据 450/450 语法合法。</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>缺陷 2 — 1.5B 模型 Mermaid 碎片化</strong></p>
+<p>1.5B 模型把一张图拆成 3 个代码块，但只有第一块含 <code>flowchart LR</code>，后两块是孤立边定义，在渲染器中直接报错。C1 语法通过率仅 33.3%，C5 比例校验 0%，六项全通过 0/9。</p>
+</div>
+</div>
+</section>
+<section id="p2-知识图谱质量量化" class="level2">
+<h2 class="anchored" data-anchor-id="p2-知识图谱质量量化">7.4 P2 知识图谱质量量化</h2>
+<p><code>scripts/eval_kg_quality.py</code> 给出 6 项指标：</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">指标</th>
+<th style="text-align: center;">结果</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">B1 Emoji↔︎Numerical 内在一致性</td>
+<td style="text-align: center;">100.0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B2 留出预测（遮蔽 20% 后经三跳路径推理）</td>
+<td style="text-align: center;">100.0%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B3 端到端查询语义相容</td>
+<td style="text-align: center;">73.4%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>P2-b 综合查询准确率</strong></td>
+<td style="text-align: center;"><strong>91.1%</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C1 聚类纯度</td>
+<td style="text-align: center;">94.6%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C2 NMI / C3 ARI</td>
+<td style="text-align: center;">0.874 / 0.882</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C4 不同 Emoji 表征同一化</td>
+<td style="text-align: center;">100.0%</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>B3 的 26.6% 缺口是设计缺陷而非噪声</strong>：Emoji 序列（如 <code>⚪×5 ⚫×7</code>）编码了多个数值参数，但 KG 的 <code>emoji_to_num</code> 是 1:1 映射，只落到单一 Numerical 节点，丢失了另一半信息。建议改为 1:N 边。</p>
+</div>
+</div>
+<p><strong>评估方法的自纠</strong>：初版以 <code>source</code> 字符串为 ground truth，导致 29 道教材题各自成为单点簇，纯度被低估至 75.2%。改用独立的数学原型标注后回升至 94.6%。</p>
+</section>
+<section id="ood-测试集隔离性验证" class="level2">
+<h2 class="anchored" data-anchor-id="ood-测试集隔离性验证">7.5 OOD 测试集隔离性验证</h2>
+<div id="cell-owd-isolation" class="cell" data-fig-height="3.2" data-fig-width="8" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div id="owd-isolation" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/owd-isolation-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>OOD 测试集与训练集的隔离性检查</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="mermaid-对齐检查参考输出-vs-模型输出" class="level2">
+<h2 class="anchored" data-anchor-id="mermaid-对齐检查参考输出-vs-模型输出">7.6 Mermaid 对齐检查：参考输出 vs 模型输出</h2>
+<div id="cell-alignment-compare" class="cell" data-fig-height="3.6" data-fig-width="8" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div id="alignment-compare" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/alignment-compare-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>六项语义对齐检查：参考输出（自验证）vs 1.5B 模型输出</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
 </section>
 
